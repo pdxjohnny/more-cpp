@@ -1,6 +1,6 @@
 NAME=transport
 # Libs in use
-LIB_NAMES=libinfo
+LIB_NAMES=$(notdir $(wildcard deps/*))
 LIB_HEADERS=$(addprefix -I./deps/,$(addsuffix /include/,$(LIB_NAMES)))
 LIBS=$(addprefix ./deps/,$(join $(addsuffix /bin/,$(LIB_NAMES)),$(addsuffix .a,$(LIB_NAMES))))
 LIB_NAMES_CLEAN=$(addprefix ./clean/,$(LIB_NAMES))

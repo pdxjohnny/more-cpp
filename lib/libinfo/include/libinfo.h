@@ -18,15 +18,17 @@ class info::address {
         ~address();
         // Formats itself as a string
         // Returns -1 if it failed
-        int to_string(char * buffer, int buffer_size);
+        int address_to_string(char * buffer, int buffer_size);
         // Parses an address from a NULL terminated string
         // Returns -1 if all fields could not be found
-        int from_string(const char *);
+        int address_from_string(const char *);
     private:
         // Zip code
         int zip;
         // Street which contains the house / aptment number
         char * street;
+        // The city that street is in
+        char * city;
         // The country
         char * country;
         // State or provence within county
