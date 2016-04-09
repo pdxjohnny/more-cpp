@@ -27,15 +27,23 @@
 #define MACRO_TEST_EQ(var, should_be) \
 ({\
     if (var != should_be) {\
-        printf(#var " should have been " #should_be " but was %-20x\n", var);\
+        printf(#var " should have been %x but was %-20x\n", should_be, var);\
         return -1;\
     }\
 })
 
 #define MACRO_TEST_FLOAT_EQ(var, should_be) \
 ({\
-    if (var != should_be) {\
-        printf(#var " should have been " #should_be " but was %-20lf\n", var);\
+    if (var != (float)should_be) {\
+        printf(#var " should have been %lf but was %-20lf\n", should_be, var);\
+        return -1;\
+    }\
+})
+
+#define MACRO_TEST_DOUBLE_EQ(var, should_be) \
+({\
+    if (var != (double)should_be) {\
+        printf(#var " should have been %lf but was %-20lf\n", should_be, var);\
         return -1;\
     }\
 })
@@ -44,6 +52,13 @@
 ({\
     if (0 != strcmp(var, should_be)) {\
         printf(#var " should have been " #should_be " but was %-20s\n", var);\
+        return -1;\
+    }\
+})
+
+#define MACRO_CANT_EQ(var, cant_be) \
+({\
+    if (var == cant_be) {\
         return -1;\
     }\
 })

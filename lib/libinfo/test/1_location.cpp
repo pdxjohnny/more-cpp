@@ -11,8 +11,8 @@ int test_location_lnglat() {
     // Get what they were set to
     loc.lnglat(&t_lng, &t_lat);
     // Make sure they are correct
-    MACRO_TEST_FLOAT_EQ(lng, t_lng);
-    MACRO_TEST_FLOAT_EQ(lat, t_lat);
+    MACRO_TEST_DOUBLE_EQ(lng, t_lng);
+    MACRO_TEST_DOUBLE_EQ(lat, t_lat);
     // All is well
     return EXIT_SUCCESS;
 }
@@ -44,8 +44,28 @@ int test_location_lnglat_clear_lnglat() {
     double lng, lat;
     loc.lnglat(&lng, &lat);
     // Make sure that it was all 0.0
-    MACRO_TEST_FLOAT_EQ(lng, 0.0);
-    MACRO_TEST_FLOAT_EQ(lat, 0.0);
+    MACRO_TEST_DOUBLE_EQ(lng, 0.0);
+    MACRO_TEST_DOUBLE_EQ(lat, 0.0);
+    // All is well
+    return EXIT_SUCCESS;
+}
+
+int test_location_distance_in_miles() {
+    // Make the location object
+    info::location start(-122.35, 44.35);
+    info::location end(-121.35, 43.35);
+    // Calculate the distance
+    MACRO_TEST_FLOAT_EQ(start.distance_in_miles(end), 85.189499);
+    // All is well
+    return EXIT_SUCCESS;
+}
+
+int test_location_distance_in_miles_fail() {
+    // Make the location object
+    info::location start(0.0, 0.0);
+    info::location end(0.0, 0.0);
+    // Calculate the distance
+    MACRO_TEST_FLOAT_EQ(start.distance_in_miles(end), -1.0);
     // All is well
     return EXIT_SUCCESS;
 }

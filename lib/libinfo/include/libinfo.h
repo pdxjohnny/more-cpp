@@ -3,6 +3,7 @@
 #define LIBINFO
 
 #define INFO_ADDRESS_DONT_HAVE "n/a"
+#define INFO_EARTHS_RADIUS_IN_MILES 3959.0
 
 namespace info {
     // Test functions sould return 42
@@ -51,8 +52,8 @@ class info::location : public info::address {
         location(int, const char *, const char *, const char *, const char *);
         location(double lng, double lat);
         ~location();
-        // Calculate the distance from another location in miles
-        float distance_in_miles(const location *&);
+        // Clears address and lat lng data
+        void clear();
         // Sets the location to be an address
         // Returns -1 if address was invalid
         int address_from_string(const char *);
@@ -63,6 +64,8 @@ class info::location : public info::address {
         // Sets the location to be a pair of longitude and latidue cordinates
         // Returns -1 if cordinates were invalid
         int lnglat(double, double);
+        // Calculate the distance from another location in miles
+        float distance_in_miles(const location &);
         // Attempts to find the address of the cordinates which we are
         // currently set to
         // Returns -1 if the address could not be found
