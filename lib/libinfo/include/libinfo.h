@@ -1,6 +1,8 @@
 #ifndef LIBINFO
+
 #define LIBINFO
 
+#define INFO_ADDRESS_DONT_HAVE "n/a"
 
 namespace info {
     // Test functions sould return 42
@@ -18,6 +20,10 @@ class info::address {
         // If you wish to initiallize with members set this is your constuctor
         address(int, const char *, const char *, const char *, const char *);
         ~address();
+        // Erases any daat we are holding
+        void clear();
+        // The length of what the address formated as a string will be
+        int address_string_length();
         // Formats itself as a string
         // Returns -1 if it failed
         int address_to_string(char * buffer, int buffer_size);
@@ -38,24 +44,21 @@ class info::address {
 };
 
 // A location can be a set of longitude and latitude cordinates or an address
-class info::location {
+class info::location : public info::address {
     public:
         // Constuctors and destructors
         location();
+        location(double lng, double lat);
         ~location();
         // Calculate the distance from another location in miles
         float distance_in_miles(const location *&);
-        // Format the address as a string and place it in buffer
-        // Returns -1 if we dont have the address or if there was a failure
-        // formatting
-        int address(char * buffer, int buffer_size);
         // Sets the location to be an address
         // Returns -1 if address was invalid
-        int address(const char *);
+        int address_from_string(const char *);
         // Sets the values pased in to be the longitude and latitude that we
         // are using
         // Returns -1 if we dont have cordinates
-        int lnglat(double* lng, double * lat);
+        int lnglat(double * lng, double * lat);
         // Sets the location to be a pair of longitude and latidue cordinates
         // Returns -1 if cordinates were invalid
         int lnglat(double, double);
@@ -67,8 +70,6 @@ class info::location {
         // lng lat cordinates
         double lng;
         double lat;
-        // Address
-        info::address addr;
 };
 
 #endif

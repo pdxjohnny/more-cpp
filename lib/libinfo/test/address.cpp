@@ -1,5 +1,17 @@
 #include "info.h"
 
+int test_address_unspecified() {
+    // Make the address object
+    info::address addr;
+    // Make the string to put the formated address in
+    char addr_string[400];
+    // Put the address information in that string
+    MACRO_TEST_EQ(addr.address_to_string(addr_string, 400), 0);
+    // Make sure the information put in was correct
+    MACRO_TEST_STR_EQ(addr_string, "n/a, n/a, n/a, n/a, n/a");
+    return EXIT_SUCCESS;
+}
+
 int test_address_address_to_string() {
     // Make the address object
     info::address addr(97225, "1000 SW Salmon Street", "Portland", "OR", "USA");
@@ -49,6 +61,24 @@ int test_address_address_from_string_fail() {
     long_address[600] = '\0';
     // Fill the address with the information that is too long
     MACRO_TEST_EQ(addr.address_from_string(long_address), -1);
+    return EXIT_SUCCESS;
+}
+
+int test_address_clear() {
+    // Make the address object
+    info::address addr(97225, "1000 SW Salmon Street", "Portland", "OR", "USA");
+    // Make the string to put the formated address in
+    char addr_string[400];
+    // Put the address information in that string
+    MACRO_TEST_EQ(addr.address_to_string(addr_string, 400), 0);
+    // Make sure the information put in was correct
+    MACRO_TEST_STR_EQ(addr_string, "1000 SW Salmon Street, Portland, OR, 97225, USA");
+    // It is set so clear it
+    addr.clear();
+    // Put the address information in that string
+    MACRO_TEST_EQ(addr.address_to_string(addr_string, 400), 0);
+    // Make sure the information put in was correct
+    MACRO_TEST_STR_EQ(addr_string, "n/a, n/a, n/a, n/a, n/a");
     return EXIT_SUCCESS;
 }
 
