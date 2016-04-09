@@ -30,7 +30,7 @@ $(TAR): $(LIB)
 		--transform 's,bin/,usr/lib/,' -czf $@ $(LIB) $(HEADERS)
 
 # Build the lib
-$(LIB): $(LIB_OBJECTS)
+$(LIB): $(LIB_OBJECTS) $(LIB_NAMES)
 	@mkdir -p bin
 	$(AR) $(ARFLAGS) $@ $(LIB_OBJECTS)
 
@@ -39,13 +39,18 @@ obj/lib/%.o: src/%.cpp
 	$(CC) $(CFLAGS) $< -o $@
 
 # Build tests
-$(TEST): $(TEST_OBJECTS)
+$(TEST): $(TEST_OBJECTS) $(LIB)
 	@mkdir -p bin
-	$(CC) $(LDFLAGS) $(TEST_OBJECTS) $(LIBS) -o $@
+	$(CC) $(LDFLAGS) $(TEST_OBJECTS) $(LIBS) $(LIB) -o $@
 
 obj/test/%.o: test/%.cpp
 	@mkdir -p obj/test
 	$(CC) $(CFLAGS) $< -o $@
+
+.PHONY: test
+test:
+	@echo
+	@$(TEST)
 
 install:
 	@tar xvf bin/lib$(NAME).tar.gz -C /

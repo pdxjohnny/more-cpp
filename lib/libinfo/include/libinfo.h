@@ -15,6 +15,8 @@ class info::address {
     public:
         // Constuctors and destructors
         address();
+        // If you wish to initiallize with members set this is your constuctor
+        address(int, const char *, const char *, const char *, const char *);
         ~address();
         // Formats itself as a string
         // Returns -1 if it failed
@@ -29,10 +31,10 @@ class info::address {
         char * street;
         // The city that street is in
         char * city;
-        // The country
-        char * country;
         // State or provence within county
         char * state_or_province;
+        // The country
+        char * country;
 };
 
 // A location can be a set of longitude and latitude cordinates or an address

@@ -1,12 +1,20 @@
 #include "info.h"
 #include <libinfo.h>
 
-info::address::address() : zip(0), street(NULL), city(NULL), country(NULL), state_or_province(NULL) {}
+info::address::address() : zip(0), street(NULL), city(NULL), state_or_province(NULL), country(NULL) {}
+
+info::address::address(int zip, const char * street, const char * city, const char * state_or_province, const char * country) : zip(zip), street(NULL), city(NULL), state_or_province(NULL), country(NULL) {
+    MACRO_STRCPY_IF_NOT_NULL(this->street, street);
+    MACRO_STRCPY_IF_NOT_NULL(this->city, city);
+    MACRO_STRCPY_IF_NOT_NULL(this->state_or_province, state_or_province);
+    MACRO_STRCPY_IF_NOT_NULL(this->country, country);
+}
 
 info::address::~address() {
-   MACRO_DELETE_ARRAY_IF_NOT_NULL(street);
-   MACRO_DELETE_ARRAY_IF_NOT_NULL(country);
-   MACRO_DELETE_ARRAY_IF_NOT_NULL(state_or_province);
+    MACRO_DELETE_ARRAY_IF_NOT_NULL(street);
+    MACRO_DELETE_ARRAY_IF_NOT_NULL(city);
+    MACRO_DELETE_ARRAY_IF_NOT_NULL(state_or_province);
+    MACRO_DELETE_ARRAY_IF_NOT_NULL(country);
 }
 
 int info::address::address_to_string(char * buffer, int buffer_size) {
@@ -35,19 +43,22 @@ int info::address::address_to_string(char * buffer, int buffer_size) {
     char dont_have[] = "n/a";
     // The string to add to the buffer
     char * add;
-    for (; *data; data++) {
-        printf("data: %x\n", *data);
+    for (; *data != NULL; data++) {
         add = dont_have;
         // If we have the data then append that we have it
-        if (*data != NULL) {
+        if (**data != NULL) {
             add = **data;
         }
-        if ((data + sizeof(char *))) {
+        // If this is not the last element to add to the buffer then put a
+        // comma and a space
+        // data[0] is the string we are on and data[1] is the next possible
+        if (data[1] != NULL) {
             sprintf(buffer, "%s, ", add);
             buffer += (uintptr_t)(strlen(add) + 2);
+        // If there is not another then this is the last itteration of the loop
+        // and thou shalt not add a comma
         } else {
             sprintf(buffer, "%s", add);
-            buffer += (uintptr_t)strlen(add);
         }
     }
     // Get rid of the zip code as a string
