@@ -15,7 +15,8 @@ namespace string {
     // The reverse of parse_string this takes values and packs them into a
     // string. However this is passed a pointer to a string and needs to be
     // given a maximum value to avoid overflowing dest
-    int join(char * dest, char *** src, int dest_size);
+    int join(char * dest, char *** src, const char * delim, const char * if_null, int dest_size);
+    int join_length(char *** src, const char * delim, const char * if_null);
 };
 
 #endif

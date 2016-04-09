@@ -27,7 +27,15 @@
 #define MACRO_TEST_EQ(var, should_be) \
 ({\
     if (var != should_be) {\
-        printf(#var " should have been %x but was %-20x\n", should_be, var);\
+        printf(#var " should have been %d but was %-20d\n", should_be, var);\
+        return -1;\
+    }\
+})
+
+#define MACRO_TEST_POINTER_EQ(var, should_be) \
+({\
+    if (var != should_be) {\
+        printf(#var " should have been %p but was %-20p\n", (void *)should_be, (void *)var);\
         return -1;\
     }\
 })
