@@ -6,6 +6,7 @@ HEADER='test/info.h'
 MAIN='test/info.cpp'
 FILES=$(find test -type f | grep -v 'info.')
 
+sed -i '/test_/d' $MAIN
 exec 3<>$MAIN
 while read line; do
     echo -e $line >> $TMP_MAIN_FILE
