@@ -48,6 +48,7 @@ class info::location : public info::address {
     public:
         // Constuctors and destructors
         location();
+        location(int, const char *, const char *, const char *, const char *);
         location(double lng, double lat);
         ~location();
         // Calculate the distance from another location in miles

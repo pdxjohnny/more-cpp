@@ -4,9 +4,10 @@ TMP_HEADER_FILE=test-headers
 TMP_MAIN_FILE=test-main
 HEADER='test/info.h'
 MAIN='test/info.cpp'
-FILES=$(find test -type f | grep -v 'info.')
+FILES=$(find test -type f | grep -v 'info.' | sort)
 
 sed -i '/test_/d' $MAIN
+sed -i '/test_/d' $HEADER
 exec 3<>$MAIN
 while read line; do
     echo -e $line >> $TMP_MAIN_FILE
