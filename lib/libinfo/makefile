@@ -16,6 +16,7 @@ LIB=bin/lib$(NAME).a
 TAR=bin/lib$(NAME).tar.gz
 HEADERS=$(wildcard include/*.h)
 # Build the tests
+LIB_NAMES_TEST=$(addprefix ./test/,$(LIB_NAMES))
 TEST_SOURCES=$(wildcard test/*.cpp)
 TEST_OBJECTS=$(addprefix obj/test/,$(notdir $(TEST_SOURCES:.cpp=.o)))
 TEST=bin/$(NAME)-test
@@ -48,9 +49,12 @@ obj/test/%.o: test/%.cpp
 	$(CC) $(CFLAGS) $< -o $@
 
 .PHONY: test
-test:
-	@echo
+test: $(LIB_NAMES_TEST)
+	@echo Running tests for $(NAME)
 	@$(TEST)
+
+$(LIB_NAMES_TEST):
+	@$(foreach dep,$(addprefix ./deps/,$(notdir ,$@)),$(MAKE) -C $(dep) test)
 
 install:
 	@tar xvf bin/lib$(NAME).tar.gz -C /

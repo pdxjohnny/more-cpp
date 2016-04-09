@@ -9,13 +9,14 @@ CC=g++
 AR=ar
 ARFLAGS=rcs
 CFLAGS=-Wall -c -static -I./include/ $(LIB_HEADERS)
-SOURCES=$(wildcard src/*.cpp)
-OBJECTS=$(addprefix obj/,$(notdir $(SOURCES:.cpp=.o)))
+# Build the lib
+LIB_SOURCES=$(wildcard src/*.cpp)
+LIB_OBJECTS=$(addprefix obj/lib/,$(notdir $(LIB_SOURCES:.cpp=.o)))
 LIB=bin/lib$(NAME).a
 TAR=bin/lib$(NAME).tar.gz
 HEADERS=$(wildcard include/*.h)
 
-all: $(LIB_NAMES) $(SOURCES) $(LIB) $(TAR)
+all: $(LIB_NAMES) $(LIB_SOURCES) $(LIB) $(TAR)
 
 $(LIB_NAMES):
 	@$(foreach dep,$(addprefix ./deps/,$@),$(MAKE) -C $(dep))
@@ -24,13 +25,18 @@ $(TAR): $(LIB)
 	@tar --transform 's,include/,usr/include/,' \
 		--transform 's,bin/,usr/lib/,' -czf $@ $(LIB) $(HEADERS)
 
-$(LIB): $(OBJECTS)
+# Build the lib
+$(LIB): $(LIB_OBJECTS) $(LIB_NAMES)
 	@mkdir -p bin
-	$(AR) $(ARFLAGS) $@ $(OBJECTS)
+	$(AR) $(ARFLAGS) $@ $(LIB_OBJECTS)
 
-obj/%.o: src/%.cpp
-	@mkdir -p obj
+obj/lib/%.o: src/%.cpp
+	@mkdir -p obj/lib
 	$(CC) $(CFLAGS) $< -o $@
+
+.PHONY: test
+test:
+	@echo No tests for $(NAME)
 
 install:
 	@tar xvf bin/lib$(NAME).tar.gz -C /
