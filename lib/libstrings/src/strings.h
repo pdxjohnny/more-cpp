@@ -4,3 +4,4 @@
 #include <stdint.h>
 
 #include <libmacro.h>
+#include <libstrings.h>

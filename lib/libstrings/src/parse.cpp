@@ -1,7 +1,6 @@
-#include "string.h"
-#include <libstring.h>
+#include "strings.h"
 
-int string::join_length(char *** src, const char * delim, const char * if_null) {
+int strings::join_length(char *** src, const char * delim, const char * if_null) {
     // Make sure that the buffer is big enough to fit our formated information
     // First we need to find out how long the data we have is
     int data_size = 0;
@@ -34,7 +33,7 @@ int string::join_length(char *** src, const char * delim, const char * if_null) 
     return data_size;
 }
 
-int string::join(char * dest, char *** src, const char * delim, const char * if_null, int dest_size) {
+int strings::join(char * dest, char *** src, const char * delim, const char * if_null, int dest_size) {
     // If we dont have data on something report whatever was selected for
     // if_null
     int delim_length = strlen(delim);
@@ -86,7 +85,7 @@ int string::join(char * dest, char *** src, const char * delim, const char * if_
     return EXIT_SUCCESS;
 }
 
-int string::parse(char *** dest, const char * from, const char * delim) {
+int strings::parse(char *** dest, const char * from, const char * delim) {
     // The a pointer to the end of the data we are looking for
     const char * data_end;
     uintptr_t data_length;

@@ -3,7 +3,7 @@
 #include <stdint.h>
 
 #include <libmacro.h>
-#include <libstring.h>
+#include <libstrings.h>
 
 int test_string_parse();
 int test_string_parse_fail();

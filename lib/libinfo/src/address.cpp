@@ -1,5 +1,4 @@
 #include "info.h"
-#include <libinfo.h>
 
 info::address::address() : zip(0), street(NULL), city(NULL), state_or_province(NULL), country(NULL) {}
 
@@ -23,12 +22,8 @@ void info::address::clear() {
 }
 
 int info::address::address_string_length() {
-    // Make sure that the buffer is big enough to fit our formated information
-    // First we need to find out how long the data we have is
+    // To store the length of the joined data
     int data_size = 0;
-    // If we dont have data on something report n/a
-    char dont_have[] = INFO_ADDRESS_DONT_HAVE;
-    int dont_have_length = strlen(dont_have);
     // We also need to find out how many characters the zip will take up
     char * zip_buffer = NULL;
     if (zip != 0) {
@@ -37,26 +32,10 @@ int info::address::address_string_length() {
     }
     // Loop through all our data and add it find its size and then add it to
     // the buffer
-    char ** data_values[] = {&street, &city, &state_or_province, &zip_buffer, &country, NULL};
-    // Pointer for looping through the data_valus array
-    char *** data;
-    for (data = data_values; *data != NULL; ++data) {
-        // If there is a string to copy then add the length of the string
-        if (**data != NULL) {
-            data_size += strlen(**data);
-        // Otherwize add the length of the dont_have sting which will be added
-        } else {
-            data_size += dont_have_length;
-        }
-        // If the next one is not the last one then there will be a comamnd and
-        // a space after it so add two to the size
-        if (data[1] != NULL) {
-            data_size += 2;
-        }
-    }
-    // Add one to the size of the data for the NULL terminator
-    ++data_size;
-    //  Get rid of the zip buffer
+    char ** data[] = {&street, &city, &state_or_province, &zip_buffer, &country, NULL};
+    // Find the size of the joined data
+    data_size = strings::join_length(data, INFO_ADDRESS_DELIM, INFO_ADDRESS_DONT_HAVE);
+    // Get rid of the zip buffer
     delete[] zip_buffer;
     return data_size;
 }

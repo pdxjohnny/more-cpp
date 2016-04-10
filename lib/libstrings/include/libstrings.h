@@ -1,8 +1,8 @@
-#ifndef LIBSTRING
+#ifndef LIBSTRINGS
 
-#define LIBSTRING
+#define LIBSTRINGS
 
-namespace string {
+namespace strings {
     // Test functions sould return 42
     int test();
     // Given an array of string pointers this will move allong the src string

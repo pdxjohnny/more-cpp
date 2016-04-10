@@ -1,4 +1,4 @@
-#include "string.h"
+#include "strings.h"
 
 int main() {
 MACRO_TEST(test_string_parse);

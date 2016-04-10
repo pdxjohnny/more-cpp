@@ -1,4 +1,4 @@
-#include "string.h"
+#include "strings.h"
 
 int test_string_parse() {
     char * one = NULL;
@@ -6,7 +6,7 @@ int test_string_parse() {
     char * three = NULL;
     char ** data[] = {&one, &two, &three, NULL};
     // Parse in some data
-    MACRO_TEST_EQ(string::parse(data, "frist, second, third", ", "), EXIT_SUCCESS);
+    MACRO_TEST_EQ(strings::parse(data, "frist, second, third", ", "), EXIT_SUCCESS);
     // Make sure it was parsed in correctly
     MACRO_TEST_STR_EQ(one, "frist");
     MACRO_TEST_STR_EQ(two, "second");
@@ -24,7 +24,7 @@ int test_string_parse_fail() {
     char * three = NULL;
     char ** data[] = {&one, &two, &three, NULL};
     // Parse in some data
-    MACRO_TEST_EQ(string::parse(data, "frist, second", ", "), -1);
+    MACRO_TEST_EQ(strings::parse(data, "frist, second", ", "), -1);
     // Make sure it was parsed in correctly
     MACRO_TEST_STR_EQ(one, "frist");
     MACRO_TEST_STR_EQ(two, "second");
@@ -47,7 +47,7 @@ int test_string_join_length() {
     // Make the data to join
     char ** data[] = {&one, &two, &three, NULL};
     // Find out how long the joined data should be
-    MACRO_TEST_EQ(string::join_length(data, ", ", NULL), 21);
+    MACRO_TEST_EQ(strings::join_length(data, ", ", NULL), 21);
     return EXIT_SUCCESS;
 }
 
@@ -64,11 +64,11 @@ int test_string_join() {
     // Make the data to join
     char ** data[] = {&one, &two, &three, &four, NULL};
     // Find out how long the joined data should be
-    MACRO_TEST_EQ(string::join_length(data, ", ", "n/a"), 27);
+    MACRO_TEST_EQ(strings::join_length(data, ", ", "n/a"), 27);
     // Create the array that the joined data will go in
     char joined[27];
     // Join the strings
-    MACRO_TEST_EQ(string::join(joined, data, ", ", "n/a", 27), EXIT_SUCCESS);
+    MACRO_TEST_EQ(strings::join(joined, data, ", ", "n/a", 27), EXIT_SUCCESS);
     // Make sure they were joined correctly
     MACRO_TEST_STR_EQ(joined, "first, second, n/a, fourth");
     return EXIT_SUCCESS;
@@ -87,13 +87,13 @@ int test_string_join_fail() {
     // Make the data to join
     char ** data[] = {&one, &two, &three, &four, NULL};
     // Find out how long the joined data should be
-    MACRO_TEST_EQ(string::join_length(data, ", ", "n/a"), 27);
+    MACRO_TEST_EQ(strings::join_length(data, ", ", "n/a"), 27);
     // Create the array that the joined data will go in but make it too short
     // so that it fails
     char joined[25];
     // Join the strings it just return error because it could not finish
     // joining
-    MACRO_TEST_EQ(string::join(joined, data, ", ", "n/a", 25), -1);
+    MACRO_TEST_EQ(strings::join(joined, data, ", ", "n/a", 25), -1);
     // Make sure it joined up until the one that was too long
     MACRO_TEST_STR_EQ(joined, "first, second, n/a, ");
     return EXIT_SUCCESS;
