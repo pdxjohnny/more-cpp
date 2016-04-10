@@ -24,7 +24,28 @@ TEST=bin/$(NAME)-test
 all: $(LIB_NAMES) $(LIB_SOURCES) $(LIB) $(TEST_SOURCES) $(TEST) $(TAR)
 
 $(LIB_NAMES):
+	@# Make them all
 	@$(foreach dep,$(addprefix ./deps/,$@),$(MAKE) -C $(dep))
+	@# Extract them into their own obj directory so that they can be compiled
+	@# into the archive for this library. Or else anything using this library
+	@# also has to link to all of its dependencies
+	@$(foreach dep,$(addprefix ./obj/deps/,$@),mkdir -p $(dep))
+	@# Copy the archives in under the obj folder
+	@$(foreach dep,$@, \
+		cp \
+			$(addprefix ./deps/,$(join $(addsuffix /bin/,$(dep)),$(addsuffix .a,$(dep)))) \
+			$(addprefix ./obj/deps/,$(addsuffix /, $(dep))) \
+	)
+	@# Extract the archives rename them to have the archives name and delete
+	@# the copy of the archive we copyied in
+	@$(foreach dep,$@, \
+		cd $(addprefix ./obj/deps/, $(dep)) && \
+		$(AR) x $(addsuffix .a, $(dep)) && \
+		rm $(addsuffix .a, $(dep)) && \
+		for file in `ls`; do mv $$file ../$(dep)_$$file; done && \
+		cd .. && \
+		rm -rf $(dep) \
+	)
 
 $(TAR): $(LIB)
 	@tar --transform 's,include/,usr/include/,' \
@@ -33,7 +54,7 @@ $(TAR): $(LIB)
 # Build the lib
 $(LIB): $(LIB_OBJECTS) $(LIB_NAMES)
 	@mkdir -p bin
-	$(AR) $(ARFLAGS) $@ $(LIB_OBJECTS)
+	$(AR) $(ARFLAGS) $@ $(LIB_OBJECTS) $(wildcard ./obj/deps/*)
 
 obj/lib/%.o: src/%.cpp
 	@mkdir -p obj/lib

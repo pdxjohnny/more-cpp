@@ -3,6 +3,9 @@
 #ifndef LIBTRANSPORT
 #define LIBTRANSPORT
 
+#define TRANSPORT_CAR_DELIM ", "
+#define TRANSPORT_CAR_DONT_HAVE "unavailable"
+#define TRANSPORT_CAR_MAX 200
 
 namespace transport {
     // Test functions sould return 42
@@ -18,7 +21,19 @@ class transport::car {
     public:
         // Constuctors and destructors
         car();
+        // If you wish to initiallize with members set this is your constuctor
+        car(int, const char *, const char *, const char *, const char *);
         ~car();
+        // Erases any daat we are holding
+        void clear();
+        // The length of what the car formated as a string will be
+        int car_string_length();
+        // Formats itself as a string
+        // Returns -1 if it failed
+        int car_to_string(char * buffer, int buffer_size);
+        // Parses an car from a NULL terminated string
+        // Returns -1 if all fields could not be found
+        int car_from_string(const char *);
     private:
         // Information associated with a car
         int year;
