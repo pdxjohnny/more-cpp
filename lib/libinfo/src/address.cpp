@@ -41,6 +41,8 @@ int info::address::address_string_length() {
 }
 
 int info::address::address_to_string(char * buffer, int buffer_size) {
+    // If join fails
+    int err;
     // If we dont have data on something report n/a
     char dont_have[] = INFO_ADDRESS_DONT_HAVE;
     // We also need to find out how many characters the zip will take up
@@ -51,88 +53,44 @@ int info::address::address_to_string(char * buffer, int buffer_size) {
     }
     // Loop through all our data and add it find its size and then add it to
     // the buffer
-    char ** data_values[] = {&street, &city, &state_or_province, &zip_buffer, &country, NULL};
-    // Pointer for looping through the data_valus array
-    char *** data;
-    // If there is not enough room in the buffer then bail
-    if (buffer_size < address_string_length()) {
-        delete[] zip_buffer;
-        return -1;
-    }
-    // The string to add to the buffer
-    char * add;
-    for (data = data_values; *data != NULL; ++data) {
-        add = dont_have;
-        // If we have the data then append that we have it
-        if (**data != NULL) {
-            add = **data;
-        }
-        // If this is not the last element to add to the buffer then put a
-        // comma and a space
-        // data[0] is the string we are on and data[1] is the next possible
-        if (data[1] != NULL) {
-            sprintf(buffer, "%s, ", add);
-            buffer += (uintptr_t)(strlen(add) + 2);
-        // If there is not another then this is the last itteration of the loop
-        // and thou shalt not add a comma
-        } else {
-            sprintf(buffer, "%s", add);
-        }
-    }
+    char ** data[] = {&street, &city, &state_or_province, &zip_buffer, &country, NULL};
+    // Join the data together
+    err = strings::join(buffer, data, INFO_ADDRESS_DELIM, INFO_ADDRESS_DONT_HAVE, buffer_size);
     // Get rid of the zip code as a string
     delete[] zip_buffer;
-    // Yay we made it
-    return EXIT_SUCCESS;
+    // Success is determined by join
+    return err;
 }
 
 int info::address::address_from_string(const char * from) {
+    int err;
     // Lets pick a maximum value for the string to parse. Just so that we
     // ensure no one will pass us an insanly long string so that they can take
     // up memory
-    if (strnlen(from, 399) >= 399) {
+    if (strnlen(from, INFO_ADDRESS_MAX) >= INFO_ADDRESS_MAX) {
         return -1;
     }
     // Allocate a temporay zip buffer to scan that data in
     char * zip_buffer = NULL;
     // Parse them in
     // Loop through all our data and add it to the buffer
-    char ** data_values[] = {&street, &city, &state_or_province, &zip_buffer,
+    char ** data[] = {&street, &city, &state_or_province, &zip_buffer,
         &country, NULL};
-    char *** data = data_values;
-    // The a pointer to the end of the data we are looking for
-    const char * data_end;
-    uintptr_t data_length;
-    for (; *data != NULL; ++data) {
-        data_length = 0;
-        // Look for a comma and a space
-        data_end = strstr(from, ", ");
-        // If we cant find it and there are elements left to store data in we
-        // know that we will not be able to fill them all so there was an error
-        if (data_end == NULL && data[1] != NULL) {
-            return -1;
-        } else if (data_end == NULL) {
-            // We want to avoid the negavtive number from NULL - from so just
-            // copy and exit
-            MACRO_STRCPY_IF_NOT_NULL(**data, from);
-            break;
-        }
-        data_length = data_end - from;
-        // Copy but add 1 to the length of the NULL terminator
-        MACRO_STRNCPY_IF_NOT_NULL(**data, from, data_length + 1);
-        (**data)[data_length] = '\0';
-        // We just parsed in a string so move on to where the next one whould
-        // start
-        from += (uintptr_t)(data_end - from + 2);
+    err = strings::parse(data, from, INFO_ADDRESS_DELIM);
+    // Parse may run out of data before it can fill all members so check to
+    // make sure that the zip was filled before converting it
+    if (zip_buffer == NULL) {
+        return err;
     }
     // Convert the zip code from a string to an int
     zip = strtol(zip_buffer, NULL, 10);
+    // No need for the zip code buffer anymore
+    delete[] zip_buffer;
     // Check if zip code parsing failed
     if (errno == EINVAL || errno == ERANGE) {
         return -1;
     }
-    // No need for the zip code buffer anymore
-    delete[] zip_buffer;
-    // Holla we win
-    return EXIT_SUCCESS;
+    // Success is determined by parse
+    return err;
 }
 

@@ -2,6 +2,7 @@
 
 #define LIBINFO
 
+#define INFO_ADDRESS_MAX 400
 #define INFO_ADDRESS_DELIM ", "
 #define INFO_ADDRESS_DONT_HAVE "n/a"
 #define INFO_EARTHS_RADIUS_IN_MILES 3959.0

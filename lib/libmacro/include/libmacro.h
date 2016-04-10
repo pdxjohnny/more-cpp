@@ -64,6 +64,13 @@
     }\
 })
 
+#define MACRO_EQ(var, cant_be) \
+({\
+    if (var != cant_be) {\
+        return -1;\
+    }\
+})
+
 #define MACRO_CANT_EQ(var, cant_be) \
 ({\
     if (var == cant_be) {\
