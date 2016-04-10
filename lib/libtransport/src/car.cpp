@@ -32,7 +32,7 @@ int transport::car::car_string_length() {
     }
     // Loop through all our data and add it find its size and then add it to
     // the buffer
-    char ** data[] = {&make, &model, &plate_number, &year_buffer, &vin, NULL};
+    char ** data[] = {&year_buffer, &make, &model, &plate_number, &vin, NULL};
     // Find the size of the joined data
     data_size = strings::join_length(data, TRANSPORT_CAR_DELIM, TRANSPORT_CAR_DONT_HAVE);
     // Get rid of the year buffer
@@ -43,8 +43,6 @@ int transport::car::car_string_length() {
 int transport::car::car_to_string(char * buffer, int buffer_size) {
     // If join fails
     int err;
-    // If we dont have data on something report n/a
-    char dont_have[] = TRANSPORT_CAR_DONT_HAVE;
     // We also need to find out how many characters the year will take up
     char * year_buffer = NULL;
     if (year != 0) {
@@ -53,7 +51,7 @@ int transport::car::car_to_string(char * buffer, int buffer_size) {
     }
     // Loop through all our data and add it find its size and then add it to
     // the buffer
-    char ** data[] = {&make, &model, &plate_number, &year_buffer, &vin, NULL};
+    char ** data[] = {&year_buffer, &make, &model, &plate_number, &vin, NULL};
     // Join the data together
     err = strings::join(buffer, data, TRANSPORT_CAR_DELIM, TRANSPORT_CAR_DONT_HAVE, buffer_size);
     // Get rid of the year code as a string
@@ -74,7 +72,7 @@ int transport::car::car_from_string(const char * from) {
     char * year_buffer = NULL;
     // Parse them in
     // Loop through all our data and add it to the buffer
-    char ** data[] = {&make, &model, &plate_number, &year_buffer,
+    char ** data[] = {&year_buffer, &make, &model, &plate_number,
         &vin, NULL};
     err = strings::parse(data, from, TRANSPORT_CAR_DELIM);
     // Parse may run out of data before it can fill all members so check to

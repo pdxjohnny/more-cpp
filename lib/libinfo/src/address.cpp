@@ -43,8 +43,6 @@ int info::address::address_string_length() {
 int info::address::address_to_string(char * buffer, int buffer_size) {
     // If join fails
     int err;
-    // If we dont have data on something report n/a
-    char dont_have[] = INFO_ADDRESS_DONT_HAVE;
     // We also need to find out how many characters the zip will take up
     char * zip_buffer = NULL;
     if (zip != 0) {

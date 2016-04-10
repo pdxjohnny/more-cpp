@@ -62,8 +62,8 @@ int test_location_distance_in_miles() {
 
 int test_location_distance_in_miles_fail() {
     // Make the location object
-    info::location start(0.0, 0.0);
-    info::location end(0.0, 0.0);
+    info::location start;
+    info::location end;
     // Calculate the distance
     MACRO_TEST_FLOAT_EQ(start.distance_in_miles(end), -1.0);
     // All is well

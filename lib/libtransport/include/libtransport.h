@@ -48,14 +48,14 @@ class transport::trip {
     public:
         // Constuctors and destructors
         trip();
+        trip(double start_lng, double start_lat, double end_lng, double end_lat);
         ~trip();
         // Calculate the distance between start and end points
-        float distance();
+        float distance_in_miles();
         // Calculate the time it would take to make this trip
-        float time();
-    private:
         // The average speed at which we can travel for this trip
-        float speed;
+        float time(float speed);
+    private:
         // The start and end locations of this trip
         info::location start;
         info::location end;
