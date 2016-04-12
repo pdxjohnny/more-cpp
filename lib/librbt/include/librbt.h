@@ -68,6 +68,7 @@ public:
 	rbt_node<data_type> * get( char * key, rbt_node<data_type> * root );
 	// Inserts a data of the rbt type into the rbt
 	data_type & insert( char * key );
+    rbt_node<data_type> * insert_return_node( char * key );
 	rbt_node<data_type> * insert( char * key, rbt_node<data_type> * & root );
 	rbt_node<data_type> * insert_bst( char * key, rbt_node<data_type> * & root, rbt_node<data_type> * & above);
 	rbt_node<data_type> * insert_rbt(rbt_node<data_type> * & node);

@@ -276,6 +276,21 @@ data_type & rbt<data_type>::insert( char * key )
 
 /*
 	Class: rbt
+	Method: insert
+	Use: Inserts a node into the rbt
+	Input: Key to insert
+	Output: Values of the inserted node
+*/
+template <typename data_type>
+rbt_node<data_type> * rbt<data_type>::insert_return_node( char * key )
+{
+	return insert( key, root );
+}
+
+
+
+/*
+	Class: rbt
 	Method: insert_rbt
 	Use: Fixes problems with the red black tree to make sure it conforms to the rules
 	Input: Key to insert and the root of the rbt
@@ -286,9 +301,10 @@ rbt_node<data_type> * rbt<data_type>::insert( char * key, rbt_node<data_type> * 
 {
     // Save the node because fixing the tree may fuck it up
     rbt_node<data_type> * node_to_return;
+    rbt_node<data_type> * parent_of_return_node = NULL;
 
     // Insert like normal
-    node_to_return = insert_bst(key, node, NULL);
+    node_to_return = insert_bst(key, node, parent_of_return_node);
 
     // Now it has been inserted and is red begin the case correction
     insert_rbt(node);
@@ -345,7 +361,7 @@ rbt_node<data_type> * rbt<data_type>::insert_rbt(rbt_node<data_type> * & node)
                     if (pp->right != NULL) {
                         pp->right->color = RBT_BLACK;
                     }
-                    node->up = RBT_BLACK;
+                    node->up->color = RBT_BLACK;
                     pp->color = RBT_RED;
                     // Correct anything we messed up with the granparent
                     insert_rbt(pp);
@@ -370,7 +386,7 @@ rbt_node<data_type> * rbt<data_type>::insert_rbt(rbt_node<data_type> * & node)
                     if (pp->left != NULL) {
                         pp->left->color = RBT_BLACK;
                     }
-                    node->up = RBT_BLACK;
+                    node->up->color = RBT_BLACK;
                     pp->color = RBT_RED;
                     // Correct anything we messed up with the granparent
                     insert_rbt(pp);
@@ -378,6 +394,7 @@ rbt_node<data_type> * rbt<data_type>::insert_rbt(rbt_node<data_type> * & node)
             }
         }
     }
+    return node;
 }
 
 template <typename data_type>

@@ -9,3 +9,4 @@
 #include <librbt.h>
 int test_rbt_rotate_right();
 int test_rbt_rotate_left();
+int test_rbt_insert_rbt();
