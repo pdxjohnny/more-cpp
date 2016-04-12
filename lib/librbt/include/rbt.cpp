@@ -297,19 +297,19 @@ rbt_node<data_type> * rbt<data_type>::insert_return_node( char * key )
 	Output: Node inserted
 */
 template <typename data_type>
-rbt_node<data_type> * rbt<data_type>::insert( char * key, rbt_node<data_type> * & node )
+rbt_node<data_type> * rbt<data_type>::insert( char * key, rbt_node<data_type> * & root)
 {
     // Save the node because fixing the tree may fuck it up
-    rbt_node<data_type> * node_to_return;
-    rbt_node<data_type> * parent_of_return_node = NULL;
+    rbt_node<data_type> * node;
+    rbt_node<data_type> * parent = NULL;
 
     // Insert like normal
-    node_to_return = insert_bst(key, node, parent_of_return_node);
+    node = insert_bst(key, root, parent);
 
     // Now it has been inserted and is red begin the case correction
     insert_rbt(node);
 
-    return node_to_return;
+    return node;
 }
 
 
@@ -358,8 +358,8 @@ rbt_node<data_type> * rbt<data_type>::insert_rbt(rbt_node<data_type> * & node)
                 // Uncle is red
                 } else {
                     // Change the colors
-                    if (pp->right != NULL) {
-                        pp->right->color = RBT_BLACK;
+                    if (pp->left != NULL) {
+                        pp->left->color = RBT_BLACK;
                     }
                     node->up->color = RBT_BLACK;
                     pp->color = RBT_RED;
@@ -383,8 +383,8 @@ rbt_node<data_type> * rbt<data_type>::insert_rbt(rbt_node<data_type> * & node)
                 // Uncle is red
                 } else {
                     // Change the colors
-                    if (pp->left != NULL) {
-                        pp->left->color = RBT_BLACK;
+                    if (pp->right != NULL) {
+                        pp->right->color = RBT_BLACK;
                     }
                     node->up->color = RBT_BLACK;
                     pp->color = RBT_RED;
