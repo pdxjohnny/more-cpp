@@ -330,7 +330,7 @@ rbt_node<data_type> * rbt<data_type>::insert_rbt(rbt_node<data_type> * & node)
             if (pp->left != node->up) {
                 // Treat NULL as being black, uncle is black
                 if (pp->left == NULL || pp->left->color == RBT_BLACK) {
-                    // Parent is read and grandparent and left uncle are black
+                    // Parent is red and grandparent and left uncle are black
                     // we need to rotate the tree and then change the color of
                     // the parent grandparent and uncle, we will rotate left
                     // becasue the uncle is on the left so we know we are on
@@ -353,6 +353,28 @@ rbt_node<data_type> * rbt<data_type>::insert_rbt(rbt_node<data_type> * & node)
             // The grandparent has a right and the right is our uncle because it
             // is not our parent
             } else if (pp->right != node->up) {
+                // Treat NULL as being black, uncle is black
+                if (pp->right == NULL || pp->right->color == RBT_BLACK) {
+                    // Parent is red and grandparent and right uncle are black
+                    // we need to rotate the tree and then change the color of
+                    // the parent grandparent and uncle, we will rotate right
+                    // becasue the uncle is on the right so we know we are on
+                    // the left
+                    rotate_right(node->up);
+                    // Now switch the colors
+                    node->up->color = RBT_BLACK;
+                    pp->color = RBT_RED;
+                // Uncle is red
+                } else {
+                    // Change the colors
+                    if (pp->left != NULL) {
+                        pp->left->color = RBT_BLACK;
+                    }
+                    node->up = RBT_BLACK;
+                    pp->color = RBT_RED;
+                    // Correct anything we messed up with the granparent
+                    insert_rbt(pp);
+                }
             }
         }
     }
@@ -375,6 +397,17 @@ void rbt<data_type>::rotate_left(rbt_node<data_type> * node) {
 
 template <typename data_type>
 void rbt<data_type>::rotate_right(rbt_node<data_type> * node) {
+    // If we are to the left of our parent
+    if (node->up != NULL && node->up->left == node) {
+        // Your right becomes your parents left
+        node->up->left = node->right;
+        // Parent becomes right of node
+        node->right = node->up;
+        // Parents parent becomes your parent
+        node->up = node->up->up;
+        // Parent of old parent is node
+        node->right->up = node;
+    }
 }
 
 /*
