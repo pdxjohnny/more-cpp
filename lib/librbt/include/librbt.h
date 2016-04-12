@@ -71,6 +71,8 @@ public:
 	rbt_node<data_type> * insert( char * key, rbt_node<data_type> * & root );
 	rbt_node<data_type> * insert_bst( char * key, rbt_node<data_type> * & root, rbt_node<data_type> * & above);
 	rbt_node<data_type> * insert_rbt(rbt_node<data_type> * & node);
+    void rotate_left(rbt_node<data_type> *);
+    void rotate_right(rbt_node<data_type> *);
 	// Check if key is present
 	bool contains( char * key );
 	// Returns the number of elements in the rbt

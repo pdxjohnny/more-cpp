@@ -308,18 +308,74 @@ rbt_node<data_type> * rbt<data_type>::insert( char * key, rbt_node<data_type> * 
 template <typename data_type>
 rbt_node<data_type> * rbt<data_type>::insert_rbt(rbt_node<data_type> * & node)
 {
+    // After normal insertion the node is red
     // If there is no parent then we are the root
     if (node->up == NULL) {
         // Root must always be black
         node->color = RBT_BLACK;
-    // If thou have a parent thouh parent shall be black by decree of the red
-    // black tree
-    } else if (node->up->color != RBT_BLACK) {
-        // If its not black then 
+    // After insertion the node is red, we cant have two reds in a row because
+    // a red node can never have a red child but a black node can have a black
+    // child
+    } else if (node->up->color == RBT_RED) {
+        // pp, the parents parent
+        rbt_node<data_type> * pp = node->up->up;
+        // We now need to change the color of the parent the parents parent and
+        // the uncle of this node. So were red our parent is red so the
+        // grandparent must be black. All the colors need to switch so parent
+        // becomes black grandparent becomes black and if we have an uncle the
+        // uncle needs to switch colors too because its parent switched
+        if (pp != NULL) {
+            // The grandparent has a left and the left is our uncle because it
+            // is not our parent
+            if (pp->left != node->up) {
+                // Treat NULL as being black, uncle is black
+                if (pp->left == NULL || pp->left->color == RBT_BLACK) {
+                    // Parent is read and grandparent and left uncle are black
+                    // we need to rotate the tree and then change the color of
+                    // the parent grandparent and uncle, we will rotate left
+                    // becasue the uncle is on the left so we know we are on
+                    // the right
+                    rotate_left(node->up);
+                    // Now switch the colors
+                    node->up->color = RBT_BLACK;
+                    pp->color = RBT_RED;
+                // Uncle is red
+                } else {
+                    // Change the colors
+                    if (pp->right != NULL) {
+                        pp->right->color = RBT_BLACK;
+                    }
+                    node->up = RBT_BLACK;
+                    pp->color = RBT_RED;
+                    // Correct anything we messed up with the granparent
+                    insert_rbt(pp);
+                }
+            // The grandparent has a right and the right is our uncle because it
+            // is not our parent
+            } else if (pp->right != node->up) {
+            }
+        }
     }
 }
 
+template <typename data_type>
+void rbt<data_type>::rotate_left(rbt_node<data_type> * node) {
+    // If we are to the right of our parent
+    if (node->up != NULL && node->up->right == node) {
+        // Your left becomes your parents right
+        node->up->right = node->left;
+        // Parent becomes left of node
+        node->left = node->up;
+        // Parents parent becomes your parent
+        node->up = node->up->up;
+        // Parent of old parent is node
+        node->left->up = node;
+    }
+}
 
+template <typename data_type>
+void rbt<data_type>::rotate_right(rbt_node<data_type> * node) {
+}
 
 /*
 	Class: rbt
