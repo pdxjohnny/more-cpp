@@ -66,6 +66,14 @@
     }\
 })
 
+#define MACRO_TEST_MEM_STR_EQ(var, should_be) \
+({\
+    if (0 != strcmp(var, should_be)) {\
+        MACRO_PRINT_FILE_LINE(#var " should have been %s but was %-20s\n", match, var);\
+        return -1;\
+    }\
+})
+
 #define MACRO_TEST_STR_EQ(var, should_be) \
 ({\
     if (0 != strcmp(var, should_be)) {\
