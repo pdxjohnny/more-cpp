@@ -3,7 +3,7 @@
 int test_bst_order() {
     int i;
     char match[20];
-    bst<char> b;
+    test_bst<char> b;
     for (i = 0; i < 20; ++i) {
         match[i] = (char)(i + 70);
         b[i] = (char)(i + 70);
