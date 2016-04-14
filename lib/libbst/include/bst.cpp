@@ -85,8 +85,6 @@ void bst<data_type>::destroy( bst_node<data_type> * & root )
 	// Go down booth sides
 	destroy( root->left() );
 	destroy( root->right() );
-	// Deallocate the key string
-	delete [] root->key();
 	// Delete the node
 	delete root;
 	// Set to to NULL
@@ -529,7 +527,6 @@ bool bst<data_type>::remove( char * key, bst_node<data_type> * & root )
 			root = successor;
 		}
 		// Delete
-		delete [] del->key();
 		delete del;
 		--in_bst;
 		return true;

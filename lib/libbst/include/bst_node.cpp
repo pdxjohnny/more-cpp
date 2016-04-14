@@ -8,6 +8,7 @@ bst_node<data_type>::bst_node() : key_value(NULL), left_node(NULL), right_node(N
 
 template <typename data_type>
 bst_node<data_type>::~bst_node() {
+    MACRO_DELETE_ARRAY_IF_NOT_NULL(key_value);
 }
 
 template <typename data_type>
