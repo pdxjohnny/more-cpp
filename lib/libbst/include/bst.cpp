@@ -83,10 +83,10 @@ void bst<data_type>::destroy( bst_node<data_type> * & root )
 	if ( !root )
 		return;
 	// Go down booth sides
-	destroy( root->left );
-	destroy( root->right );
+	destroy( root->left() );
+	destroy( root->right() );
 	// Deallocate the key string
-	delete [] root->key;
+	delete [] root->key();
 	// Delete the node
 	delete root;
 	// Set to to NULL
@@ -141,7 +141,7 @@ char * bst<data_type>::key( unsigned int num )
 		return NULL;
 	}
 	unsigned int index = 0;
-	return get( num, index, root )->key;
+	return get( num, index, root )->key();
 }
 
 
@@ -165,7 +165,7 @@ data_type & bst<data_type>::get( unsigned int num )
 	}
 	// Find it
 	unsigned int index = 0;
-	return get( num, index, root )->value;
+	return get( num, index, root )->value();
 }
 
 
@@ -185,7 +185,7 @@ bst_node<data_type> * bst<data_type>::get( unsigned int & num, unsigned int & in
 	// To see if one of the sides found it
 	bst_node<data_type> * found = NULL;
 	// Look of the index on the left, that will be index 0 if its the leftmost node
-	found = get( num, index, root->left );
+	found = get( num, index, root->left() );
 	if ( found )
 	{
 		return found;
@@ -198,7 +198,7 @@ bst_node<data_type> * bst<data_type>::get( unsigned int & num, unsigned int & in
 	// increment the index
 	++index;
 	// Look of the index on the right
-	found = get( num, index, root->right );
+	found = get( num, index, root->right() );
 	if ( found )
 	{
 		return found;
@@ -224,7 +224,7 @@ data_type & bst<data_type>::get( char * key )
 	{
 		return insert( key );
 	}
-	return get( key, root )->value;
+	return get( key, root )->value();
 }
 
 
@@ -245,17 +245,17 @@ bst_node<data_type> * bst<data_type>::get( char * key, bst_node<data_type> * roo
 		return NULL;
 	}
 	// If key return
-	if ( 0 == strcmp( root->key, key ) )
+	if ( 0 == strcmp( root->key(), key ) )
 	{
 		return root;
 	}
 	// If less go left
-	else if ( 0 < strcmp( root->key, key ) )
+	else if ( 0 < strcmp( root->key(), key ) )
 	{
-		return get( key, root->left );
+		return get( key, root->left() );
 	}
 	// If greater than or equal to go right
-	return get( key, root->right );
+	return get( key, root->right() );
 }
 
 
@@ -270,7 +270,7 @@ bst_node<data_type> * bst<data_type>::get( char * key, bst_node<data_type> * roo
 template <typename data_type>
 data_type & bst<data_type>::insert( char * key )
 {
-	return insert( key, root )->value;
+	return insert( key, root )->value();
 }
 
 
@@ -326,19 +326,19 @@ bst_node<data_type> * bst<data_type>::insert_bst( char * key, bst_node<data_type
 	{
 		node = new bst_node<data_type>;
 		// allocate the key
-		node->key = new char [ strlen( key ) + 1 ];
-		strcpy( node->key, key );
+		node->key() = new char [ strlen( key ) + 1 ];
+		strcpy( node->key(), key );
 		// Make sure left and right are null
-		node->left = node->right = NULL;
+		node->left() = node->right() = NULL;
 		++in_bst;
 		return node;
 	}
 	// Binary search
-	else if ( 0 < strcmp( node->key, key ) )
+	else if ( 0 < strcmp( node->key(), key ) )
 	{
-		return insert_bst( key, node->left);
+		return insert_bst( key, node->left());
 	}
-	return insert_bst( key, node->right);
+	return insert_bst( key, node->right());
 }
 
 
@@ -408,10 +408,10 @@ void bst<data_type>::all( unsigned int & index , data_type ** array, bst_node<da
 	// More indexing, see get ( unsigned int num ) for explination of how this works
 	if ( !root )
 		return;
-	all( index, array, root->left );
-	array[ index ] = & root->value;
+	all( index, array, root->left() );
+	array[ index ] = & root->value();
 	++index;
-	all( index, array, root->right );
+	all( index, array, root->right() );
 	return;
 }
 
@@ -452,10 +452,10 @@ void bst<data_type>::keys( unsigned int & index , char ** array, bst_node<data_t
 	// More indexing, see get ( unsigned int num ) for explination of how this works
 	if ( !root )
 		return;
-	keys( index, array, root->left );
-	array[ index ] = root->key;
+	keys( index, array, root->left() );
+	array[ index ] = root->key();
 	++index;
-	keys( index, array, root->right );
+	keys( index, array, root->right() );
 	return;
 }
 
@@ -490,24 +490,24 @@ bool bst<data_type>::remove( char * key, bst_node<data_type> * & root )
 	{
 		return false;
 	}
-	if ( 0 == strcmp( root->key, key ) )
+	if ( 0 == strcmp( root->key(), key ) )
 	{
 		// We know we are goiong to delete root
 		bst_node<data_type> * del = root;
 		// If its a leaf then no problem delete
-		if ( !root->left && !root->right )
+		if ( !root->left() && !root->right() )
 		{
 			root = NULL;
 		}
 		// If it has a left and not a right just replace
-		else if ( root->left && !root->right )
+		else if ( root->left() && !root->right() )
 		{
-			root = root->left;
+			root = root->left();
 		}
 		// If it has a right and not a left just replace
-		else if ( root->right && !root->left )
+		else if ( root->right() && !root->left() )
 		{
-			root = root->right;
+			root = root->right();
 		}
 		// If it has two children
 		else
@@ -520,26 +520,26 @@ bool bst<data_type>::remove( char * key, bst_node<data_type> * & root )
 			// Set the left of the parent of the inorder
 			// to the inorder's right, it will have no left
 			// if it did then it wouldn't be the inorder
-			successor->left = root->left;
+			successor->left() = root->left();
 			if ( parent )
-				parent->left = successor->right;
+				parent->left() = successor->right();
 			// Make suer we arent seting the right to ourself
-			if ( parent && parent->right != root->right )
-				successor->right = root->right;
+			if ( parent && parent->right() != root->right() )
+				successor->right() = root->right();
 			root = successor;
 		}
 		// Delete
-		delete [] del->key;
+		delete [] del->key();
 		delete del;
 		--in_bst;
 		return true;
 	}
 	// Binary search
-	else if ( 0 < strcmp( root->key, key ) )
+	else if ( 0 < strcmp( root->key(), key ) )
 	{
-		return remove( key, root->left );
+		return remove( key, root->left() );
 	}
-	return remove( key, root->right );
+	return remove( key, root->right() );
 }
 
 
@@ -560,15 +560,15 @@ bst_node<data_type> * bst<data_type>::inorder( bst_node<data_type> * root, bst_n
 	{
 		return NULL;
 	}
-	if ( root->right )
+	if ( root->right() )
 	{
 		parent = root;
-		root = root->right;
+		root = root->right();
 	}
-	while ( root->left )
+	while ( root->left() )
 	{
 		parent = root;
-		root = root->left;
+		root = root->left();
 	}
 	return root;
 }
