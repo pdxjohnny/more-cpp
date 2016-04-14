@@ -7,6 +7,13 @@ template <typename data_type>
 bst_node<data_type>::bst_node() : key_value(NULL), left_node(NULL), right_node(NULL) {}
 
 template <typename data_type>
+bst_node<data_type>::bst_node(char * key) : left_node(NULL), right_node(NULL) {
+    // Allocate the key
+    key_value = new char [strlen( key ) + 1];
+    strcpy(key_value, key);
+}
+
+template <typename data_type>
 bst_node<data_type>::~bst_node() {
     MACRO_DELETE_ARRAY_IF_NOT_NULL(key_value);
 }

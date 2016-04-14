@@ -322,21 +322,68 @@ bst_node<data_type> * bst<data_type>::insert_bst( char * key, bst_node<data_type
     // Insert like normal
 	if (!node)
 	{
-		node = new bst_node<data_type>;
-		// allocate the key
-		node->key() = new char [ strlen( key ) + 1 ];
-		strcpy( node->key(), key );
-		// Make sure left and right are null
-		node->left() = node->right() = NULL;
-		++in_bst;
-		return node;
+		return create_node(key, node);
 	}
 	// Binary search
-	else if ( 0 < strcmp( node->key(), key ) )
+    switch (search_bst(key, node)) {
+    case BST_GO_LEFT:
+        return insert_bst( key, node->left());
+    case BST_GO_RIGHT:
+        return insert_bst( key, node->right());
+    }
+    return NULL;
+}
+
+
+
+/*
+	Class: bst
+	Method: create_node
+	Use: Inserts a node into the bst as if it was a bst
+	Input: Key to insert and the root of the bst
+	Output: Node inserted
+*/
+template <typename data_type>
+bst_node<data_type> * bst<data_type>::create_node( char * key, bst_node<data_type> * & node)
+{
+    node_added();
+    node = new bst_node<data_type>(key);
+    return node;
+}
+
+
+
+
+/*
+	Class: bst
+	Method: node_added
+	Use: Inserts a node into the bst as if it was a bst
+	Input: Key to insert and the root of the bst
+	Output: Node inserted
+*/
+template <typename data_type>
+int bst<data_type>::node_added() {
+    return ++in_bst;
+}
+
+
+
+/*
+	Class: bst
+	Method: insert_bst
+	Use: Inserts a node into the bst as if it was a bst
+	Input: Key to insert and the root of the bst
+	Output: Node inserted
+*/
+template <typename data_type>
+int bst<data_type>::search_bst( char * key, bst_node<data_type> * & node)
+{
+	// Binary search
+	if ( 0 < strcmp( node->key(), key ) )
 	{
-		return insert_bst( key, node->left());
+        return BST_GO_LEFT;
 	}
-	return insert_bst( key, node->right());
+    return BST_GO_RIGHT;
 }
 
 

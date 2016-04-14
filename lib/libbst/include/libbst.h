@@ -14,6 +14,8 @@
 // Ensure nothing gets redeclared
 #ifndef BST
 #define BST 1
+#define BST_GO_LEFT 1
+#define BST_GO_RIGHT 2
 
 #include <cstdio>
 #include <cstdlib>
@@ -30,6 +32,7 @@ template <typename data_type>
 class bst_node {
 public:
     bst_node<data_type>();
+    bst_node<data_type>(char * key);
     ~bst_node<data_type>();
     char *& key();
     data_type & value();
@@ -88,6 +91,9 @@ protected:
     bst_node<data_type> * insert_return_node( char * key );
     bst_node<data_type> * insert( char * key, bst_node<data_type> * & root );
     bst_node<data_type> * insert_bst( char * key, bst_node<data_type> * & root);
+    virtual bst_node<data_type> * create_node( char * key, bst_node<data_type> * & root);
+    int node_added();
+    virtual int search_bst( char * key, bst_node<data_type> * & root);
     void all( unsigned int & index , data_type ** array, bst_node<data_type> * root );
     // Returns the keys of the elements in the bst
     void keys( unsigned int & index , char ** array, bst_node<data_type> * root );
