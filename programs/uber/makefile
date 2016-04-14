@@ -9,7 +9,7 @@ CC=g++
 CFLAGS=-Wall -c -static -I./include/ $(LIB_HEADERS)
 # Build the lib
 CLI_SOURCES=$(wildcard src/*.cpp)
-CLI_OBJECTS=$(addprefix obj/lib/,$(notdir $(LIB_SOURCES:.cpp=.o)))
+CLI_OBJECTS=$(addprefix obj/cli/,$(notdir $(CLI_SOURCES:.cpp=.o)))
 CLI=bin/$(NAME)
 TAR=bin/$(NAME).tar.gz
 # Build the tests
@@ -44,9 +44,9 @@ $(LIB_NAMES):
 		rm -rf $(dep) \
 	)
 
-$(CLI): $(OBJECTS)
+$(CLI): $(CLI_OBJECTS)
 	@mkdir -p bin
-	$(CC) $(LDFLAGS) $(OBJECTS) $(LIBS) -o $@
+	$(CC) $(LDFLAGS) $(CLI_OBJECTS) $(LIBS) -o $@
 
 $(TAR):
 	@tar --transform 's,^/,uber,' --dereference --exclude='*/bin/*' \

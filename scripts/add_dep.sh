@@ -7,6 +7,6 @@ fi
 
 mkdir -p deps
 cd deps
-ln -s "../../$1" $1
+ln -s "../../../lib/$1" $1
 cd ..
 
