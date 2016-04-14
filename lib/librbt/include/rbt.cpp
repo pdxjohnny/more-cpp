@@ -302,12 +302,16 @@ rbt_node<data_type> * rbt<data_type>::insert( char * key, rbt_node<data_type> * 
     // Save the node because fixing the tree may fuck it up
     rbt_node<data_type> * node;
     rbt_node<data_type> * parent = NULL;
+    MACRO_PRINT_FILE_LINE("root:        %p\n", root);
 
     // Insert like normal
     node = insert_bst(key, root, parent);
+    MACRO_PRINT_FILE_LINE("inserting:              %x\n", node->key[0]);
 
     // Now it has been inserted and is red begin the case correction
     insert_rbt(node);
+    MACRO_PRINT_FILE_LINE("inserted:               %x    %p\n", node->key[0], node);
+    MACRO_PRINT_FILE_LINE("root_key:                   %x\n", root->key[0]);
 
     return node;
 }
@@ -352,9 +356,6 @@ rbt_node<data_type> * rbt<data_type>::insert_rbt(rbt_node<data_type> * & node)
                     // becasue the uncle is on the left so we know we are on
                     // the right
                     rotate_left(node->up);
-                    // Now switch the colors
-                    node->up->color = RBT_BLACK;
-                    pp->color = RBT_RED;
                 // Uncle is red
                 } else {
                     // Change the colors
@@ -365,6 +366,7 @@ rbt_node<data_type> * rbt<data_type>::insert_rbt(rbt_node<data_type> * & node)
                     pp->color = RBT_RED;
                     // Correct anything we messed up with the granparent
                     insert_rbt(pp);
+                    return node;
                 }
             // The grandparent has a right and the right is our uncle because it
             // is not our parent
@@ -377,9 +379,6 @@ rbt_node<data_type> * rbt<data_type>::insert_rbt(rbt_node<data_type> * & node)
                     // becasue the uncle is on the right so we know we are on
                     // the left
                     rotate_right(node->up);
-                    // Now switch the colors
-                    node->up->color = RBT_BLACK;
-                    pp->color = RBT_RED;
                 // Uncle is red
                 } else {
                     // Change the colors
@@ -390,23 +389,40 @@ rbt_node<data_type> * rbt<data_type>::insert_rbt(rbt_node<data_type> * & node)
                     pp->color = RBT_RED;
                     // Correct anything we messed up with the granparent
                     insert_rbt(pp);
+                    return node;
                 }
             }
         }
+        // Now switch the colors
+        node->up->color = RBT_BLACK;
+        pp->color = RBT_RED;
     }
     return node;
 }
 
 template <typename data_type>
 void rbt<data_type>::rotate_left(rbt_node<data_type> * node) {
+    MACRO_PRINT_FILE_LINE("Attempting to rotate left %p\n", node);
     // If we are to the right of our parent
     if (node->up != NULL && node->up->right == node) {
-        // Your left becomes your parents right
+        // Your left becomes your parents right so make sure they know who
+        // their new parent is
         node->up->right = node->left;
+        if (node->left != NULL) {
+            node->left->up = node->up;
+        }
         // Parent becomes left of node
         node->left = node->up;
         // Parents parent becomes your parent
         node->up = node->up->up;
+        // Let them know about us
+        if (node->up != NULL) {
+            node->up->right = node;
+        } else {
+            // If our parent is NULL that means we just took over the root spot
+            MACRO_PRINT_FILE_LINE("Our parent is %p\n", node->up);
+            root = node;
+        }
         // Parent of old parent is node
         node->left->up = node;
     }
@@ -417,6 +433,9 @@ void rbt<data_type>::rotate_right(rbt_node<data_type> * node) {
     // If we are to the left of our parent
     if (node->up != NULL && node->up->left == node) {
         // Your right becomes your parents left
+        if (node->right != NULL) {
+            node->right->up = node->up;
+        }
         node->up->left = node->right;
         // Parent becomes right of node
         node->right = node->up;
@@ -435,7 +454,7 @@ void rbt<data_type>::rotate_right(rbt_node<data_type> * node) {
 	Output: Node inserted
 */
 template <typename data_type>
-rbt_node<data_type> * rbt<data_type>::insert_bst( char * key, rbt_node<data_type> * & node, rbt_node<data_type> * & prev)
+rbt_node<data_type> * rbt<data_type>::insert_bst( char * key, rbt_node<data_type> * & node, rbt_node<data_type> * prev)
 {
     // Insert like normal
 	if (!node)

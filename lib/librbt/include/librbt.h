@@ -70,7 +70,7 @@ public:
 	data_type & insert( char * key );
     rbt_node<data_type> * insert_return_node( char * key );
 	rbt_node<data_type> * insert( char * key, rbt_node<data_type> * & root );
-	rbt_node<data_type> * insert_bst( char * key, rbt_node<data_type> * & root, rbt_node<data_type> * & above);
+	rbt_node<data_type> * insert_bst( char * key, rbt_node<data_type> * & root, rbt_node<data_type> * prev);
 	rbt_node<data_type> * insert_rbt(rbt_node<data_type> * & node);
     void rotate_left(rbt_node<data_type> *);
     void rotate_right(rbt_node<data_type> *);
@@ -87,7 +87,7 @@ public:
 	// Removes an element from the array
 	bool remove( char * key );
 	bool remove( char * key, rbt_node<data_type> * & root );
-	rbt_node<data_type> * inorder( rbt_node<data_type> * root, rbt_node<data_type> * & parent );
+	rbt_node<data_type> * inorder( rbt_node<data_type> * root, rbt_node<data_type> * & parent);
 private:
 	// Root of the rbt
 	rbt_node<data_type> * root;
