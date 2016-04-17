@@ -2,11 +2,20 @@
 
 circle::circle() : head(this), next(this), prev(this) {}
 
-circle::circle(circle *& existing) : head(this), next(this), prev(this) {
+circle::circle(circle * existing) : head(this), next(this), prev(this) {
     existing->add(this);
 }
 
 circle::~circle() {
+    // They should all share the same head, if this was the head then make the
+    // next one the head
+    if (next->head == this) {
+        circle * curr = next;
+        do {
+            curr->head = this->next;
+            curr = curr->next;
+        } while (curr != this);
+    }
     // Deleteing this node removes it from the list
     prev->next = next;
     next->prev = prev;
@@ -31,17 +40,28 @@ char circle::sort(circle *& node) {
 }
 */
 
-circle * circle::add(circle * add_node) {
-    circle * node = NULL;
-    switch (sort(add_node)) {
+circle * circle::add(circle * node) {
+    switch (sort(node)) {
     // If the thind we are adding belongs before this thing
     case CIRCLE_HERE:
+        MACRO_PRINT_FILE_LINE("Will add node before \'%p\' node\n", this);
+        node->head = head;
         prev->next = node;
         node->prev = prev;
         node->next = this;
         this->prev = node;
+        return node;
     case CIRCLE_NEXT:
-        return next->add(add_node);
+        if (next == head) {
+            MACRO_PRINT_FILE_LINE("       Will add %p   after %p\n", node, this);
+            node->head = head;
+            node->next = next;
+            next->prev = node;
+            node->prev = this;
+            this->next = node;
+            return node;
+        }
+        return next->add(node);
     }
     return node;
 }
@@ -59,7 +79,7 @@ char circle::remove(circle *& find_me) {
 circle * circle::get(circle *& find_me) {
     if (match(find_me)) {
         return this;
-    } else if (next != head && next != this) {
+    } else if (next != head) {
         return next->get(find_me);
     }
     return NULL;
