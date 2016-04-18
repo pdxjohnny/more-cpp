@@ -22,6 +22,8 @@ public:
     circle * get(circle *&);
     // Remove a node from the list, get and delete
     char remove(circle *&);
+    // To make sure that the list is in the order of this array
+    int test_order(circle ** match_these);
 private:
     circle * head;
     circle * next;

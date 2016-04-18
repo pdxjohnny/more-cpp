@@ -21,6 +21,16 @@ circle::~circle() {
     next->prev = prev;
 }
 
+void circle::destroy() {
+    circle * curr = this->next;
+    circle * temp = NULL;
+    while (curr != this) {
+        temp = curr;
+        curr = curr->next;
+        delete temp;
+    }
+}
+
 /*
  * Example implementations
  */
@@ -83,5 +93,22 @@ circle * circle::get(circle *& find_me) {
         return next->get(find_me);
     }
     return NULL;
+}
+
+// Just so that derived clases can make sure their sort functions are working
+int circle::test_order(circle ** match_these) {
+    circle * curr = head;
+    do {
+        // Bail in loop if we run out of things to match to or it doesnt match
+        if (*match_these == NULL) {
+            return -2;
+        }
+        if (!curr->match(*match_these)) {
+            return -1;
+        }
+        curr = curr->next;
+        ++match_these;
+    } while (curr != head);
+    return EXIT_SUCCESS;
 }
 
