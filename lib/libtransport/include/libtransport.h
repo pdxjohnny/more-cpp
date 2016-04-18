@@ -34,13 +34,19 @@ class transport::car {
         // Parses an car from a NULL terminated string
         // Returns -1 if all fields could not be found
         int car_from_string(const char *);
+        // Well what else am I supposed to do I dont see a way around this
+        int year();
+        char * make();
+        char * model();
+        char * plate_number();
+        char * vin();
     private:
         // Information associated with a car
-        int year;
-        char * make;
-        char * model;
-        char * plate_number;
-        char * vin;
+        int value_year;
+        char * value_make;
+        char * value_model;
+        char * value_plate_number;
+        char * value_vin;
 };
 
 // A trip is travel between locations

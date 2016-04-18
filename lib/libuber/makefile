@@ -1,4 +1,4 @@
-NAME=circle
+NAME=uber
 # Libs in use
 LIB_NAMES=$(notdir $(wildcard deps/*))
 LIB_HEADERS=$(addprefix -I./deps/,$(addsuffix /include/,$(LIB_NAMES)))
@@ -8,7 +8,7 @@ LIB_NAMES_CLEAN=$(addprefix ./clean/,$(LIB_NAMES))
 CC=g++
 AR=ar
 ARFLAGS=rcs
-CFLAGS=-Wall -c -static -I./include/ $(LIB_HEADERS)
+CFLAGS=-g -Wall -c -static -I./include/ $(LIB_HEADERS)
 # Build the lib
 LIB_SOURCES=$(wildcard src/*.cpp)
 LIB_OBJECTS=$(addprefix obj/lib/,$(notdir $(LIB_SOURCES:.cpp=.o)))
