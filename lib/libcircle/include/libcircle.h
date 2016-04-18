@@ -18,6 +18,7 @@ public:
     virtual char sort(circle *) = 0;
     // Add a node this nodes list
     circle * add(circle *);
+    circle * add_node(circle *);
     // Find a node in the list
     circle * get(circle *&);
     // Remove a node from the list, get and delete
@@ -25,6 +26,8 @@ public:
     // To make sure that the list is in the order of this array
     int test_order(circle ** match_these);
 private:
+    // Set the new head
+    void update_head(circle * set_to);
     circle * head;
     circle * next;
     circle * prev;

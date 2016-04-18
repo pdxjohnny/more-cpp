@@ -13,18 +13,12 @@ public:
         MACRO_DELETE_ARRAY_IF_NOT_NULL(this->key);
     };
     virtual char match(circle * node) {
-        MACRO_PRINT_FILE_LINE("Node to match is: %p\n", this);
-        MACRO_PRINT_FILE_LINE("Node to match has key: %s\n", this->key);
-        MACRO_PRINT_FILE_LINE("Node to add is: %p\n", dynamic_cast<test_circle *>(node));
-        MACRO_PRINT_FILE_LINE("Node to add has key: %s\n", dynamic_cast<test_circle *>(node)->key);
         if (0 == strcmp(this->key, dynamic_cast<test_circle *>(node)->key)) {
             return 1;
         }
         return 0;
     };
     virtual char sort(circle * node) {
-        MACRO_PRINT_FILE_LINE("Node to sort is: %p   key: %s\n", this, this->key);
-        MACRO_PRINT_FILE_LINE("Node to add is:  %p   key: %s\n", dynamic_cast<test_circle *>(node), dynamic_cast<test_circle *>(node)->key);
         if (0 >= strcmp(this->key, dynamic_cast<test_circle *>(node)->key)) {
             return CIRCLE_NEXT;
         }
@@ -91,6 +85,62 @@ int test_circle_add_prev_order() {
     head->destroy();
     // Delete the first one
     MACRO_DELETE_IF_NOT_NULL(head);
+    return EXIT_SUCCESS;
+}
+
+int test_circle_add_random() {
+    // Create the first one
+    test_circle * a = new test_circle("a");
+    // Add them all to the first one
+    test_circle * c = new test_circle("c", a);
+    test_circle * b = new test_circle("b", c);
+    test_circle * d = new test_circle("d", c);
+    // Make sure they are in the right order
+    test_circle * should_be[] = {
+        a,
+        b,
+        c,
+        d,
+        NULL
+    };
+    MACRO_TEST_EQ(c->test_order((circle **)should_be), EXIT_SUCCESS);
+    // Delete the list
+    c->destroy();
+    // Delete the first one
+    MACRO_DELETE_IF_NOT_NULL(c);
+    return EXIT_SUCCESS;
+}
+
+int test_circle_delete() {
+    // Create the first one
+    test_circle * a = new test_circle("a");
+    // Add them all to the first one
+    test_circle * c = new test_circle("c", a);
+    test_circle * b = new test_circle("b", c);
+    test_circle * d = new test_circle("d", c);
+    // Make sure they are in the right order
+    test_circle * should_be[] = {
+        a,
+        b,
+        c,
+        d,
+        NULL
+    };
+    MACRO_TEST_EQ(c->test_order((circle **)should_be), EXIT_SUCCESS);
+    // Remove one from the list
+    delete c;
+    // Make sure they are in the right order
+    test_circle * should_be_2[] = {
+        a,
+        b,
+        d,
+        NULL
+    };
+    MACRO_TEST_EQ(b->test_order((circle **)should_be_2), EXIT_SUCCESS);
+    // Delete the list
+    b->destroy();
+    // Delete the first one
+    MACRO_DELETE_IF_NOT_NULL(b);
     return EXIT_SUCCESS;
 }
 

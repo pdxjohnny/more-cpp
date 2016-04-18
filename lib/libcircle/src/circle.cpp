@@ -10,15 +10,20 @@ circle::~circle() {
     // They should all share the same head, if this was the head then make the
     // next one the head
     if (next->head == this) {
-        circle * curr = next;
-        do {
-            curr->head = this->next;
-            curr = curr->next;
-        } while (curr != this);
+        // We are dying so the next one becomes the head
+        update_head(this->next);
     }
     // Deleteing this node removes it from the list
     prev->next = next;
     next->prev = prev;
+}
+
+void circle::update_head(circle * set_to) {
+    circle * curr = this;
+    do {
+        curr->head = set_to;
+        curr = curr->next;
+    } while (curr != this);
 }
 
 void circle::destroy() {
@@ -51,19 +56,27 @@ char circle::sort(circle *& node) {
 */
 
 circle * circle::add(circle * node) {
+    // Start addition at the head
+    return head->add_node(node);
+}
+
+circle * circle::add_node(circle * node) {
     switch (sort(node)) {
     // If the thind we are adding belongs before this thing
     case CIRCLE_HERE:
-        MACRO_PRINT_FILE_LINE("Will add node before \'%p\' node\n", this);
         node->head = head;
         prev->next = node;
         node->prev = prev;
         node->next = this;
         this->prev = node;
+        // If we are the head and we added before us then we need to make sure
+        // that everyone knows that the new node is the head
+        if (this == head) {
+            update_head(node);
+        }
         return node;
     case CIRCLE_NEXT:
         if (next == head) {
-            MACRO_PRINT_FILE_LINE("       Will add %p   after %p\n", node, this);
             node->head = head;
             node->next = next;
             next->prev = node;
@@ -71,7 +84,7 @@ circle * circle::add(circle * node) {
             this->next = node;
             return node;
         }
-        return next->add(node);
+        return next->add_node(node);
     }
     return node;
 }
