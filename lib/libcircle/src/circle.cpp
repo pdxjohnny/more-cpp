@@ -125,3 +125,16 @@ int circle::test_order(circle ** match_these) {
     return EXIT_SUCCESS;
 }
 
+// Derived classes will need to dynamic cast inside their callback
+int circle::oneach(circle::each & each_class) {
+    int err = EXIT_SUCCESS;
+    circle * curr = head;
+    do {
+        err = each_class.do_func(curr);
+        if (err != EXIT_SUCCESS) {
+            return err;
+        }
+        curr = curr->next;
+    } while (curr != head);
+    return err;
+}

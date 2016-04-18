@@ -25,10 +25,19 @@ public:
     char remove(circle *&);
     // To make sure that the list is in the order of this array
     int test_order(circle ** match_these);
+    // Do something to each node, return something other than EXIT_SUCCESS if
+    // you wish to stop, you must implement do_func within circle::each
+    class each;
+    int oneach(circle::each & each_class);
 private:
     // Set the new head
     void update_head(circle * set_to);
     circle * head;
     circle * next;
     circle * prev;
+};
+
+class circle::each {
+public:
+    virtual int do_func(circle *) = 0;
 };

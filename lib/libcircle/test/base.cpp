@@ -144,3 +144,51 @@ int test_circle_delete() {
     return EXIT_SUCCESS;
 }
 
+class oneach_class : public circle::each {
+public:
+    int do_func(circle * node) {
+        test_circle * test_node = dynamic_cast<test_circle *>(node);
+        if (test_node == NULL) {
+            // This should never happen
+            return -3;
+        }
+        if (*should_be == NULL) {
+            // If we lost a node this will happen
+            return -2;
+        }
+        if (test_node != *should_be) {
+            // If the list is not in order this will happen
+            return -1;
+        }
+        ++should_be;
+        return EXIT_SUCCESS;
+    }
+    test_circle ** should_be;
+};
+
+int test_circle_oneach() {
+    // Create the first one
+    test_circle * a = new test_circle("a");
+    // Add them all to the first one
+    test_circle * c = new test_circle("c", a);
+    test_circle * b = new test_circle("b", c);
+    test_circle * d = new test_circle("d", c);
+    // Make sure they are in the right order
+    test_circle * should_be[] = {
+        a,
+        b,
+        c,
+        d,
+        NULL
+    };
+    // Becuase we cant have functions in functions
+    oneach_class callback;
+    callback.should_be = should_be;
+    MACRO_TEST_EQ(c->oneach(callback), EXIT_SUCCESS);
+    // Delete the list
+    c->destroy();
+    // Delete the first one
+    MACRO_DELETE_IF_NOT_NULL(c);
+    return EXIT_SUCCESS;
+}
+
