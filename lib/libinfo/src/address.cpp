@@ -2,6 +2,13 @@
 
 info::address::address() : zip(0), street(NULL), city(NULL), state_or_province(NULL), country(NULL) {}
 
+info::address::address(address & copy) : zip(copy.zip), street(NULL), city(NULL), state_or_province(NULL), country(NULL) {
+    MACRO_STRCPY_IF_NOT_NULL(this->street, copy.street);
+    MACRO_STRCPY_IF_NOT_NULL(this->city, copy.city);
+    MACRO_STRCPY_IF_NOT_NULL(this->state_or_province, copy.state_or_province);
+    MACRO_STRCPY_IF_NOT_NULL(this->country, copy.country);
+}
+
 info::address::address(int zip, const char * street, const char * city, const char * state_or_province, const char * country) : zip(zip), street(NULL), city(NULL), state_or_province(NULL), country(NULL) {
     MACRO_STRCPY_IF_NOT_NULL(this->street, street);
     MACRO_STRCPY_IF_NOT_NULL(this->city, city);

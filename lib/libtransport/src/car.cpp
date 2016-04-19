@@ -2,6 +2,13 @@
 
 transport::car::car() : value_year(0), value_make(NULL), value_model(NULL), value_plate_number(NULL), value_vin(NULL) {}
 
+transport::car::car(car & copy) : value_year(copy.value_year), value_make(NULL), value_model(NULL), value_plate_number(NULL), value_vin(NULL) {
+    MACRO_STRCPY_IF_NOT_NULL(this->value_make, copy.value_make);
+    MACRO_STRCPY_IF_NOT_NULL(this->value_model, copy.value_model);
+    MACRO_STRCPY_IF_NOT_NULL(this->value_plate_number, copy.value_plate_number);
+    MACRO_STRCPY_IF_NOT_NULL(this->value_vin, copy.value_vin);
+}
+
 transport::car::car(int value_year, const char * value_make, const char * value_model, const char * value_plate_number, const char * value_vin) : value_year(value_year), value_make(NULL), value_model(NULL), value_plate_number(NULL), value_vin(NULL) {
     MACRO_STRCPY_IF_NOT_NULL(this->value_make, value_make);
     MACRO_STRCPY_IF_NOT_NULL(this->value_model, value_model);

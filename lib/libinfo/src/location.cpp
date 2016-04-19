@@ -3,6 +3,8 @@
 
 info::location::location() : lng(0.0), lat(0.0) {}
 
+info::location::location(location & copy) : info::address(copy), lng(copy.lng), lat(copy.lat) {}
+
 info::location::location(double lng, double lat) : lng(lng), lat(lat) {}
 
 info::location::location(int zip, const char * street, const char * city, const char * state_or_province, const char * country) : info::address(zip, street, city, state_or_province, country), lng(0.0), lat(0.0) {}

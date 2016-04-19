@@ -1,6 +1,8 @@
 #include "uber.h"
 
 
+uber::car::car(car & copy) : transport::car(copy) {}
+
 uber::car::car(int year, const char * make, const char * model, const char * plate_number, const char * vin) : transport::car(year, make, model, plate_number, vin) {}
 
 char uber::car::match(circle * node) {

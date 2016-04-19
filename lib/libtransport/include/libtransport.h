@@ -21,6 +21,7 @@ class transport::car {
     public:
         // Constuctors and destructors
         car();
+        car(car &);
         // If you wish to initiallize with members set this is your constuctor
         car(int, const char *, const char *, const char *, const char *);
         ~car();
@@ -54,6 +55,7 @@ class transport::trip {
     public:
         // Constuctors and destructors
         trip();
+        trip(trip &);
         trip(double start_lng, double start_lat, double end_lng, double end_lat);
         ~trip();
         // Calculate the distance between start and end points
@@ -61,6 +63,8 @@ class transport::trip {
         // Calculate the time it would take to make this trip
         // The average speed at which we can travel for this trip
         float time(float speed);
+        // Calculate the average speed (in mph) based on traffic and such
+        float speed();
     private:
         // The start and end locations of this trip
         info::location start;
@@ -68,10 +72,11 @@ class transport::trip {
 };
 
 // A ride is a trip that costs money
-class transport::ride : public trip {
+class transport::ride : public transport::trip {
     public:
         // Constuctors and destructors
         ride();
+        ride(ride &);
         ~ride();
         // Calculate the cost of the ride based on the distance and estimated
         // time of the trip

@@ -20,6 +20,7 @@ class info::address {
     public:
         // Constuctors and destructors
         address();
+        address(address &);
         // If you wish to initiallize with members set this is your constuctor
         address(int, const char *, const char *, const char *, const char *);
         ~address();
@@ -51,6 +52,7 @@ class info::location : public info::address {
     public:
         // Constuctors and destructors
         location();
+        location(location &);
         location(int, const char *, const char *, const char *, const char *);
         location(double lng, double lat);
         ~location();
