@@ -22,7 +22,7 @@ char uber::car::sort(circle * node) {
 }
 
 // Because we cant do inline callbacks
-class oneach_unique_makes_models: public circle::each {
+class uber::car::oneach_unique_makes_models : public circle::each {
 public:
     int do_func(circle * node) {
         uber::car * curr = dynamic_cast<uber::car *>(node);
@@ -53,7 +53,7 @@ public:
 // Returns unique makes and models as a NULL terminated array. Dont forget to
 // delete them.
 char *** uber::car::unique_makes_models () {
-    oneach_unique_makes_models callback;
+    uber::car::oneach_unique_makes_models callback;
     this->oneach(callback);
     // char *** keys = callback.combos.keys();
     // MACRO_DELETE_ARRAY_OF_STRINGS(keys);

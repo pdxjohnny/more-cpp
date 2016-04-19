@@ -12,5 +12,7 @@ public:
     virtual char match(circle * node);
     virtual char sort(circle * node);
     char *** unique_makes_models ();
+private:
+    class oneach_unique_makes_models;
 };
 
