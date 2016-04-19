@@ -216,7 +216,6 @@ bst_node<data_type> * bst<data_type>::get( unsigned int & num, unsigned int & in
 template <typename data_type>
 data_type & bst<data_type>::get( char * key )
 {
-    MACRO_PRINT_FILE_LINE("Looking for %s\n", key);
 	// Try to get if that doesnt work then insert
 	if ( !get( key, root ) )
 	{
@@ -473,12 +472,13 @@ void bst<data_type>::all( unsigned int & index , data_type ** array, bst_node<da
 		position every time the subscript operator is used
 */
 template <typename data_type>
-char ** bst<data_type>::keys( void )
+char *** bst<data_type>::keys( void )
 {
 	// More indexing, see get ( unsigned int num ) for explination of how this works
 	unsigned int index = 0;
-	char ** array = new char * [ in_bst ];
+	char *** array = new char ** [in_bst + 1];
 	keys( index, array, root );
+    array[in_bst] = NULL;
 	return array;
 }
 
@@ -492,13 +492,18 @@ char ** bst<data_type>::keys( void )
 	Output: None
 */
 template <typename data_type>
-void bst<data_type>::keys( unsigned int & index , char ** array, bst_node<data_type> * root )
+void bst<data_type>::keys( unsigned int & index , char *** array, bst_node<data_type> * root )
 {
 	// More indexing, see get ( unsigned int num ) for explination of how this works
-	if ( !root )
+	if ( !root ) {
 		return;
+    }
 	keys( index, array, root->left() );
-	array[ index ] = root->key();
+    char ** key_copy_ptr = new char *;
+    char * key_copy = new char [strlen(root->key()) + 1];
+    strcpy(key_copy, root->key());
+    *key_copy_ptr = key_copy;
+	array[index] = key_copy_ptr;
 	++index;
 	keys( index, array, root->right() );
 	return;

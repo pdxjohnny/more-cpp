@@ -11,5 +11,6 @@ public:
     car(int year, const char * make, const char * model, const char * plate_number, const char * vin);
     virtual char match(circle * node);
     virtual char sort(circle * node);
+    char *** unique_makes_models ();
 };
 

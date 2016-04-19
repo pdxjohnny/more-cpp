@@ -77,7 +77,7 @@ public:
     unsigned int size( void );
     // Returns the keys of the elements in the bst
     data_type ** all( void );
-    char ** keys( void );
+    char *** keys( void );
     // Removes an element from the array
     bool remove( char * key );
 protected:
@@ -96,7 +96,7 @@ protected:
     virtual int search_bst( char * key, bst_node<data_type> * & root);
     void all( unsigned int & index , data_type ** array, bst_node<data_type> * root );
     // Returns the keys of the elements in the bst
-    void keys( unsigned int & index , char ** array, bst_node<data_type> * root );
+    void keys( unsigned int & index , char *** array, bst_node<data_type> * root );
     bool remove( char * key, bst_node<data_type> * & root );
     bst_node<data_type> * inorder( bst_node<data_type> * root, bst_node<data_type> * & parent);
 private:

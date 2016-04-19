@@ -82,6 +82,15 @@
     }\
 })
 
+#define MACRO_TEST_STR_EQ_CLEANUP(var, should_be, cleanup) \
+({\
+    if (0 != strcmp(var, should_be)) {\
+        MACRO_PRINT_FILE_LINE(#var " should have been " #should_be " but was %-20s\n", var);\
+        cleanup;\
+        return -1;\
+    }\
+})
+
 #define MACRO_EQ(var, cant_be) \
 ({\
     if (var != cant_be) {\
@@ -128,5 +137,22 @@
         dest = new char[strnlen(src, n - 1) + 1];\
         strncpy(dest, src, n);\
     }\
+})
+
+#define MACRO_JOIN_STRING_ARRAY(dest, src, delim, if_null)\
+({\
+    int length = strings::join_length(src, delim, if_null);\
+    dest = new char [length];\
+    strings::join(dest, src, delim, if_null, length);\
+})
+
+#define MACRO_DELETE_ARRAY_OF_STRINGS(dest)\
+({\
+    int i;\
+    for (i = 0; dest[i] != NULL; ++i) {\
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(*(dest[i]));\
+        MACRO_DELETE_IF_NOT_NULL(dest[i]);\
+    }\
+    MACRO_DELETE_ARRAY_IF_NOT_NULL(dest);\
 })
 
