@@ -63,3 +63,32 @@ char *** uber::car::unique_makes_models () {
     // MACRO_DELETE_ARRAY_OF_STRINGS(keys);
     return callback.combos.keys();
 }
+
+// Because we cant do inline callbacks
+class uber::car::oneach_save : public circle::each {
+public:
+    int do_func(circle * node) {
+        uber::car * curr = dynamic_cast<uber::car *>(node);
+        if (fd < 0) {
+            // Bad file descriptor
+            return -2;
+        }
+        const int buffer_length = 500;
+        char buffer[buffer_length];
+        curr->car_to_string(buffer, buffer_length);
+        write(this->fd, buffer, strlen(buffer));
+        write(this->fd, "\n", 1);
+        return EXIT_SUCCESS;
+    }
+    // File we are saving to
+    int fd;
+};
+
+
+// Save cars to a file
+int uber::car::save(int fd) {
+    uber::car::oneach_save callback;
+    callback.fd = fd;
+    this->oneach(callback);
+    return EXIT_SUCCESS;
+}

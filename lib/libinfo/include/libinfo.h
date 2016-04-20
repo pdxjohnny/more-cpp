@@ -74,6 +74,12 @@ class info::location : public info::address {
         // currently set to
         // Returns -1 if the address could not be found
         int find_address();
+        // Formats itself as a string
+        // Returns -1 if it failed
+        int location_to_string(char * buffer, int buffer_size);
+        // Parses an location from a NULL terminated string
+        // Returns -1 if all fields could not be found
+        int location_from_string(const char *);
     private:
         // lng lat cordinates
         double lng;

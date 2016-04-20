@@ -62,9 +62,14 @@ class transport::trip {
         float distance_in_miles();
         // Calculate the time it would take to make this trip
         // The average speed at which we can travel for this trip
-        float time(float speed);
+        virtual float time(float speed);
         // Calculate the average speed (in mph) based on traffic and such
         float speed();
+        // Output the trip
+        int trip_to_string_readable(char * buffer, int buffer_length);
+        int trip_to_string(char * buffer, int buffer_length);
+        // Parse from a string
+        int trip_from_string(const char *);
     private:
         // The start and end locations of this trip
         info::location start;
@@ -80,7 +85,12 @@ class transport::ride : public transport::trip {
         ~ride();
         // Calculate the cost of the ride based on the distance and estimated
         // time of the trip
-        float cost();
+        virtual float cost();
+        // Output the ride
+        int ride_to_string_readable(char * buffer, int buffer_length);
+        int ride_to_string(char * buffer, int buffer_length);
+        // Parse from a string
+        int ride_from_string(const char *);
     private:
         // The least a ride can cost for it to be accepted by the driver
         float fare_minimum;

@@ -74,3 +74,27 @@ float info::location::distance_in_miles(const location & point) {
     );
 }
 
+int info::location::location_to_string(char * buffer, int buffer_size) {
+    // If join fails
+    int err;
+    // We also need to find out how many characters the zip will take up
+    const int address_length = address_string_length() + 1;
+    char * address_buffer = new char [address_length];
+    // Address as a string
+    address_to_string(address_buffer, address_length);
+    // The lat and lng as strings
+    char lat_str[20];
+    char lng_str[20];
+    sprintf(lat_str, "%f", lat);
+    sprintf(lng_str, "%f", lng);
+    char * lat_str_ptr = lat_str;
+    char * lng_str_ptr = lng_str;
+    // The data we want to join
+    char ** data[] = {&address_buffer, &lat_str_ptr, &lng_str_ptr, NULL};
+    // Join the data together
+    err = strings::join(buffer, data, INFO_ADDRESS_DELIM, INFO_ADDRESS_DONT_HAVE, buffer_size);
+    // Free the buffers
+    MACRO_DELETE_ARRAY_IF_NOT_NULL(address_buffer);
+    // Success is determined by join
+    return err;
+}

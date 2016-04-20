@@ -33,7 +33,7 @@ int test_uber_car_order() {
     return EXIT_SUCCESS;
 }
 
-int test_uber_unique_make_models() {
+int test_uber_car_unique_make_models() {
     // Create the first one
     uber::car * a = new uber::car(1999, "a", "x", "", "");
     // Add them all to the first one
@@ -59,6 +59,22 @@ int test_uber_unique_make_models() {
     a->destroy();
     // Delete the first one
     MACRO_DELETE_IF_NOT_NULL(a);
+    return EXIT_SUCCESS;
+}
+
+int test_uber_car_save() {
+    // Create the first one
+    uber::car car(1999, "a", "b", "c", "d");
+    // Set up the pipe
+    int fd[2];
+    pipe(fd);
+    // Create the buffer
+    char buffer[500];
+    // Write to the pipe
+    car.save(fd[1]);
+    // Check that we wrote what we expected to write
+    strings::readline(fd[0], buffer, 500);
+    MACRO_TEST_STR_EQ(buffer, "1999, a, b, c, d");
     return EXIT_SUCCESS;
 }
 

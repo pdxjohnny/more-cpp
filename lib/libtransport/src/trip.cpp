@@ -20,3 +20,57 @@ float transport::trip::speed() {
     // TODO ask google how long it will take
     return 20;
 }
+
+int transport::trip::trip_to_string_readable(char * buffer, int buffer_length) {
+    const int str_length = 500;
+    char start_str[str_length];
+    char end_str[str_length];
+    start.location_to_string(start_str, str_length);
+    end.location_to_string(end_str, str_length);
+    sprintf(buffer, "Traveling at %02f mph "
+        "over a distance of %02f miles "
+        "will take %02f minutes.\n"
+        "Starting at %s.\n"
+        "Ending at %s.\n",
+        speed(),
+        distance_in_miles(),
+        time(speed()),
+        start_str,
+        end_str
+    );
+    return EXIT_SUCCESS;
+}
+
+int transport::trip::trip_to_string(char * buffer, int buffer_length) {
+    // If join fails
+    int err;
+    // The start and end of the location
+    const int str_length = 500;
+    // Start location
+    char start_str[str_length];
+    start.location_to_string(start_str, str_length);
+    char * start_str_ptr = start_str;
+    // End location
+    char end_str[str_length];
+    end.location_to_string(end_str, str_length);
+    char * end_str_ptr = end_str;
+    // Speed
+    char speed_str[MACRO_NUM_TO_STR];
+    sprintf(speed_str, "%f", speed());
+    char * speed_str_ptr = speed_str;
+    // Distance in miles
+    char distance_in_miles_str[MACRO_NUM_TO_STR];
+    sprintf(distance_in_miles_str, "%f", distance_in_miles());
+    char * distance_in_miles_str_ptr = distance_in_miles_str;
+    // Time
+    char time_str[MACRO_NUM_TO_STR];
+    sprintf(time_str, "%f", time(speed()));
+    char * time_str_ptr = time_str;
+    // The data we want to join
+    char ** data[] = {&start_str_ptr, &end_str_ptr, &speed_str_ptr,
+        &distance_in_miles_str_ptr, &time_str_ptr, NULL};
+    // Join the data together
+    err = strings::join(buffer, data, TRANSPORT_CAR_DELIM, TRANSPORT_CAR_DONT_HAVE, buffer_length);
+    // Success is determined by join
+    return err;
+}

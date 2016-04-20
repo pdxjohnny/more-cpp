@@ -14,6 +14,8 @@
 #define MACRO_CYAN    "\x1b[36m"
 #define MACRO_RESET   "\x1b[0m"
 
+#define MACRO_NUM_TO_STR 129
+
 #define MACRO_PRINT(format, ...) \
 ({\
     printf(format, __VA_ARGS__);\
