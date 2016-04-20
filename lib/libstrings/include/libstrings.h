@@ -17,6 +17,8 @@ namespace strings {
     // given a maximum value to avoid overflowing dest
     int join(char * dest, char *** src, const char * delim, const char * if_null, int dest_size);
     int join_length(char *** src, const char * delim, const char * if_null);
+    // Read a file line by line and do_func with that line
+    int readline(int fd, char * buffer, int buffer_size);
 };
 
 #endif
