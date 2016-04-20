@@ -7,6 +7,7 @@ LIB_NAMES_CLEAN=$(addprefix ./clean/,$(LIB_NAMES))
 # Compiler settings
 CC=g++
 CFLAGS=-Wall -c -static -I./include/ $(LIB_HEADERS)
+LDFLAGS=-static
 # Build the lib
 CLI_SOURCES=$(wildcard src/*.cpp)
 CLI_OBJECTS=$(addprefix obj/cli/,$(notdir $(CLI_SOURCES:.cpp=.o)))
@@ -18,7 +19,7 @@ TEST_SOURCES=$(wildcard test/*.cpp)
 TEST_OBJECTS=$(addprefix obj/test/,$(notdir $(TEST_SOURCES:.cpp=.o)))
 TEST=bin/$(NAME)-test
 
-all: $(LIB_NAMES) $(CLI_SOURCES) $(CLI) $(TEST_SOURCES) $(TEST)
+all: $(LIB_NAMES) $(CLI_SOURCES) $(CLI) $(TEST_SOURCES) $(TEST) $(TAR)
 
 $(LIB_NAMES):
 	@# Make them all
@@ -46,7 +47,7 @@ $(LIB_NAMES):
 
 $(CLI): $(CLI_OBJECTS)
 	@mkdir -p bin
-	$(CC) $(LDFLAGS) $(CLI_OBJECTS) $(LIBS) -o $@
+	$(CC) $(CLI_OBJECTS) $(LIBS) $(LDFLAGS) -o $@
 
 $(TAR):
 	@tar --transform 's,^/,uber,' --dereference --exclude='*/bin/*' \
@@ -59,7 +60,7 @@ obj/cli/%.o: src/%.cpp
 # Build tests
 $(TEST): $(TEST_OBJECTS) $(LIB)
 	@mkdir -p bin
-	$(CC) $(LDFLAGS) $(TEST_OBJECTS) $(LIBS) $(LIB) -o $@
+	$(CC) $(TEST_OBJECTS) $(LIBS) $(LIB) $(LDFLAGS) -o $@
 
 obj/test/%.o: test/%.cpp
 	@mkdir -p obj/test
