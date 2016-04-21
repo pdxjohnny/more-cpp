@@ -15,6 +15,7 @@
 #define MACRO_RESET   "\x1b[0m"
 
 #define MACRO_NUM_TO_STR 129
+#define MACRO_HOURS_TO_MINUTES 60
 
 #define MACRO_PRINT(format, ...) \
 ({\
@@ -31,7 +32,10 @@
     MACRO_PRINT("Running %-60s\r", #test_name);\
     if (test_name() == -1) {\
         MACRO_PRINT("Running %-60s[" MACRO_RED " FAILED " MACRO_RESET "]\n", #test_name);\
-        exit(errno);\
+        if (errno != 0) {\
+            exit(errno);\
+        }\
+        return 1;\
     }\
     MACRO_PRINT("Running %-60s[" MACRO_GREEN "   OK   " MACRO_RESET "]\n", #test_name);\
 })
@@ -71,7 +75,7 @@
 #define MACRO_TEST_MEM_STR_EQ(var, should_be) \
 ({\
     if (0 != strcmp(var, should_be)) {\
-        MACRO_PRINT_FILE_LINE(#var " should have been %s but was %-20s\n", match, var);\
+        MACRO_PRINT_FILE_LINE(#var " should have been %s but was %-20s\n", should_be, var);\
         return -1;\
     }\
 })

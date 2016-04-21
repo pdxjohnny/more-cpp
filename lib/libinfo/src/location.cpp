@@ -20,12 +20,18 @@ void info::location::clear () {
 }
 
 int info::location::address_from_string(const char * from) {
+    int err;
     // Populate the address data
-    info::address::address_from_string(from);
+    err = update_address_from_string(from);
     // We no longer know the latitude and longitude of our location so clear it
     lng = 0.0;
     lat = 0.0;
-    return EXIT_SUCCESS;
+    return err;
+}
+
+int info::location::update_address_from_string(const char * from) {
+    // Populate the address data
+    return info::address::address_from_string(from);
 }
 
 int info::location::lnglat(double * lng, double * lat) {
@@ -39,11 +45,16 @@ int info::location::lnglat(double * lng, double * lat) {
 }
 
 int info::location::lnglat(double lng, double lat) {
-    // We no longer know the latitude and longitude of our location so clear it
-    this->lng = lng;
-    this->lat = lat;
+    // Set the new lng lat
+    update_lnglat(lng, lat);
     // Clear the address data
     info::address::clear();
+    return EXIT_SUCCESS;
+}
+
+int info::location::update_lnglat(double lng, double lat) {
+    this->lng = lng;
+    this->lat = lat;
     return EXIT_SUCCESS;
 }
 
@@ -92,9 +103,44 @@ int info::location::location_to_string(char * buffer, int buffer_size) {
     // The data we want to join
     char ** data[] = {&address_buffer, &lat_str_ptr, &lng_str_ptr, NULL};
     // Join the data together
-    err = strings::join(buffer, data, INFO_ADDRESS_DELIM, INFO_ADDRESS_DONT_HAVE, buffer_size);
+    err = strings::join(buffer, data, INFO_LOCATION_DELIM, INFO_LOCATION_DONT_HAVE, buffer_size);
     // Free the buffers
     MACRO_DELETE_ARRAY_IF_NOT_NULL(address_buffer);
     // Success is determined by join
+    return err;
+}
+
+int info::location::location_from_string(const char * from) {
+    int err;
+    // Lets pick a maximum value for the string to parse. Just so that we
+    // ensure no one will pass us an insanly long string so that they can take
+    // up memory
+    if (strnlen(from, INFO_LOCATION_MAX) >= INFO_LOCATION_MAX) {
+        return -1;
+    }
+    // Pointers that will hold parsed in strings
+    char * address_str = NULL;
+    char * lat_str = NULL;
+    char * lng_str = NULL;
+    // Parse them in
+    // Loop through all our data and add it to the buffer
+    char ** data[] = {&address_str, &lat_str, &lng_str, NULL};
+    err = strings::parse(data, from, INFO_LOCATION_DELIM);
+    if (err != EXIT_SUCCESS) {
+        return err;
+    }
+    // Convert and parse in
+    address_from_string(address_str);
+    lat = strtof(lat_str, NULL);
+    lng = strtof(lng_str, NULL);
+    // Delete the memory given to us by parse
+    MACRO_DELETE_ARRAY_IF_NOT_NULL(address_str);
+    MACRO_DELETE_ARRAY_IF_NOT_NULL(lat_str);
+    MACRO_DELETE_ARRAY_IF_NOT_NULL(lng_str);
+    // Check if parsing failed
+    if (errno == ERANGE) {
+        return -1;
+    }
+    // Success is determined by parse
     return err;
 }

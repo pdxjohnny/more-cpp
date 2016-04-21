@@ -5,6 +5,11 @@
 #define INFO_ADDRESS_MAX 400
 #define INFO_ADDRESS_DELIM ", "
 #define INFO_ADDRESS_DONT_HAVE "n/a"
+
+#define INFO_LOCATION_MAX 500
+#define INFO_LOCATION_DELIM " . "
+#define INFO_LOCATION_DONT_HAVE "n/a"
+
 #define INFO_EARTHS_RADIUS_IN_MILES 3959.0
 
 namespace info {
@@ -61,6 +66,8 @@ class info::location : public info::address {
         // Sets the location to be an address
         // Returns -1 if address was invalid
         int address_from_string(const char *);
+        // Sets address without clearing lnglat
+        int update_address_from_string(const char *);
         // Sets the values pased in to be the longitude and latitude that we
         // are using
         // Returns -1 if we dont have cordinates
@@ -68,6 +75,8 @@ class info::location : public info::address {
         // Sets the location to be a pair of longitude and latidue cordinates
         // Returns -1 if cordinates were invalid
         int lnglat(double, double);
+        // Sets lntlat without clearing address
+        int update_lnglat(double lng, double lat);
         // Calculate the distance from another location in miles
         float distance_in_miles(const location &);
         // Attempts to find the address of the cordinates which we are

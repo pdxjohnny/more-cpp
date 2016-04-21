@@ -7,6 +7,14 @@
 #define TRANSPORT_CAR_DONT_HAVE "unavailable"
 #define TRANSPORT_CAR_MAX 200
 
+#define TRANSPORT_TRIP_DELIM " - "
+#define TRANSPORT_TRIP_DONT_HAVE "unavailable"
+#define TRANSPORT_TRIP_MAX 300
+
+#define TRANSPORT_RIDE_DELIM " / "
+#define TRANSPORT_RIDE_DONT_HAVE "unavailable"
+#define TRANSPORT_RIDE_MAX 600
+
 namespace transport {
     // Test functions sould return 42
     int test();
@@ -56,6 +64,7 @@ class transport::trip {
         // Constuctors and destructors
         trip();
         trip(trip &);
+        trip(info::location & start, info::location & end);
         trip(double start_lng, double start_lat, double end_lng, double end_lat);
         ~trip();
         // Calculate the distance between start and end points
