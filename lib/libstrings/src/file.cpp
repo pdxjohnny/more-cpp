@@ -5,7 +5,7 @@ int strings::readline(int fd, char * buffer, int buffer_size) {
 	int i, j = 1;
     int eof = 0;
 	// Current character
-	char tmp;
+	char tmp = '\0';
 	// Read until newline or max - 1 for NULL terminate
 	for (i = 0; i < buffer_size - 1 && j; ++i) {
 		// Read in a character
