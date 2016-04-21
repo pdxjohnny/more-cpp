@@ -56,4 +56,5 @@ public:
     ~rides();
     int load(int fd);
     int save(int fd);
+    int print();
 };

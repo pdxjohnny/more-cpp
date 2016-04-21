@@ -46,3 +46,14 @@ int uber::rides::save(int fd) {
     }
     return EXIT_SUCCESS;
 }
+
+int uber::rides::print() {
+    const int buffer_length = 1000;
+    char buffer[buffer_length];
+    unsigned int i;
+    for (i = 0; i < size(); ++i) {
+        this->get(i).ride_to_string_readable(buffer, buffer_length);
+        MACRO_PRINT("Ride #%d\n%s\n", i, buffer);
+    }
+    return EXIT_SUCCESS;
+}
