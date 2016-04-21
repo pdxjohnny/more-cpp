@@ -108,12 +108,18 @@ int main(int argc, char ** argv, char ** env) {
     // Save the cars
     if (standard != NULL) {
         standard->save(cars_fd);
+        standard->destroy();
+        delete standard;
     }
     if (premium != NULL) {
         premium->save(cars_fd);
+        premium->destroy();
+        delete premium;
     }
     if (group != NULL) {
         group->save(cars_fd);
+        group->destroy();
+        delete group;
     }
     // Close the files
     if (rides_fd > -1) {
