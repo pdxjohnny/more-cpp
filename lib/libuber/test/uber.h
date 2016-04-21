@@ -13,3 +13,4 @@ int test_uber_car_save();
 int test_uber_car_type_standard();
 int test_uber_car_type_group();
 int test_uber_car_type_premium();
+int test_uber_ride_ride_from_string();

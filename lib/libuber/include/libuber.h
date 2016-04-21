@@ -35,8 +35,13 @@ private:
 // A ride is what happens when a customer accepts a car
 class uber::ride : public uber::car, public transport::ride {
 public:
+    ride();
+    ~ride();
     ride(uber::car &, transport::ride &);
-    // Ride information as a string, remeber to free the array it returns
-    char * ride_to_string();
+    // The ride formated as a string
+    int ride_to_string_readable(char * buffer, int buffer_length);
+    int ride_to_string(char * buffer, int buffer_length);
+    // Parse from a string
+    int ride_from_string(const char *);
 };
 

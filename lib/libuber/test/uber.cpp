@@ -7,5 +7,6 @@ MACRO_TEST(test_uber_car_save);
 MACRO_TEST(test_uber_car_type_standard);
 MACRO_TEST(test_uber_car_type_group);
 MACRO_TEST(test_uber_car_type_premium);
+MACRO_TEST(test_uber_ride_ride_from_string);
 return EXIT_SUCCESS;
 }
