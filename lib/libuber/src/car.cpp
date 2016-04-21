@@ -59,8 +59,6 @@ public:
 char *** uber::car::unique_makes_models () {
     uber::car::oneach_unique_makes_models callback;
     this->oneach(callback);
-    // char *** keys = callback.combos.keys();
-    // MACRO_DELETE_ARRAY_OF_STRINGS(keys);
     return callback.combos.keys();
 }
 

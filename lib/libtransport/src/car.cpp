@@ -73,8 +73,11 @@ int transport::car::car_from_string(const char * from) {
     // ensure no one will pass us an insanly long string so that they can take
     // up memory
     if (strnlen(from, TRANSPORT_CAR_MAX) >= TRANSPORT_CAR_MAX) {
+        errno = E2BIG;
         return -1;
     }
+    // Free anthing we have existing
+    clear();
     // Allocate a temporay value_year buffer to scan that data in
     char * value_year_buffer = NULL;
     // Parse them in

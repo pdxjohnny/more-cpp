@@ -27,6 +27,17 @@
     MACRO_PRINT("%s:%d    " format, __FILE__, __LINE__, __VA_ARGS__);\
 })
 
+#define MACRO_LOG_ERROR(format, ...) \
+({\
+    MACRO_PRINT(MACRO_RED "ERROR" MACRO_RESET ": " format ": %s\n", __VA_ARGS__, strerror(errno));\
+})
+
+#define MACRO_LOG_FATAL(format, ...) \
+({\
+    MACRO_LOG_ERROR(format, __VA_ARGS__);\
+    exit(errno);\
+})
+
 #define MACRO_TEST(test_name) \
 ({\
     MACRO_PRINT("Running %-60s\r", #test_name);\

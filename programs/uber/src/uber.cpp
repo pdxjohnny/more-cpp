@@ -2,51 +2,63 @@
 
 
 int user_action(int argc, char ** argv, uber::car *& standard, uber::car *& premium, uber::car *& group, uber::rides & rides) {
+    return EXIT_SUCCESS;
 }
 
 // Im using fd becuase then I can read from a socket or a file and if I have
 // extra time then it will be a socket
 int read_in_cars(int fd, uber::car *& standard, uber::car *& premium, uber::car *& group) {
+    // Make sure fd is valid
+    if (fd < 0) {
+        return -1;
+    }
     // For reading from fd
     int bytes_read = 0;
     const int buffer_size = 300;
     char * buffer = new char [buffer_size];
+    memset(buffer, 0, sizeof(char) * buffer_size);
+    buffer[buffer_size] = '\0';
     // Car info
     uber::car temp;
-    uber::car * add = NULL;
-    uber::car * add_to = NULL;
     // Read in cars until EOF
     do {
         // Read in the line
         bytes_read = strings::readline(fd, buffer, buffer_size);
         // If we read nothing then bail
-        if (bytes_read < 0) {
+        if (bytes_read < 1) {
             break;
         }
         // Make a car out of it
-        temp.car_from_string(buffer);
+        if (temp.car_from_string(buffer) != EXIT_SUCCESS) {
+            MACRO_LOG_ERROR("Failed to read in car \'%s\'", buffer);
+            continue;
+        }
         // Put that car where it should be
         switch (uber::car_type(temp)) {
         case UBER_CAR_PREMIUM:
-            add_to = premium;
+            if (premium == NULL) {
+                premium = new uber::car(temp);
+            } else {
+                premium->add(new uber::car(temp));
+            }
             break;
         case UBER_CAR_GROUP:
-            add_to = group;
+            if (group == NULL) {
+                group = new uber::car(temp);
+            } else {
+                group->add(new uber::car(temp));
+            }
             break;
-        default:
         case UBER_CAR_STANDARD:
-            add_to = standard;
+        default:
+            if (standard == NULL) {
+                standard = new uber::car(temp);
+            } else {
+                standard->add(new uber::car(temp));
+            }
             break;
         }
-        // Allocate the car
-        add = new uber::car(temp);
-        // Determine how to add the car
-        if (add_to == NULL) {
-            add_to = add;
-        } else {
-            add_to->add(add);
-        }
-    } while (bytes_read != 0);
+    } while (bytes_read > 1);
     // Free the buffer
     MACRO_DELETE_ARRAY_IF_NOT_NULL(buffer);
     return EXIT_SUCCESS;
@@ -60,25 +72,55 @@ int main(int argc, char ** argv, char ** env) {
     // If the user wants to make a trip then store it here
     uber::rides rides;
     // The files we will store data in
-    char * cars_file;
-    char * rides_file;
+    char cars_file[] = "static/cars.txt";
+    char rides_file[] = "static/rides.txt";
+    int cars_fd = 0;
+    int rides_fd = 0;
     // Read in the cars
-    int fd = open(cars_file, O_RDONLY);
-    read_in_cars(fd, standard, premium, group);
-    close(fd);
+    cars_fd = open(cars_file, O_RDONLY);
+    if (cars_fd > -1) {
+        read_in_cars(cars_fd, standard, premium, group);
+        close(cars_fd);
+    } else {
+        MACRO_LOG_ERROR("Could not open \'%s\' file to load cars from", cars_file);
+    }
+    // Load the rides
+    rides_fd = open(rides_file, O_RDONLY);
+    if (rides_fd > -1) {
+        // rides.load(rides_fd);
+        close(rides_fd);
+    } else {
+        MACRO_LOG_ERROR("Could not open \'%s\' file to load rides from", rides_file);
+    }
     // Act on what the user wants
-    user_action(standard, premium, group, rides);
+    user_action(argc, argv, standard, premium, group, rides);
     // Clear the existing save files
-    int rides_fd = open(rides_file, O_WRONLY);
-    int cars_fd = open(cars_file, O_WRONLY);
+    rides_fd = open(rides_file, O_CREAT | O_WRONLY, S_IRUSR | S_IWUSR);
+    if (rides_fd < 0) {
+        MACRO_LOG_ERROR("Could not open \'%s\' file to save rides to", rides_file);
+    }
+    cars_fd = open(cars_file, O_CREAT | O_WRONLY, S_IRUSR | S_IWUSR);
+    if (cars_fd < 0) {
+        MACRO_LOG_ERROR("Could not open \'%s\' file to save cars to", cars_file);
+    }
     // Save the rides
     rides.save(rides_fd);
     // Save the cars
-    standard.save(cars_fd);
-    premium.save(cars_fd);
-    group.save(cars_fd);
+    if (standard != NULL) {
+        standard->save(cars_fd);
+    }
+    if (premium != NULL) {
+        premium->save(cars_fd);
+    }
+    if (group != NULL) {
+        group->save(cars_fd);
+    }
     // Close the files
-    close(rides_fd);
-    close(cars_fd);
-    return 0;
+    if (rides_fd > -1) {
+        close(rides_fd);
+    }
+    if (cars_fd > -1) {
+        close(cars_fd);
+    }
+    return EXIT_SUCCESS;
 }

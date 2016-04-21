@@ -1,3 +1,4 @@
+#include <libbst.h>
 #include <libcircle.h>
 #include <libtransport.h>
 
@@ -15,6 +16,7 @@ namespace uber {
     // Classes
     class car;
     class ride;
+    class rides;
 };
 
 // Our cars need to be a list and a car so we can have lists of them
@@ -45,3 +47,11 @@ public:
     int ride_from_string(const char *);
 };
 
+// Manages all the rides in a bst
+class uber::rides : public bst<uber::ride> {
+public:
+    rides();
+    ~rides();
+    int load(int fd);
+    int save(int fd);
+};

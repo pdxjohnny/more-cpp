@@ -104,6 +104,7 @@ int strings::parse(char *** dest, const char * from, const char * delim) {
             // expecting to get more data but because we have no more data we
             // should return an error
             if (dest[1] != NULL) {
+                errno = EBADMSG;
                 return -1;
             }
             break;
