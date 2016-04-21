@@ -7,7 +7,7 @@ template <typename data_type>
 bst_node<data_type>::bst_node() : key_value(NULL), left_node(NULL), right_node(NULL) {}
 
 template <typename data_type>
-bst_node<data_type>::bst_node(char * key) : left_node(NULL), right_node(NULL) {
+bst_node<data_type>::bst_node( const char * key ) : left_node(NULL), right_node(NULL) {
     // Allocate the key
     key_value = new char [strlen( key ) + 1];
     strcpy(key_value, key);

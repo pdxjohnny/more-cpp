@@ -116,7 +116,7 @@ data_type & bst<data_type>::operator [] ( unsigned int num )
 	Output: Value of node found
 */
 template <typename data_type>
-data_type & bst<data_type>::operator [] ( char * key )
+data_type & bst<data_type>::operator [] ( const char * key )
 {
 	return get( key );
 }
@@ -214,7 +214,7 @@ bst_node<data_type> * bst<data_type>::get( unsigned int & num, unsigned int & in
 	Output: Value of node found
 */
 template <typename data_type>
-data_type & bst<data_type>::get( char * key )
+data_type & bst<data_type>::get( const char * key )
 {
 	// Try to get if that doesnt work then insert
 	if ( !get( key, root ) )
@@ -234,7 +234,7 @@ data_type & bst<data_type>::get( char * key )
 	Output: Node found
 */
 template <typename data_type>
-bst_node<data_type> * bst<data_type>::get( char * key, bst_node<data_type> * root )
+bst_node<data_type> * bst<data_type>::get( const char * key, bst_node<data_type> * root )
 {
 	// Look for the key this si a simple binary search algoritham
 	if ( !root )
@@ -265,7 +265,7 @@ bst_node<data_type> * bst<data_type>::get( char * key, bst_node<data_type> * roo
 	Output: Values of the inserted node
 */
 template <typename data_type>
-data_type & bst<data_type>::insert( char * key )
+data_type & bst<data_type>::insert( const char * key )
 {
 	return insert( key, root )->value();
 }
@@ -280,7 +280,7 @@ data_type & bst<data_type>::insert( char * key )
 	Output: Values of the inserted node
 */
 template <typename data_type>
-bst_node<data_type> * bst<data_type>::insert_return_node( char * key )
+bst_node<data_type> * bst<data_type>::insert_return_node( const char * key )
 {
 	return insert( key, root );
 }
@@ -295,7 +295,7 @@ bst_node<data_type> * bst<data_type>::insert_return_node( char * key )
 	Output: Node inserted
 */
 template <typename data_type>
-bst_node<data_type> * bst<data_type>::insert( char * key, bst_node<data_type> * & root)
+bst_node<data_type> * bst<data_type>::insert( const char * key, bst_node<data_type> * & root)
 {
     // Save the node because fixing the tree may fuck it up
     bst_node<data_type> * node;
@@ -316,7 +316,7 @@ bst_node<data_type> * bst<data_type>::insert( char * key, bst_node<data_type> * 
 	Output: Node inserted
 */
 template <typename data_type>
-bst_node<data_type> * bst<data_type>::insert_bst( char * key, bst_node<data_type> * & node)
+bst_node<data_type> * bst<data_type>::insert_bst( const char * key, bst_node<data_type> * & node)
 {
     // Insert like normal
 	if (!node)
@@ -343,7 +343,7 @@ bst_node<data_type> * bst<data_type>::insert_bst( char * key, bst_node<data_type
 	Output: Node inserted
 */
 template <typename data_type>
-bst_node<data_type> * bst<data_type>::create_node( char * key, bst_node<data_type> * & node)
+bst_node<data_type> * bst<data_type>::create_node( const char * key, bst_node<data_type> * & node)
 {
     node_added();
     node = new bst_node<data_type>(key);
@@ -375,7 +375,7 @@ int bst<data_type>::node_added() {
 	Output: Node inserted
 */
 template <typename data_type>
-int bst<data_type>::search_bst( char * key, bst_node<data_type> * & node)
+int bst<data_type>::search_bst( const char * key, bst_node<data_type> * & node)
 {
 	// Binary search
 	if ( 0 < strcmp( node->key(), key ) )
@@ -396,7 +396,7 @@ int bst<data_type>::search_bst( char * key, bst_node<data_type> * & node)
 		NULL and a found being the pointer so true
 */
 template <typename data_type>
-bool bst<data_type>::contains( char * key )
+bool bst<data_type>::contains( const char * key )
 {
 	return get( key, root );
 }
@@ -519,7 +519,7 @@ void bst<data_type>::keys( unsigned int & index , char *** array, bst_node<data_
 	Output: 1 for removed 0 for not	found
 */
 template <typename data_type>
-bool bst<data_type>::remove( char * key )
+bool bst<data_type>::remove( const char * key )
 {
 	return remove( key, root );
 }
@@ -534,7 +534,7 @@ bool bst<data_type>::remove( char * key )
 	Output: 1 for removed 0 for not	found
 */
 template <typename data_type>
-bool bst<data_type>::remove( char * key, bst_node<data_type> * & root )
+bool bst<data_type>::remove( const char * key, bst_node<data_type> * & root )
 {
 	if ( !root )
 	{

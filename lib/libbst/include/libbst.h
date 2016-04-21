@@ -32,7 +32,7 @@ template <typename data_type>
 class bst_node {
 public:
     bst_node<data_type>();
-    bst_node<data_type>(char * key);
+    bst_node<data_type>( const char * key );
     ~bst_node<data_type>();
     char *& key();
     data_type & value();
@@ -63,41 +63,41 @@ public:
     void destroy( void );
     // Allows access by key value
     data_type & operator [] ( unsigned int num );
-    data_type & operator [] ( char * key );
+    data_type & operator [] ( const char * key );
     // Access by index when ordered by key
     char * key( unsigned int num );
     data_type & get( unsigned int num );
     // Allows access by key value
-    data_type & get( char * key );
+    data_type & get( const char * key );
     // Inserts a data of the bst type into the bst
-    data_type & insert( char * key );
+    data_type & insert( const char * key );
     // Check if key is present
-    bool contains( char * key );
+    bool contains( const char * key );
     // Returns the number of elements in the bst
     unsigned int size( void );
     // Returns the keys of the elements in the bst
     data_type ** all( void );
     char *** keys( void );
     // Removes an element from the array
-    bool remove( char * key );
+    bool remove( const char * key );
 protected:
     // Deallocates the bst
     void destroy( bst_node<data_type> * & root );
     // Access by index when ordered by key
     bst_node<data_type> * get( unsigned int & num, unsigned int & index, bst_node<data_type> * root );
     // Allows access by key value
-    bst_node<data_type> * get( char * key, bst_node<data_type> * root );
+    bst_node<data_type> * get( const char * key, bst_node<data_type> * root );
     // Inserts a data of the bst type into the bst
-    bst_node<data_type> * insert_return_node( char * key );
-    bst_node<data_type> * insert( char * key, bst_node<data_type> * & root );
-    bst_node<data_type> * insert_bst( char * key, bst_node<data_type> * & root);
-    virtual bst_node<data_type> * create_node( char * key, bst_node<data_type> * & root);
+    bst_node<data_type> * insert_return_node( const char * key );
+    bst_node<data_type> * insert( const char * key, bst_node<data_type> * & root );
+    bst_node<data_type> * insert_bst( const char * key, bst_node<data_type> * & root);
+    virtual bst_node<data_type> * create_node( const char * key, bst_node<data_type> * & root);
     int node_added();
-    virtual int search_bst( char * key, bst_node<data_type> * & root);
+    virtual int search_bst( const char * key, bst_node<data_type> * & root);
     void all( unsigned int & index , data_type ** array, bst_node<data_type> * root );
     // Returns the keys of the elements in the bst
     void keys( unsigned int & index , char *** array, bst_node<data_type> * root );
-    bool remove( char * key, bst_node<data_type> * & root );
+    bool remove( const char * key, bst_node<data_type> * & root );
     bst_node<data_type> * inorder( bst_node<data_type> * root, bst_node<data_type> * & parent);
 private:
     // Root of the bst

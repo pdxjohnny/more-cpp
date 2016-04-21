@@ -2,7 +2,19 @@
 
 
 int user_action(int argc, char ** argv, uber::car *& standard, uber::car *& premium, uber::car *& group, uber::rides & rides) {
-    return EXIT_SUCCESS;
+    // Confifure the functions that we can call
+    bst<int(*)(int, char **, uber::car *&, uber::car *&, uber::car *&, uber::rides &)> commands;
+    commands["help"] = help;
+    // The command to call
+    char help_cmd[] = "help";
+    char * cmd = help_cmd;
+    if (argc > 1) {
+        cmd = argv[1];
+    }
+    if (commands.contains(cmd)) {
+        return commands[cmd](argc, argv, standard, premium, group, rides);
+    }
+    return commands[help_cmd](argc, argv, standard, premium, group, rides);
 }
 
 // Im using fd becuase then I can read from a socket or a file and if I have
