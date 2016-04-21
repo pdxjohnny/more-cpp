@@ -8,7 +8,7 @@ LIB_NAMES_CLEAN=$(addprefix ./clean/,$(LIB_NAMES))
 CC=g++
 AR=ar
 ARFLAGS=rcs
-CFLAGS=-Wall -c -static -I./include/ $(LIB_HEADERS)
+CFLAGS=-Wall -c -I./include/ $(LIB_HEADERS)
 # Build the lib
 LIB_SOURCES=$(wildcard src/*.cpp)
 LIB_OBJECTS=$(addprefix obj/lib/,$(notdir $(LIB_SOURCES:.cpp=.o)))

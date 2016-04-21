@@ -6,8 +6,8 @@ LIBS=$(addprefix ./deps/,$(join $(addsuffix /bin/,$(LIB_NAMES)),$(addsuffix .a,$
 LIB_NAMES_CLEAN=$(addprefix ./clean/,$(LIB_NAMES))
 # Compiler settings
 CC=g++
-CFLAGS=-Wall -c -static -I./include/ $(LIB_HEADERS)
-LDFLAGS=-static
+CFLAGS=-g -Wall -c -I./include/ $(LIB_HEADERS)
+LDFLAGS=
 # Build the lib
 CLI_SOURCES=$(wildcard src/*.cpp)
 CLI_OBJECTS=$(addprefix obj/cli/,$(notdir $(CLI_SOURCES:.cpp=.o)))
