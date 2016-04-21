@@ -15,8 +15,8 @@ int read_in_cars(int fd, uber::car *& standard, uber::car *& premium, uber::car 
     // For reading from fd
     int bytes_read = 0;
     const int buffer_size = 300;
-    char * buffer = new char [buffer_size];
-    memset(buffer, 0, sizeof(char) * buffer_size);
+    char * buffer = new char [buffer_size + 1];
+    memset(buffer, 0, sizeof(char) * buffer_size + 1);
     buffer[buffer_size] = '\0';
     // Car info
     uber::car temp;
