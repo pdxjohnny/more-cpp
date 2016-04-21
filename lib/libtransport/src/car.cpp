@@ -53,7 +53,7 @@ int transport::car::car_to_string(char * buffer, int buffer_size) {
     // We also need to find out how many characters the value_year will take up
     char * value_year_buffer = NULL;
     if (value_year != 0) {
-        value_year_buffer = new char[20];
+        value_year_buffer = new char[MACRO_NUM_TO_STR];
         sprintf(value_year_buffer, "%d", value_year);
     }
     // Loop through all our data and add it find its size and then add it to
@@ -62,7 +62,7 @@ int transport::car::car_to_string(char * buffer, int buffer_size) {
     // Join the data together
     err = strings::join(buffer, data, TRANSPORT_CAR_DELIM, TRANSPORT_CAR_DONT_HAVE, buffer_size);
     // Get rid of the value_year code as a string
-    delete[] value_year_buffer;
+    MACRO_DELETE_ARRAY_IF_NOT_NULL(value_year_buffer);
     // Success is determined by join
     return err;
 }

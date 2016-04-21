@@ -73,6 +73,7 @@ public:
         }
         const int buffer_length = 500;
         char buffer[buffer_length];
+        buffer[buffer_length] = '\0';
         curr->car_to_string(buffer, buffer_length);
         write(this->fd, buffer, strlen(buffer));
         write(this->fd, "\n", 1);
