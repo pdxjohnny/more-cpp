@@ -1,7 +1,7 @@
 #include "uber.h"
 
 
-uber::car::car() : transport::car() {}
+uber::car::car() {}
 
 uber::car::car(car & copy) : transport::car(copy) {}
 

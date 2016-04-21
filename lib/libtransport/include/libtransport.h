@@ -32,7 +32,7 @@ class transport::car {
         car(car &);
         // If you wish to initiallize with members set this is your constuctor
         car(int, const char *, const char *, const char *, const char *);
-        ~car();
+        virtual ~car();
         // Erases any daat we are holding
         void clear();
         // The length of what the car formated as a string will be
@@ -66,7 +66,7 @@ class transport::trip {
         trip(trip &);
         trip(info::location & start, info::location & end);
         trip(double start_lng, double start_lat, double end_lng, double end_lat);
-        ~trip();
+        virtual ~trip();
         // Calculate the distance between start and end points
         float distance_in_miles();
         // Calculate the time it would take to make this trip
@@ -91,7 +91,7 @@ class transport::ride : public transport::trip {
         // Constuctors and destructors
         ride();
         ride(ride &);
-        ~ride();
+        virtual ~ride();
         // Calculate the cost of the ride based on the distance and estimated
         // time of the trip
         virtual float cost();
