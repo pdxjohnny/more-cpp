@@ -2,9 +2,14 @@
 
 
 int user_action(int argc, char ** argv, uber::car *& standard, uber::car *& premium, uber::car *& group, uber::rides & rides) {
-    // Confifure the functions that we can call
+    // Where all the commands are stored
     bst<int(*)(int, char **, uber::car *&, uber::car *&, uber::car *&, uber::rides &)> commands;
+    // Confifure the functions that we can call
     commands["help"] = help;
+    // commands["list_rides"] = list_rides;
+    commands["list_cars"] = list_cars;
+    // commands["add_ride"] = add_ride;
+    // commands["add_car"] = add_car;
     // The command to call
     char help_cmd[] = "help";
     char * cmd = help_cmd;

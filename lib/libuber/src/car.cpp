@@ -91,3 +91,27 @@ int uber::car::save(int fd) {
     this->oneach(callback);
     return EXIT_SUCCESS;
 }
+
+// Because we cant do inline callbacks
+class uber::car::oneach_print : public circle::each {
+public:
+    oneach_print() : index(0) {}
+    int do_func(circle * node) {
+        uber::car * curr = dynamic_cast<uber::car *>(node);
+        const int buffer_length = 500;
+        char buffer[buffer_length];
+        buffer[buffer_length] = '\0';
+        curr->car_to_string(buffer, buffer_length);
+        MACRO_PRINT("%-7d %s\n", index, buffer);
+        ++index;
+        return EXIT_SUCCESS;
+    }
+    int index;
+};
+
+// Display the cars
+int uber::car::print() {
+    uber::car::oneach_print callback;
+    this->oneach(callback);
+    return EXIT_SUCCESS;
+}

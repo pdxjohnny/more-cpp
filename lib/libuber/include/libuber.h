@@ -29,9 +29,11 @@ public:
     virtual char sort(circle * node);
     char *** unique_makes_models ();
     int save(int fd);
+    int print();
 private:
     class oneach_unique_makes_models;
     class oneach_save;
+    class oneach_print;
 };
 
 // A ride is what happens when a customer accepts a car
