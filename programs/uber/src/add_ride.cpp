@@ -46,19 +46,21 @@ int add_ride(int argc, char ** argv, uber::car *& standard, uber::car *& premium
         if(found == NULL) {
             errno = ENODEV;
             MACRO_LOG_FATAL("Could not find any cars in %s with make \'%s\' and model \'%s\'", car_category, car_make, car_model);
-        // When we remove it make sure we get the next in the category
         }
-        MACRO_PRINT_FILE_LINE("Bumping\n%s", "");
+        transport::ride * trip_to_add = NULL;
+        // When we remove it make sure we get the next in the category
         if (0 == strcmp(car_category, "standard")) {
             category = standard = (uber::car *)found->bump();
+            trip_to_add = new transport::ride(0.0, 5.0, 2.0, 2.0, 5.0, 5.0, start, end);
         } else if (0 == strcmp(car_category, "premium")) {
             category = premium = (uber::car *)found->bump();
+            trip_to_add = new transport::ride(0.0, 2.0, 5.0, 5.0, 5.0, 5.0, start, end);
         } else if (0 == strcmp(car_category, "group")) {
             category = group = (uber::car *)found->bump();
+            trip_to_add = new transport::ride(0.0, 5.0, 1.0, 1.0, 1.0, 1.0, start, end);
         }
-        // transport::ride()
-        // uber::ride(found);
-        found->print();
+        uber::ride ride_to_add(*found, *trip_to_add);
+        MACRO_DELETE_IF_NOT_NULL(trip_to_add);
         MACRO_DELETE_IF_NOT_NULL(found);
         MACRO_PRINT("Done printing found %s\n" ,"");
     }
