@@ -51,6 +51,14 @@
     MACRO_PRINT("Running %-60s[" MACRO_GREEN "   OK   " MACRO_RESET "]\n", #test_name);\
 })
 
+#define MACRO_TEST_CANT_EQ(var, should_be) \
+({\
+    if (var == should_be) {\
+        MACRO_PRINT_FILE_LINE(#var " should not have been %p but was %-20p\n", (void *)should_be, (void *)var);\
+        return -1;\
+    }\
+})
+
 #define MACRO_TEST_EQ(var, should_be) \
 ({\
     if (var != should_be) {\

@@ -12,5 +12,6 @@ MACRO_TEST(test_location_lnglat_clear_address);
 MACRO_TEST(test_location_lnglat_clear_lnglat);
 MACRO_TEST(test_location_distance_in_miles);
 MACRO_TEST(test_location_distance_in_miles_fail);
+MACRO_TEST(test_location_location_from_string);
 return EXIT_SUCCESS;
 }

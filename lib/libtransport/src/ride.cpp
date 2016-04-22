@@ -2,6 +2,18 @@
 
 transport::ride::ride() : fare_minimum(0), fare_base(0), fare_per_minute(1), fare_per_mile(1), fee_booking(0), fee_cancel(0) {}
 
+transport::ride::ride(
+        float fare_minimum, float fare_base, float fare_per_minute,
+        float fare_per_mile, float fee_booking, float fee_cancel,
+        info::location & start, info::location & end
+    ) :
+    transport::trip(start, end),
+    fare_minimum(fare_minimum), fare_base(fare_base),
+    fare_per_minute(fare_per_minute), fare_per_mile(fare_per_mile),
+    fee_booking(fee_booking), fee_cancel(fee_cancel)
+    {
+}
+
 transport::ride::ride(ride & copy) : transport::trip(copy), fare_minimum(0), fare_base(0), fare_per_minute(1), fare_per_mile(1), fee_booking(0), fee_cancel(0) {}
 
 transport::ride::~ride() {}

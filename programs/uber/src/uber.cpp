@@ -8,7 +8,7 @@ int user_action(int argc, char ** argv, uber::car *& standard, uber::car *& prem
     commands["help"] = help;
     // commands["list_rides"] = list_rides;
     commands["list_cars"] = list_cars;
-    // commands["add_ride"] = add_ride;
+    commands["add_ride"] = add_ride;
     // commands["add_car"] = add_car;
     // The command to call
     char help_cmd[] = "help";
@@ -82,6 +82,8 @@ int read_in_cars(int fd, uber::car *& standard, uber::car *& premium, uber::car 
 }
 
 int main(int argc, char ** argv, char ** env) {
+    // Action error
+    int err;
     // The types of cars available
     uber::car * standard = NULL;
     uber::car * premium = NULL;
@@ -109,8 +111,18 @@ int main(int argc, char ** argv, char ** env) {
     } else {
         MACRO_LOG_ERROR("Could not open \'%s\' file to load rides from", rides_file);
     }
+    MACRO_PRINT("standard: %p\n", standard);
+    MACRO_PRINT("premium: %p\n", premium);
+    MACRO_PRINT("group: %p\n", group);
     // Act on what the user wants
-    user_action(argc, argv, standard, premium, group, rides);
+    err = user_action(argc, argv, standard, premium, group, rides);
+    if (err != EXIT_SUCCESS) {
+        MACRO_LOG_FATAL("Couldnt exicute request %s", "");
+    }
+    MACRO_PRINT("Ran user_action %s\n", "");
+    MACRO_PRINT("standard: %p\n", standard);
+    MACRO_PRINT("premium: %p\n", premium);
+    MACRO_PRINT("group: %p\n", group);
     // Clear the existing save files
     rides_fd = open(rides_file, O_CREAT | O_WRONLY, S_IRUSR | S_IWUSR);
     if (rides_fd < 0) {

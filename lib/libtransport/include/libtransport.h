@@ -90,6 +90,8 @@ class transport::ride : public transport::trip {
     public:
         // Constuctors and destructors
         ride();
+        // Initailize with all of fares
+        ride(float, float, float, float, float, float, info::location &, info::location &);
         ride(ride &);
         virtual ~ride();
         // Calculate the cost of the ride based on the distance and estimated

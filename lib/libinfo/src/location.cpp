@@ -116,6 +116,7 @@ int info::location::location_from_string(const char * from) {
     // ensure no one will pass us an insanly long string so that they can take
     // up memory
     if (strnlen(from, INFO_LOCATION_MAX) >= INFO_LOCATION_MAX) {
+        errno = E2BIG;
         return -1;
     }
     // Pointers that will hold parsed in strings
@@ -127,6 +128,9 @@ int info::location::location_from_string(const char * from) {
     char ** data[] = {&address_str, &lat_str, &lng_str, NULL};
     err = strings::parse(data, from, INFO_LOCATION_DELIM);
     if (err != EXIT_SUCCESS) {
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(address_str);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(lat_str);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(lng_str);
         return err;
     }
     // Convert and parse in

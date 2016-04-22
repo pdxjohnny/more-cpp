@@ -70,3 +70,22 @@ int test_location_distance_in_miles_fail() {
     return EXIT_SUCCESS;
 }
 
+int test_location_location_from_string() {
+    // Make it parse this and if it comes out the same were good
+    char input[] = "2000 NE Glisan Street, Portland, OR, 97268"
+        ", USA . 44.350000 . -122.350000";
+    // output is slightly different because of floats
+    char output[] = "2000 NE Glisan Street, Portland, OR, 97268"
+        ", USA . 44.349998 . -122.349998";
+    // Make the location object
+    info::location location;
+    // Make the string to put the formated ride in
+    char location_string[400];
+    // Parse it in
+    MACRO_TEST_EQ(location.location_from_string(input), 0);
+    // Put the ride into a string to check against
+    MACRO_TEST_EQ(location.location_to_string(location_string, 400), 0);
+    // Check it
+    MACRO_TEST_MEM_STR_EQ(location_string, output);
+    return EXIT_SUCCESS;
+}

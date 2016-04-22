@@ -78,3 +78,38 @@ int test_uber_car_save() {
     return EXIT_SUCCESS;
 }
 
+int test_uber_car_get() {
+    // Create the first one
+    uber::car * d = new uber::car(1999, "d", "d", "", "");
+    // Add them all to the first one
+    uber::car * a = (uber::car *)d->add(new uber::car(1999, "a", "a", "plate", "vin"));
+    // Make sure they are in the right order
+    uber::car * should_be[] = {
+        a,
+        d,
+        NULL
+    };
+    MACRO_TEST_EQ(d->test_order((circle **)should_be), EXIT_SUCCESS);
+    // Find a match
+    uber::car find(0, "a", "a", "", "");
+    uber::car * found = NULL;
+    found = (uber::car *)a->get(&find);
+    MACRO_TEST_CANT_EQ(found, NULL);
+    MACRO_TEST_EQ(found->year(), 1999);
+    MACRO_TEST_STR_EQ(found->make(), "a");
+    MACRO_TEST_STR_EQ(found->model(), "a");
+    MACRO_TEST_STR_EQ(found->plate_number(), "plate");
+    MACRO_TEST_STR_EQ(found->vin(), "vin");
+    MACRO_DELETE_IF_NOT_NULL(found);
+    // Make sure that the one we found was removed
+    uber::car * should_be_2[] = {
+        d,
+        NULL
+    };
+    MACRO_TEST_EQ(d->test_order((circle **)should_be_2), EXIT_SUCCESS);
+    // Delete the list
+    d->destroy();
+    // Delete the first one
+    MACRO_DELETE_IF_NOT_NULL(d);
+    return EXIT_SUCCESS;
+}

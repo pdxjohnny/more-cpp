@@ -16,3 +16,4 @@ int test_location_lnglat_clear_address();
 int test_location_lnglat_clear_lnglat();
 int test_location_distance_in_miles();
 int test_location_distance_in_miles_fail();
+int test_location_location_from_string();
