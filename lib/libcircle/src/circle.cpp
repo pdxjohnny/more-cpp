@@ -26,13 +26,14 @@ circle * circle::bump() {
         update_head(this->next);
     }
     // Deleteing this node removes it from the list
+    circle * old_head = head;
     prev->next = next;
     next->prev = prev;
     // We only car about ourself now
     head = this;
     next = this;
     prev = this;
-    return next;
+    return old_head;
 }
 
 void circle::update_head(circle * set_to) {

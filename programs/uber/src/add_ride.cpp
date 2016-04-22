@@ -44,27 +44,27 @@ int add_ride(int argc, char ** argv, uber::car *& standard, uber::car *& premium
         uber::car find (0, car_make, car_model, "", "");
         uber::car * found = (uber::car *)category->get(&find);
         found->print();
-        MACRO_PRINT("Done printing found %s\n" ,"");
+        MACRO_PRINT("Done printing pre category%s\n" ,"");
         if(found == NULL) {
             errno = ENODEV;
             MACRO_LOG_FATAL("Could not find any cars in %s with make \'%s\' and model \'%s\'", car_category, car_make, car_model);
         // When we remove it make sure we get the next in the category
-        } else if (found == category) {
-            MACRO_PRINT_FILE_LINE("Bumping\n%s", "");
-            if (0 == strcmp(car_category, "standard")) {
-                standard = (uber::car *)category->bump();
-            } else if (0 == strcmp(car_category, "premium")) {
-                premium = (uber::car *)category->bump();
-            } else if (0 == strcmp(car_category, "group")) {
-                group = (uber::car *)category->bump();
-            }
+        }
+        MACRO_PRINT_FILE_LINE("Bumping\n%s", "");
+        if (0 == strcmp(car_category, "standard")) {
+            category = standard = (uber::car *)found->bump();
+        } else if (0 == strcmp(car_category, "premium")) {
+            category = premium = (uber::car *)found->bump();
+        } else if (0 == strcmp(car_category, "group")) {
+            category = group = (uber::car *)found->bump();
         }
         // transport::ride()
         // uber::ride(found);
-        delete found;
         category->print();
         MACRO_PRINT("Done printing category %s\n" ,"");
-        return EXIT_SUCCESS;
+        found->print();
+        MACRO_PRINT("Done printing found %s\n" ,"");
+        return -1;
     }
     MACRO_PRINT("Add a ride standard|premium|group make model start_location end_location customer_info%s\n", "");
     return EXIT_SUCCESS;
