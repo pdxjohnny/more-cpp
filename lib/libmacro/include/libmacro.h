@@ -35,7 +35,7 @@
 #define MACRO_LOG_FATAL(format, ...) \
 ({\
     MACRO_LOG_ERROR(format, __VA_ARGS__);\
-    exit(errno);\
+    return errno;\
 })
 
 #define MACRO_TEST(test_name) \

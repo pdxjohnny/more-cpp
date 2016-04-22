@@ -111,19 +111,12 @@ int main(int argc, char ** argv, char ** env) {
     } else {
         MACRO_LOG_ERROR("Could not open \'%s\' file to load rides from", rides_file);
     }
-    MACRO_PRINT("standard: %p\n", standard);
-    MACRO_PRINT("premium: %p\n", premium);
-    MACRO_PRINT("group: %p\n", group);
     // Act on what the user wants
     err = user_action(argc, argv, standard, premium, group, rides);
     if (err != EXIT_SUCCESS) {
-        MACRO_LOG_ERROR("Couldnt exicute request %s", "");
+        // MACRO_LOG_ERROR("Couldnt exicute request %s", "");
         goto DELETE_CARS_AND_RIDES;
     }
-    MACRO_PRINT("Ran user_action %s\n", "");
-    MACRO_PRINT("standard: %p\n", standard);
-    MACRO_PRINT("premium: %p\n", premium);
-    MACRO_PRINT("group: %p\n", group);
     // Clear the existing save files
     rides_fd = open(rides_file, O_CREAT | O_TRUNC | O_WRONLY, S_IRUSR | S_IWUSR);
     if (rides_fd < 0) {

@@ -63,6 +63,7 @@ int add_ride(int argc, char ** argv, uber::car *& standard, uber::car *& premium
         MACRO_DELETE_IF_NOT_NULL(trip_to_add);
         MACRO_DELETE_IF_NOT_NULL(found);
         MACRO_PRINT("Done printing found %s\n" ,"");
+        return EXIT_SUCCESS;
     }
     MACRO_PRINT("Add a ride standard|premium|group make model start_location end_location customer_info%s\n", "");
     return EXIT_SUCCESS;
