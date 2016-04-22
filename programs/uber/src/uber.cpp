@@ -117,18 +117,19 @@ int main(int argc, char ** argv, char ** env) {
     // Act on what the user wants
     err = user_action(argc, argv, standard, premium, group, rides);
     if (err != EXIT_SUCCESS) {
-        MACRO_LOG_FATAL("Couldnt exicute request %s", "");
+        MACRO_LOG_ERROR("Couldnt exicute request %s", "");
+        goto DELETE_CARS_AND_RIDES;
     }
     MACRO_PRINT("Ran user_action %s\n", "");
     MACRO_PRINT("standard: %p\n", standard);
     MACRO_PRINT("premium: %p\n", premium);
     MACRO_PRINT("group: %p\n", group);
     // Clear the existing save files
-    rides_fd = open(rides_file, O_CREAT | O_WRONLY, S_IRUSR | S_IWUSR);
+    rides_fd = open(rides_file, O_CREAT | O_TRUNC | O_WRONLY, S_IRUSR | S_IWUSR);
     if (rides_fd < 0) {
         MACRO_LOG_ERROR("Could not open \'%s\' file to save rides to", rides_file);
     }
-    cars_fd = open(cars_file, O_CREAT | O_WRONLY, S_IRUSR | S_IWUSR);
+    cars_fd = open(cars_file, O_CREAT | O_TRUNC | O_WRONLY, S_IRUSR | S_IWUSR);
     if (cars_fd < 0) {
         MACRO_LOG_ERROR("Could not open \'%s\' file to save cars to", cars_file);
     }
@@ -137,18 +138,12 @@ int main(int argc, char ** argv, char ** env) {
     // Save the cars
     if (standard != NULL) {
         standard->save(cars_fd);
-        standard->destroy();
-        delete standard;
     }
     if (premium != NULL) {
         premium->save(cars_fd);
-        premium->destroy();
-        delete premium;
     }
     if (group != NULL) {
         group->save(cars_fd);
-        group->destroy();
-        delete group;
     }
     // Close the files
     if (rides_fd > -1) {
@@ -156,6 +151,20 @@ int main(int argc, char ** argv, char ** env) {
     }
     if (cars_fd > -1) {
         close(cars_fd);
+    }
+    // Delete the list of cars and bst of rides
+DELETE_CARS_AND_RIDES:
+    if (standard != NULL) {
+        standard->destroy();
+        delete standard;
+    }
+    if (premium != NULL) {
+        premium->destroy();
+        delete premium;
+    }
+    if (group != NULL) {
+        group->destroy();
+        delete group;
     }
     return EXIT_SUCCESS;
 }

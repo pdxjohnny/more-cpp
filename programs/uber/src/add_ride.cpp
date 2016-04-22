@@ -43,8 +43,6 @@ int add_ride(int argc, char ** argv, uber::car *& standard, uber::car *& premium
         car_model = argv[4];
         uber::car find (0, car_make, car_model, "", "");
         uber::car * found = (uber::car *)category->get(&find);
-        found->print();
-        MACRO_PRINT("Done printing pre category%s\n" ,"");
         if(found == NULL) {
             errno = ENODEV;
             MACRO_LOG_FATAL("Could not find any cars in %s with make \'%s\' and model \'%s\'", car_category, car_make, car_model);
@@ -60,11 +58,9 @@ int add_ride(int argc, char ** argv, uber::car *& standard, uber::car *& premium
         }
         // transport::ride()
         // uber::ride(found);
-        category->print();
-        MACRO_PRINT("Done printing category %s\n" ,"");
         found->print();
+        MACRO_DELETE_IF_NOT_NULL(found);
         MACRO_PRINT("Done printing found %s\n" ,"");
-        return -1;
     }
     MACRO_PRINT("Add a ride standard|premium|group make model start_location end_location customer_info%s\n", "");
     return EXIT_SUCCESS;
