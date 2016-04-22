@@ -48,7 +48,8 @@ int add_ride(int argc, char ** argv, uber::car *& standard, uber::car *& premium
             MACRO_LOG_FATAL("Could not find any cars in %s with make \'%s\' and model \'%s\'", car_category, car_make, car_model);
         }
         transport::ride * trip_to_add = NULL;
-        // When we remove it make sure we get the next in the category
+        // Remove the car with bump and then set the pricing options and start
+        // and end locations for this ride
         if (0 == strcmp(car_category, "standard")) {
             category = standard = (uber::car *)found->bump();
             trip_to_add = new transport::ride(0.0, 5.0, 2.0, 2.0, 5.0, 5.0, start, end);
@@ -59,10 +60,18 @@ int add_ride(int argc, char ** argv, uber::car *& standard, uber::car *& premium
             category = group = (uber::car *)found->bump();
             trip_to_add = new transport::ride(0.0, 5.0, 1.0, 1.0, 1.0, 1.0, start, end);
         }
+        // Combine the trip and the ride
         uber::ride ride_to_add(*found, *trip_to_add);
+        ride_to_add.save(STDOUT_FILENO);
+        // Add that ride to the rides manager teh key wiith which we add with
+        // be the time
+        time_t now = time(NULL);
+        char * timestamp = ctime(&now);
+        // rides[timestamp] = ride_to_add;
+        MACRO_PRINT_FILE_LINE("Datetime: %s", timestamp);
+        // We have no use for these anymore
         MACRO_DELETE_IF_NOT_NULL(trip_to_add);
         MACRO_DELETE_IF_NOT_NULL(found);
-        MACRO_PRINT("Done printing found %s\n" ,"");
         return EXIT_SUCCESS;
     }
     MACRO_PRINT("Add a ride standard|premium|group make model start_location end_location customer_info%s\n", "");
