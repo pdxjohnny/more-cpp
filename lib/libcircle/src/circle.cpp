@@ -18,6 +18,23 @@ circle::~circle() {
     next->prev = prev;
 }
 
+circle * circle::bump() {
+    // They should all share the same head, if this was the head then make the
+    // next one the head
+    if (next->head == this) {
+        // We are dying so the next one becomes the head
+        update_head(this->next);
+    }
+    // Deleteing this node removes it from the list
+    prev->next = next;
+    next->prev = prev;
+    // We only car about ourself now
+    head = this;
+    next = this;
+    prev = this;
+    return next;
+}
+
 void circle::update_head(circle * set_to) {
     circle * curr = this;
     do {
@@ -89,7 +106,7 @@ circle * circle::add_node(circle * node) {
     return node;
 }
 
-char circle::remove(circle *& find_me) {
+char circle::remove(circle * find_me) {
     circle * find = get(find_me);
     if (find == NULL) {
         return -1;
@@ -99,7 +116,7 @@ char circle::remove(circle *& find_me) {
     return EXIT_SUCCESS;
 }
 
-circle * circle::get(circle *& find_me) {
+circle * circle::get(circle * find_me) {
     if (match(find_me)) {
         return this;
     } else if (next != head) {

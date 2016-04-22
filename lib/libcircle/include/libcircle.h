@@ -11,6 +11,7 @@ public:
     // Add to another node
     circle(circle * existing);
     virtual ~circle();
+    circle * bump();
     // Distroy all in the list
     void destroy();
     // These need to be implimented by children of this base class
@@ -20,9 +21,9 @@ public:
     circle * add(circle *);
     circle * add_node(circle *);
     // Find a node in the list
-    circle * get(circle *&);
+    circle * get(circle *);
     // Remove a node from the list, get and delete
-    char remove(circle *&);
+    char remove(circle *);
     // To make sure that the list is in the order of this array
     int test_order(circle ** match_these);
     // Do something to each node, return something other than EXIT_SUCCESS if

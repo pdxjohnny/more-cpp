@@ -91,15 +91,16 @@ int test_uber_car_get() {
     };
     MACRO_TEST_EQ(d->test_order((circle **)should_be), EXIT_SUCCESS);
     // Find a match
-    uber::car find(0, "a", "a", "", "");
+    uber::car * find = new uber::car(0, "a", "a", "", "");
     uber::car * found = NULL;
-    found = (uber::car *)a->get(&find);
+    found = (uber::car *)a->get(find);
     MACRO_TEST_CANT_EQ(found, NULL);
     MACRO_TEST_EQ(found->year(), 1999);
     MACRO_TEST_STR_EQ(found->make(), "a");
     MACRO_TEST_STR_EQ(found->model(), "a");
     MACRO_TEST_STR_EQ(found->plate_number(), "plate");
     MACRO_TEST_STR_EQ(found->vin(), "vin");
+    MACRO_DELETE_IF_NOT_NULL(find);
     MACRO_DELETE_IF_NOT_NULL(found);
     // Make sure that the one we found was removed
     uber::car * should_be_2[] = {
