@@ -25,6 +25,7 @@ public:
     car();
     car(car &);
     car(int year, const char * make, const char * model, const char * plate_number, const char * vin);
+    car & operator=(const uber::car & copy);
     virtual char match(circle * node);
     virtual char sort(circle * node);
     char *** unique_makes_models ();
@@ -40,13 +41,18 @@ private:
 class uber::ride : public uber::car, public transport::ride {
 public:
     ride();
+    ride(ride &);
     ~ride();
     ride(uber::car &, transport::ride &);
+    ride & operator=(const uber::ride & copy);
     // The ride formated as a string
     int ride_to_string_readable(char * buffer, int buffer_length);
     int ride_to_string(char * buffer, int buffer_length);
     // Parse from a string
     int ride_from_string(const char *);
+    // time_t created();
+private:
+    // time_t time_created;
 };
 
 // Manages all the rides in a bst

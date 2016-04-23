@@ -10,6 +10,12 @@ transport::trip::trip(double start_lng, double start_lat, double end_lng, double
 
 transport::trip::~trip() {}
 
+transport::trip & transport::trip::operator=(const transport::trip & copy) {
+    this->start = copy.start;
+    this->end = copy.end;
+    return *this;
+}
+
 float transport::trip::distance_in_miles() {
     return start.distance_in_miles(end);
 }

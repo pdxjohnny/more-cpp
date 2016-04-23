@@ -11,6 +11,8 @@ public:
     // Add to another node
     circle(circle * existing);
     virtual ~circle();
+    circle & operator=(const circle & copy);
+    // Remove me and return the next
     circle * bump();
     // Distroy all in the list
     void destroy();

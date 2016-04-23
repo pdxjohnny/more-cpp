@@ -10,24 +10,17 @@ int list_cars(int argc, char ** argv, uber::car *& standard, uber::car *& premiu
             if (standard != NULL) {
                 MACRO_PRINT("Standard cars%s\n", "");
                 list = standard->unique_makes_models();
-            } else {
-                MACRO_PRINT("No standard cars%s\n", "");
             }
         } else if (0 == strcmp(to_list, "premium")) {
             if (premium != NULL) {
                 MACRO_PRINT("Premium cars%s\n", "");
                 list = premium->unique_makes_models();
-            } else {
-                MACRO_PRINT("No premium cars%s\n", "");
             }
         } else if (0 == strcmp(to_list, "group")) {
             if (group != NULL) {
                 MACRO_PRINT("Group cars%s\n", "");
                 list = group->unique_makes_models();
-            } else {
-                MACRO_PRINT("No group cars%s\n", "");
-            }
-        }
+            }        }
         if (list != NULL) {
             char *** car_list = list;
             int i = 0;
@@ -40,9 +33,7 @@ int list_cars(int argc, char ** argv, uber::car *& standard, uber::car *& premiu
             MACRO_DELETE_ARRAY_OF_STRINGS(list);
             return EXIT_SUCCESS;
         }
-        MACRO_PRINT("Categories available standard|premium|group%s\n", "");
-        return EXIT_SUCCESS;
+        MACRO_LOG_FATAL("Categories available standard|premium|group, no %s cars are currently available", to_list);
     }
-    MACRO_PRINT("Add a category to list standard|premium|group%s\n", "");
-    return EXIT_SUCCESS;
+    MACRO_LOG_FATAL("Add a category to list standard|premium|group%s\n", "");
 }

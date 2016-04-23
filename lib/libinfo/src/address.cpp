@@ -20,6 +20,15 @@ info::address::~address() {
     clear();
 }
 
+info::address & info::address::operator=(const info::address & copy) {
+    this->zip = copy.zip;
+    MACRO_STRCPY_IF_NOT_NULL(this->street, copy.street);
+    MACRO_STRCPY_IF_NOT_NULL(this->city, copy.city);
+    MACRO_STRCPY_IF_NOT_NULL(this->state_or_province, copy.state_or_province);
+    MACRO_STRCPY_IF_NOT_NULL(this->country, copy.country);
+    return *this;
+}
+
 void info::address::clear() {
     zip = 0;
     MACRO_DELETE_ARRAY_IF_NOT_NULL(street);

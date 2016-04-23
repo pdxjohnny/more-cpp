@@ -20,6 +20,15 @@ transport::car::~car() {
     clear();
 }
 
+transport::car & transport::car::operator=(const transport::car & copy) {
+    this->value_year = copy.value_year;
+    MACRO_STRCPY_IF_NOT_NULL(this->value_make, copy.value_make);
+    MACRO_STRCPY_IF_NOT_NULL(this->value_model, copy.value_model);
+    MACRO_STRCPY_IF_NOT_NULL(this->value_plate_number, copy.value_plate_number);
+    MACRO_STRCPY_IF_NOT_NULL(this->value_vin, copy.value_vin);
+    return *this;
+}
+
 void transport::car::clear() {
     value_year = 0;
     MACRO_DELETE_ARRAY_IF_NOT_NULL(value_make);

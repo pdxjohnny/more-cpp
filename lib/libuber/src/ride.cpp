@@ -6,6 +6,12 @@ uber::ride::ride(uber::car & car, transport::ride & ride) : uber::car(car), tran
 
 uber::ride::~ride() {}
 
+uber::ride & uber::ride::operator=(const uber::ride & copy) {
+    uber::car::operator=(copy);
+    transport::ride::operator=(copy);
+    return *this;
+}
+
 int uber::ride::ride_to_string_readable(char * buffer, int buffer_length) {
     const int str_length = 1000;
     // The ride

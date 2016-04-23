@@ -62,16 +62,14 @@ int add_ride(int argc, char ** argv, uber::car *& standard, uber::car *& premium
         }
         // Combine the trip and the ride
         uber::ride ride_to_add(*found, *trip_to_add);
-        ride_to_add.save(STDOUT_FILENO);
+        // We have no use for these anymore
+        MACRO_DELETE_IF_NOT_NULL(trip_to_add);
+        MACRO_DELETE_IF_NOT_NULL(found);
         // Add that ride to the rides manager teh key wiith which we add with
         // be the time
         time_t now = time(NULL);
         char * timestamp = ctime(&now);
-        // rides[timestamp] = ride_to_add;
-        MACRO_PRINT_FILE_LINE("Datetime: %s", timestamp);
-        // We have no use for these anymore
-        MACRO_DELETE_IF_NOT_NULL(trip_to_add);
-        MACRO_DELETE_IF_NOT_NULL(found);
+        rides[timestamp] = ride_to_add;
         return EXIT_SUCCESS;
     }
     MACRO_PRINT("Add a ride standard|premium|group make model start_location end_location customer_info%s\n", "");

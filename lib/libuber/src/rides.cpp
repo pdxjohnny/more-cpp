@@ -25,7 +25,7 @@ int uber::rides::load(int fd) {
             break;
         }
         // Make a ride out of it
-        temp.car_from_string(buffer);
+        temp.ride_from_string(buffer);
         // Add the ride to our rides
         this->get(num_read) = temp;
         ++num_read;

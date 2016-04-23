@@ -29,6 +29,7 @@ class info::address {
         // If you wish to initiallize with members set this is your constuctor
         address(int, const char *, const char *, const char *, const char *);
         ~address();
+        address & operator=(const info::address & copy);
         // Erases any daat we are holding
         void clear();
         // The length of what the address formated as a string will be
@@ -61,6 +62,7 @@ class info::location : public info::address {
         location(int, const char *, const char *, const char *, const char *);
         location(double lng, double lat);
         ~location();
+        location & operator=(const info::location & copy);
         // Clears address and lat lng data
         void clear();
         // Sets the location to be an address

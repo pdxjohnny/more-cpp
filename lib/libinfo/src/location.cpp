@@ -11,6 +11,13 @@ info::location::location(int zip, const char * street, const char * city, const 
 
 info::location::~location() {}
 
+info::location & info::location::operator=(const info::location & copy) {
+    info::address::operator=(copy);
+    this->lat = copy.lat;
+    this->lng = copy.lng;
+    return *this;
+}
+
 void info::location::clear () {
     // Clear the address
     info::address::clear();

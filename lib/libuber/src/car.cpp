@@ -7,6 +7,11 @@ uber::car::car(car & copy) : transport::car(copy) {}
 
 uber::car::car(int year, const char * make, const char * model, const char * plate_number, const char * vin) : transport::car(year, make, model, plate_number, vin) {}
 
+uber::car & uber::car::operator=(const uber::car & copy) {
+    transport::car::operator=(copy);
+    return *this;
+}
+
 char uber::car::match(circle * node) {
     uber::car * car_node = dynamic_cast<uber::car *>(node);
     if (0 == (strcmp(this->make(), car_node->make()) +

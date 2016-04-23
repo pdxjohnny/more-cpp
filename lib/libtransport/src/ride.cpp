@@ -18,6 +18,17 @@ transport::ride::ride(ride & copy) : transport::trip(copy), fare_minimum(0), far
 
 transport::ride::~ride() {}
 
+transport::ride & transport::ride::operator=(const transport::ride & copy) {
+    transport::trip::operator=(copy);
+    this->fare_minimum = copy.fare_minimum;
+    this->fare_base = copy.fare_base;
+    this->fare_per_minute = copy.fare_per_minute;
+    this->fare_per_mile = copy.fare_per_mile;
+    this->fee_booking = copy.fee_booking;
+    this->fee_cancel = copy.fee_cancel;
+    return *this;
+}
+
 float transport::ride::cost() {
     return (time(speed()) * fare_per_minute) + (distance_in_miles() * fare_per_mile);
 }
