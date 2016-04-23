@@ -40,12 +40,12 @@ private:
 };
 
 // A ride is what happens when a customer accepts a car
-class uber::ride : public uber::car, public transport::ride {
+class uber::ride : public uber::car, public transport::ride, public info::customer {
 public:
     ride();
     ride(ride &);
     ~ride();
-    ride(uber::car &, transport::ride &);
+    ride(uber::car &, transport::ride &, info::customer &);
     ride & operator=(const uber::ride & copy);
     // The ride formated as a string
     int ride_to_string_readable(char * buffer, int buffer_length);

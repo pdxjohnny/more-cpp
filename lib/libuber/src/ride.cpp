@@ -4,7 +4,7 @@ uber::ride::ride() {
     timestamp = std::time(NULL);
 }
 
-uber::ride::ride(uber::car & car, transport::ride & ride) : uber::car(car), transport::ride(ride) {
+uber::ride::ride(uber::car & car, transport::ride & ride, info::customer & customer) : uber::car(car), transport::ride(ride), info::customer(customer) {
     timestamp = std::time(NULL);
 }
 
@@ -13,6 +13,7 @@ uber::ride::~ride() {}
 uber::ride & uber::ride::operator=(const uber::ride & copy) {
     uber::car::operator=(copy);
     transport::ride::operator=(copy);
+    info::customer::operator=(copy);
     this->timestamp = copy.timestamp;
     return *this;
 }

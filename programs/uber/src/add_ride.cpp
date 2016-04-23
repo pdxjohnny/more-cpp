@@ -5,6 +5,7 @@ int add_ride(int argc, char ** argv, uber::car *& standard, uber::car *& premium
     char * car_category = NULL;
     char * car_make = NULL;
     char * car_model = NULL;
+    char * customer_info = NULL;
     char * start_location = NULL;
     char * end_location = NULL;
     uber::car * category = NULL;
@@ -38,6 +39,14 @@ int add_ride(int argc, char ** argv, uber::car *& standard, uber::car *& premium
             MACRO_PRINT("Example: \'12 SW Q street, Portland, OR, 97225, USA . 45.45 . -122.34\'%s\n", "");
             MACRO_LOG_FATAL("Bad location \'%s\'", end_location);
         }
+        // Grab their customer info
+        customer_info = argv[7];
+        info::customer customer;
+        if (customer.customer_from_string(customer_info) != EXIT_SUCCESS) {
+            MACRO_PRINT("Customer infomation should contain name, phone #, credit card number, experation month and year, and ccv%s\n", "");
+            MACRO_PRINT("Example: \'John Snow, 8007765543; 4456778366785436, 03, 99, 342\'%s\n", "");
+            MACRO_LOG_FATAL("Bad customer info \'%s\'", customer_info);
+        }
         // Grab a car from one of those categories
         car_make = argv[3];
         car_model = argv[4];
@@ -61,7 +70,7 @@ int add_ride(int argc, char ** argv, uber::car *& standard, uber::car *& premium
             trip_to_add = new transport::ride(0.0, 5.0, 1.0, 1.0, 1.0, 1.0, start, end);
         }
         // Combine the trip and the ride
-        uber::ride ride_to_add(*found, *trip_to_add);
+        uber::ride ride_to_add(*found, *trip_to_add, customer);
         // We have no use for these anymore
         MACRO_DELETE_IF_NOT_NULL(trip_to_add);
         MACRO_DELETE_IF_NOT_NULL(found);
