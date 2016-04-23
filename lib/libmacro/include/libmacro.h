@@ -27,6 +27,11 @@
     MACRO_PRINT("%s:%d    " format, __FILE__, __LINE__, __VA_ARGS__);\
 })
 
+#define MACRO_TEST_LOG_ERROR(format, ...) \
+({\
+    MACRO_PRINT_FILE_LINE(MACRO_RED "ERROR" MACRO_RESET ": " format ": %s\n", __VA_ARGS__, strerror(errno));\
+})
+
 #define MACRO_LOG_ERROR(format, ...) \
 ({\
     MACRO_PRINT(MACRO_RED "ERROR" MACRO_RESET ": " format ": %s\n", __VA_ARGS__, strerror(errno));\
@@ -54,7 +59,7 @@
 #define MACRO_TEST_CANT_EQ(var, should_be) \
 ({\
     if (var == should_be) {\
-        MACRO_PRINT_FILE_LINE(#var " should not have been %p but was %-20p\n", (void *)should_be, (void *)var);\
+        MACRO_TEST_LOG_ERROR(#var " should not have been %p but was %p", (void *)should_be, (void *)var);\
         return -1;\
     }\
 })
@@ -62,7 +67,7 @@
 #define MACRO_TEST_EQ(var, should_be) \
 ({\
     if (var != should_be) {\
-        MACRO_PRINT_FILE_LINE(#var " should have been %d but was %-20d\n", should_be, var);\
+        MACRO_TEST_LOG_ERROR(#var " should have been %d but was %d", should_be, var);\
         return -1;\
     }\
 })
@@ -70,7 +75,7 @@
 #define MACRO_TEST_POINTER_EQ(var, should_be) \
 ({\
     if (var != should_be) {\
-        MACRO_PRINT_FILE_LINE(#var " should have been %p but was %-20p\n", (void *)should_be, (void *)var);\
+        MACRO_TEST_LOG_ERROR(#var " should have been %p but was %p", (void *)should_be, (void *)var);\
         return -1;\
     }\
 })
@@ -78,7 +83,7 @@
 #define MACRO_TEST_FLOAT_EQ(var, should_be) \
 ({\
     if (var != (float)should_be) {\
-        MACRO_PRINT_FILE_LINE(#var " should have been %lf but was %-20lf\n", should_be, var);\
+        MACRO_TEST_LOG_ERROR(#var " should have been %lf but was %lf", should_be, var);\
         return -1;\
     }\
 })
@@ -86,7 +91,7 @@
 #define MACRO_TEST_DOUBLE_EQ(var, should_be) \
 ({\
     if (var != (double)should_be) {\
-        MACRO_PRINT_FILE_LINE(#var " should have been %lf but was %-20lf\n", should_be, var);\
+        MACRO_TEST_LOG_ERROR(#var " should have been %lf but was %lf", should_be, var);\
         return -1;\
     }\
 })
@@ -94,7 +99,7 @@
 #define MACRO_TEST_MEM_STR_EQ(var, should_be) \
 ({\
     if (0 != strcmp(var, should_be)) {\
-        MACRO_PRINT_FILE_LINE(#var " should have been %s but was %-20s\n", should_be, var);\
+        MACRO_TEST_LOG_ERROR(#var " should have been %s but was %s", should_be, var);\
         return -1;\
     }\
 })
@@ -102,7 +107,7 @@
 #define MACRO_TEST_STR_EQ(var, should_be) \
 ({\
     if (0 != strcmp(var, should_be)) {\
-        MACRO_PRINT_FILE_LINE(#var " should have been " #should_be " but was %-20s\n", var);\
+        MACRO_TEST_LOG_ERROR(#var " should have been " #should_be " but was %s", var);\
         return -1;\
     }\
 })
@@ -110,7 +115,7 @@
 #define MACRO_TEST_STR_EQ_CLEANUP(var, should_be, cleanup) \
 ({\
     if (0 != strcmp(var, should_be)) {\
-        MACRO_PRINT_FILE_LINE(#var " should have been " #should_be " but was %-20s\n", var);\
+        MACRO_TEST_LOG_ERROR(#var " should have been " #should_be " but was %s", var);\
         cleanup;\
         return -1;\
     }\

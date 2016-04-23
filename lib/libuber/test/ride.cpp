@@ -12,7 +12,7 @@ int test_uber_ride_ride_from_string() {
         ", USA . 43.350000 . -121.350000"
         " - 20.000000 - 85.189499 - 255.568481 / 340.757996"
         " / 1999, TOYOTA, CARMERY, YYZ-998, DBI2J298WEKJNSDF"
-        " / %ld",
+        " / John Snow, 7778884343; 7788990066554433, 05, 06, 978 / %ld",
         timestamp
     );
     // output is slightly different because of floats
@@ -24,7 +24,7 @@ int test_uber_ride_ride_from_string() {
         ", USA . 43.349998 . -121.349998"
         " - 20.000000 - 85.189499 - 255.568481 / 340.757996"
         " / 1999, TOYOTA, CARMERY, YYZ-998, DBI2J298WEKJNSDF"
-        " / %ld",
+        " / John Snow, 7778884343; 7788990066554433, 05, 06, 978 / %ld",
         timestamp
     );
     // Make the ride object
