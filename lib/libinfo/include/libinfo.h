@@ -10,6 +10,10 @@
 #define INFO_LOCATION_DELIM " . "
 #define INFO_LOCATION_DONT_HAVE "n/a"
 
+#define INFO_CREDIT_CARD_MAX 500
+#define INFO_CREDIT_CARD_DELIM " . "
+#define INFO_CREDIT_CARD_DONT_HAVE "n/a"
+
 #define INFO_EARTHS_RADIUS_IN_MILES 3959.0
 
 namespace info {
@@ -18,6 +22,7 @@ namespace info {
     // Classes that are info related
     class address;
     class location;
+    class credit_card;
 };
 
 // An address consists of the country zip etc.
@@ -97,5 +102,27 @@ class info::location : public info::address {
         double lat;
 };
 
-#endif
+// Credit card info
+class info::credit_card {
+    public:
+        // Constuctors and destructors
+        credit_card();
+        credit_card(const credit_card &);
+        credit_card(long long int, short, short, short);
+        ~credit_card();
+        credit_card & operator=(const info::credit_card & copy);
+        // Formats itself as a string
+        // Returns -1 if it failed
+        int credit_card_to_string_readable(char * buffer, int buffer_size);
+        int credit_card_to_string(char * buffer, int buffer_size);
+        // Parses an credit_card from a NULL terminated string
+        // Returns -1 if all fields could not be found
+        int credit_card_from_string(const char *);
+    private:
+        long long int number;
+        short exp_month;
+        short exp_year;
+        short cvc;
+};
 
+#endif
