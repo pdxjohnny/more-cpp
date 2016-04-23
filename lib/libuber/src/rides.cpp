@@ -52,7 +52,7 @@ int uber::rides::print() {
     unsigned int i;
     for (i = 0; i < size(); ++i) {
         this->get(i).ride_to_string_readable(buffer, buffer_length);
-        MACRO_PRINT("Ride #%d\n%s\n", i, buffer);
+        MACRO_PRINT("Ride #%d\n%s\n", i + 1, buffer);
     }
     return EXIT_SUCCESS;
 }

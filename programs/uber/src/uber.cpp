@@ -6,7 +6,7 @@ int user_action(int argc, char ** argv, uber::car *& standard, uber::car *& prem
     bst<int(*)(int, char **, uber::car *&, uber::car *&, uber::car *&, uber::rides &)> commands;
     // Confifure the functions that we can call
     commands["help"] = help;
-    // commands["list_rides"] = list_rides;
+    commands["list_rides"] = list_rides;
     commands["list_cars"] = list_cars;
     commands["add_ride"] = add_ride;
     // commands["add_car"] = add_car;
