@@ -18,6 +18,10 @@
 #define INFO_CREDIT_CARD_DELIM " > "
 #define INFO_CREDIT_CARD_DONT_HAVE "n/a"
 
+#define INFO_CUSTOMER_MAX 700
+#define INFO_CUSTOMER_DELIM " ^ "
+#define INFO_CUSTOMER_DONT_HAVE "n/a"
+
 #define INFO_EARTHS_RADIUS_IN_MILES 3959.0
 
 namespace info {
@@ -26,8 +30,9 @@ namespace info {
     // Classes that are info related
     class address;
     class location;
-    class credit_card;
     class contact;
+    class credit_card;
+    class customer;
 };
 
 // An address consists of the country zip etc.
@@ -149,6 +154,24 @@ class info::credit_card {
         short exp_month;
         short exp_year;
         short cvc;
+};
+
+// Customer info
+class info::customer : public info::contact, public info::credit_card {
+    public:
+        // Constuctors and destructors
+        customer();
+        customer(const customer &);
+        customer(info::contact & contact, info::credit_card & credit_card);
+        ~customer();
+        customer & operator=(const info::customer & copy);
+        // Formats itself as a string
+        // Returns -1 if it failed
+        int customer_to_string_readable(char * buffer, int buffer_size);
+        int customer_to_string(char * buffer, int buffer_size);
+        // Parses an customer from a NULL terminated string
+        // Returns -1 if all fields could not be found
+        int customer_from_string(const char *);
 };
 
 #endif
