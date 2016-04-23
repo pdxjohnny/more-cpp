@@ -10,8 +10,12 @@
 #define INFO_LOCATION_DELIM " . "
 #define INFO_LOCATION_DONT_HAVE "n/a"
 
+#define INFO_CONTACT_MAX 500
+#define INFO_CONTACT_DELIM " < "
+#define INFO_CONTACT_DONT_HAVE "n/a"
+
 #define INFO_CREDIT_CARD_MAX 500
-#define INFO_CREDIT_CARD_DELIM " . "
+#define INFO_CREDIT_CARD_DELIM " > "
 #define INFO_CREDIT_CARD_DONT_HAVE "n/a"
 
 #define INFO_EARTHS_RADIUS_IN_MILES 3959.0
@@ -23,6 +27,7 @@ namespace info {
     class address;
     class location;
     class credit_card;
+    class contact;
 };
 
 // An address consists of the country zip etc.
@@ -100,6 +105,27 @@ class info::location : public info::address {
         // lng lat cordinates
         double lng;
         double lat;
+};
+
+// Concact info
+class info::contact {
+    public:
+        // Constuctors and destructors
+        contact();
+        contact(const contact &);
+        contact(const char * name, long long int phone);
+        ~contact();
+        contact & operator=(const info::contact & copy);
+        // Formats itself as a string
+        // Returns -1 if it failed
+        int contact_to_string_readable(char * buffer, int buffer_size);
+        int contact_to_string(char * buffer, int buffer_size);
+        // Parses an contact from a NULL terminated string
+        // Returns -1 if all fields could not be found
+        int contact_from_string(const char *);
+    private:
+        char * name;
+        long long int phone;
 };
 
 // Credit card info
