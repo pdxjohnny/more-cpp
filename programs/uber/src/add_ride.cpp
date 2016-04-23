@@ -67,8 +67,8 @@ int add_ride(int argc, char ** argv, uber::car *& standard, uber::car *& premium
         MACRO_DELETE_IF_NOT_NULL(found);
         // Add that ride to the rides manager teh key wiith which we add with
         // be the time
-        time_t now = time(NULL);
-        char * timestamp = ctime(&now);
+        time_t treq = ride_to_add.time_requested();
+        char * timestamp = std::ctime(&treq);
         rides[timestamp] = ride_to_add;
         return EXIT_SUCCESS;
     }

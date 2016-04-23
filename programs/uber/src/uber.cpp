@@ -106,7 +106,7 @@ int main(int argc, char ** argv, char ** env) {
     // Load the rides
     rides_fd = open(rides_file, O_RDONLY);
     if (rides_fd > -1) {
-        // rides.load(rides_fd);
+        rides.load(rides_fd);
         close(rides_fd);
     } else {
         MACRO_LOG_ERROR("Could not open \'%s\' file to load rides from", rides_file);

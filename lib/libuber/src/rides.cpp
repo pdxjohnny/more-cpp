@@ -10,7 +10,6 @@ int uber::rides::load(int fd) {
         return -1;
     }
     // For reading from fd
-    int num_read = 0;
     int bytes_read = 0;
     const int buffer_size = 1000;
     char * buffer = new char [buffer_size];
@@ -27,8 +26,8 @@ int uber::rides::load(int fd) {
         // Make a ride out of it
         temp.ride_from_string(buffer);
         // Add the ride to our rides
-        this->get(num_read) = temp;
-        ++num_read;
+        time_t treq = temp.time_requested();
+        this->get(std::ctime(&treq)) = temp;
     } while (bytes_read != 0);
     // Free the buffer
     MACRO_DELETE_ARRAY_IF_NOT_NULL(buffer);

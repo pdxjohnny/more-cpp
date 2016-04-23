@@ -1,3 +1,5 @@
+#include <ctime>
+
 #include <libbst.h>
 #include <libcircle.h>
 #include <libtransport.h>
@@ -50,9 +52,10 @@ public:
     int ride_to_string(char * buffer, int buffer_length);
     // Parse from a string
     int ride_from_string(const char *);
-    // time_t created();
+    // The time that this ride was requested
+    time_t time_requested();
 private:
-    // time_t time_created;
+    time_t timestamp;
 };
 
 // Manages all the rides in a bst
