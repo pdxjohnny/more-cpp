@@ -1,3 +1,8 @@
+/*
+ * John Andersen
+ * File: Test bst
+*/
+
 #include "bst.h"
 
 int main () {

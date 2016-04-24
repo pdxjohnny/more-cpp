@@ -1,3 +1,8 @@
+/*
+ * John Andersen
+ * File: libtransport/src/ride.cpp
+*/
+
 #include "transport.h"
 
 transport::ride::ride() : fare_minimum(0), fare_per_mile(1), fee_booking(0), fee_cancel(0) {}

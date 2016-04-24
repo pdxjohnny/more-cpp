@@ -1,3 +1,8 @@
+/*
+ * John Andersen
+ * File: libtransport/src/trip.cpp
+*/
+
 #include "transport.h"
 
 transport::trip::trip() {}

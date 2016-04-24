@@ -1,3 +1,8 @@
+/*
+ * John Andersen
+ * File: libinfo/test/info.cpp
+*/
+
 #include "info.h"
 
 int main() {

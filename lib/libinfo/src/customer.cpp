@@ -1,3 +1,8 @@
+/*
+ * John Andersen
+ * File: libinfo/src/customer.cpp
+*/
+
 #include "info.h"
 
 info::customer::customer() {}

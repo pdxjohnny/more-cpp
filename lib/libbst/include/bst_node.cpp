@@ -1,3 +1,8 @@
+/*
+ * John Andersen
+ * File: libbst/include/bst.cpp
+*/
+
 #include "libbst.h"
 
 #ifndef BST_NODE_METHODS

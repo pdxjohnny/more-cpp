@@ -1,3 +1,8 @@
+/*
+ * John Andersen
+ * File: libstrings/test/parse.cpp
+*/
+
 #include "strings.h"
 
 int test_string_parse() {

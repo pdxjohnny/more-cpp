@@ -1,3 +1,8 @@
+/*
+ * John Andersen
+ * File: libinfo/src/address.cpp
+*/
+
 #include "info.h"
 
 info::address::address() : zip(0), street(NULL), city(NULL), state_or_province(NULL), country(NULL) {}

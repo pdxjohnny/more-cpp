@@ -1,3 +1,8 @@
+/*
+ * John Andersen
+ * File: libcircle/test/circle.cpp
+*/
+
 #include "circle.h"
 
 class test_circle : public circle {

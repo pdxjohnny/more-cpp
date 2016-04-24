@@ -1,3 +1,8 @@
+/*
+ * John Andersen
+ * File: rbt test
+*/
+
 #include "rbt.h"
 
 int test_rbt_insert_rbt_right() {

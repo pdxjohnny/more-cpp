@@ -1,3 +1,8 @@
+/*
+ * John Andersen
+ * File: libinfo/test/location.cpp
+*/
+
 #include "info.h"
 
 int test_location_lnglat() {

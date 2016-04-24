@@ -1,3 +1,8 @@
+/*
+ * John Andersen
+ * File: libstrings/src/files.cpp
+*/
+
 #include "strings.h"
 
 int strings::readline(int fd, char * buffer, int buffer_size) {

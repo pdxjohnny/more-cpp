@@ -1,3 +1,8 @@
+/*
+ * John Andersen
+ * File: libstrings/src/parse.cpp
+*/
+
 #include "strings.h"
 
 int strings::join_length(char *** src, const char * delim, const char * if_null) {

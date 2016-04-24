@@ -1,3 +1,8 @@
+/*
+ * John Andersen
+ * File: libcircle/src/circle.cpp
+*/
+
 #include <libcircle.h>
 
 circle::circle() : head(this), next(this), prev(this) {}

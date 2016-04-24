@@ -1,3 +1,8 @@
+/*
+ * John Andersen
+ * File: libtransport/src/car.cpp
+*/
+
 #include "transport.h"
 
 transport::car::car() : value_year(0), value_make(NULL), value_model(NULL), value_plate_number(NULL), value_vin(NULL) {}

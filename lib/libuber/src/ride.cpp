@@ -1,3 +1,8 @@
+/*
+ * John Andersen
+ * File: libuber/src/ride.cpp
+*/
+
 #include "uber.h"
 
 uber::ride::ride() {

@@ -1,3 +1,8 @@
+/*
+ * John Andersen
+ * File: libinfo/src/contact.cpp
+*/
+
 #include "info.h"
 
 info::contact::contact() : name(NULL), phone(0) {}

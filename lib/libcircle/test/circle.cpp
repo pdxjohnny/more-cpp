@@ -1,3 +1,8 @@
+/*
+ * John Andersen
+ * File: libcircle/test/circle.cpp
+*/
+
 #include "circle.h"
 
 int main() {

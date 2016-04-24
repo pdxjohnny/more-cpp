@@ -1,3 +1,8 @@
+/*
+ * John Andersen
+ * File: libtrings/test/strings.cpp
+*/
+
 #include "strings.h"
 
 int main() {

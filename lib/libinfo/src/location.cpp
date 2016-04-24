@@ -1,3 +1,8 @@
+/*
+ * John Andersen
+ * File: libinfo/src/location.cpp
+*/
+
 #include "info.h"
 #include <libinfo.h>
 

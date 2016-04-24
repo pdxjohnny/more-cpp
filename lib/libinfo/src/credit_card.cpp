@@ -1,3 +1,8 @@
+/*
+ * John Andersen
+ * File: libinfo/src/credit_card.cpp
+*/
+
 #include "info.h"
 
 info::credit_card::credit_card() : number(0), exp_month(1), exp_year(0), cvc(0) {}

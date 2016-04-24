@@ -1,3 +1,8 @@
+/*
+ * John Andersen
+ * File: libtransport/test/trip.cpp
+*/
+
 #include "transport.h"
 
 int test_trip_distance_in_miles() {
