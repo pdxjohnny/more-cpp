@@ -20,11 +20,14 @@ int uber::rides::load(int fd) {
         // Read in the line
         bytes_read = strings::readline(fd, buffer, buffer_size);
         // If we read nothing then bail
-        if (bytes_read < 0) {
+        if (bytes_read < 1) {
             break;
         }
         // Make a ride out of it
-        temp.ride_from_string(buffer);
+        if (temp.ride_from_string(buffer) != EXIT_SUCCESS) {
+            MACRO_LOG_ERROR("Failed to read in ride \'%s\'", buffer);
+            continue;
+        }
         // Add the ride to our rides
         time_t treq = temp.time_requested();
         this->get(std::ctime(&treq)) = temp;
@@ -35,6 +38,10 @@ int uber::rides::load(int fd) {
 }
 
 int uber::rides::save(int fd) {
+    if (size() < 1) {
+        // No ride to save
+        return -1;
+    }
     const int buffer_length = 1000;
     char buffer[buffer_length];
     unsigned int i;
@@ -47,12 +54,16 @@ int uber::rides::save(int fd) {
 }
 
 int uber::rides::print() {
+    if (size() < 1) {
+        // No ride to list
+        return -1;
+    }
     const int buffer_length = 1000;
     char buffer[buffer_length];
     unsigned int i;
     for (i = 0; i < size(); ++i) {
         this->get(i).ride_to_string_readable(buffer, buffer_length);
-        MACRO_PRINT("Ride #%d\n%s\n", i + 1, buffer);
+        MACRO_PRINT("Ride #%d\n%s\n\n", i + 1, buffer);
     }
     return EXIT_SUCCESS;
 }

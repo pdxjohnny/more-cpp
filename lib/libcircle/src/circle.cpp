@@ -118,10 +118,14 @@ char circle::remove(circle * find_me) {
 }
 
 circle * circle::get(circle * find_me) {
+    return head->find_match(find_me);
+}
+
+circle * circle::find_match(circle * find_me) {
     if (match(find_me)) {
         return this;
     } else if (next != head) {
-        return next->get(find_me);
+        return next->find_match(find_me);
     }
     return NULL;
 }

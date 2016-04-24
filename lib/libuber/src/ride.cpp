@@ -33,8 +33,8 @@ int uber::ride::ride_to_string_readable(char * buffer, int buffer_length) {
     char str_credit_card[str_length];
     credit_card_to_string_readable(str_credit_card, str_length);
     // Format the output
-    sprintf(buffer, "Ride requested at %s\n"
-        "%s"
+    sprintf(buffer, "Ride requested at %s"
+        "%s\n"
         "The car for this ride is a %s.\n"
         "%s will be riding in this car.\n"
         "This is their payment information %s (but dont tell nobody)",

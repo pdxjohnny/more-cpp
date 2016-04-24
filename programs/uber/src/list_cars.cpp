@@ -35,5 +35,5 @@ int list_cars(int argc, char ** argv, uber::car *& standard, uber::car *& premiu
         }
         MACRO_LOG_FATAL("Categories available standard|premium|group, no %s cars are currently available", to_list);
     }
-    MACRO_LOG_FATAL("Add a category to list standard|premium|group%s\n", "");
+    MACRO_LOG_FATAL("Add a category to list standard|premium|group%s", "");
 }

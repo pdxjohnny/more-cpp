@@ -14,8 +14,8 @@ uber::car & uber::car::operator=(const uber::car & copy) {
 
 char uber::car::match(circle * node) {
     uber::car * car_node = dynamic_cast<uber::car *>(node);
-    if (0 == (strcmp(this->make(), car_node->make()) +
-                strcmp(this->model(), car_node->model()))) {
+    if (0 == strcmp(this->make(), car_node->make()) &&
+            0 == strcmp(this->model(), car_node->model())) {
         return 1;
     }
     return 0;
@@ -23,8 +23,8 @@ char uber::car::match(circle * node) {
 
 char uber::car::sort(circle * node) {
     uber::car * car_node = dynamic_cast<uber::car *>(node);
-    if (0 >= (strcmp(this->make(), car_node->make()) +
-                strcmp(this->model(), car_node->model()))) {
+    if (0 >= strcmp(this->make(), car_node->make()) &&
+            0 >= strcmp(this->model(), car_node->model())) {
         return CIRCLE_NEXT;
     }
     return CIRCLE_HERE;

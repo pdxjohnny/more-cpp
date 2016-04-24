@@ -24,6 +24,7 @@ public:
     circle * add_node(circle *);
     // Find a node in the list
     circle * get(circle *);
+    circle * find_match(circle *);
     // Remove a node from the list, get and delete
     char remove(circle *);
     // To make sure that the list is in the order of this array

@@ -12,6 +12,7 @@ int test_uber_car_order();
 int test_uber_car_unique_make_models();
 int test_uber_car_save();
 int test_uber_car_get();
+int test_uber_car_get_not_found();
 int test_uber_car_type_standard();
 int test_uber_car_type_group();
 int test_uber_car_type_premium();
