@@ -13,7 +13,7 @@ transport::ride::ride(
     {
 }
 
-transport::ride::ride(ride & copy) : transport::trip(copy), fare_minimum(0), fare_per_mile(1), fee_booking(0), fee_cancel(0) {}
+transport::ride::ride(ride & copy) : transport::trip(copy), fare_minimum(copy.fare_minimum), fare_per_mile(copy.fare_per_mile), fee_booking(copy.fee_booking), fee_cancel(copy.fee_cancel) {}
 
 transport::ride::~ride() {}
 
