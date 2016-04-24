@@ -164,9 +164,6 @@ data_type & maxheap<data_type>::get( unsigned int num )
 	// Find it
 	unsigned int index = 0;
 	maxheap_node<data_type> * found = get( num, index, root );
-    MACRO_PRINT_FILE_LINE("Found is %p index is %d\n", found, index);
-    if (found)
-        MACRO_PRINT_FILE_LINE("Found is %s\n", found->key());
     return found->value();
 }
 
@@ -365,23 +362,27 @@ maxheap_node<data_type> * maxheap<data_type>::fix_maxheap(maxheap_node<data_type
     fix_maxheap(node->right());
     // Our left is bigger than us
     if (node->left() && 0 >= strcmp(node->key(), node->left()->key())) {
-        maxheap_node<data_type> * tmp = node;
-        node = node->left();
+        // Lower becomes node
+        maxheap_node<data_type> * lower = node->left();
+        maxheap_node<data_type> * tmp = node->right();
         // Whatever was to your right needs to be to your left
-        tmp->right() = node->right();
-        node->right() = tmp->right();
-        tmp->left() = node->left();
-        node->left() = tmp;
+        node->right() = lower->right();
+        node->left() = lower->left();
+        lower->left() = node;
+        lower->right() = tmp;
+        node = lower;
         return NULL;
     // Our right is bigger than us
     } else if (node->right() && 0 >= strcmp(node->key(), node->right()->key())) {
-        maxheap_node<data_type> * tmp = node;
-        node = node->right();
-        // Whatever was to your left need to be to my left
-        tmp->left() = node->left();
-        node->left() = tmp->left();
-        tmp->right() = node->right();
-        node->right() = tmp;
+        // Lower becomes node
+        maxheap_node<data_type> * lower = node->right();
+        maxheap_node<data_type> * tmp = node->left();
+        // Whatever was to your right needs to be to your left
+        node->right() = lower->right();
+        node->left() = lower->left();
+        lower->right() = node;
+        lower->left() = tmp;
+        node = lower;
         return NULL;
     }
 
