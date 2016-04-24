@@ -5,6 +5,7 @@
 
 #include <ctime>
 
+#include <libbst.h>
 #include <libmaxheap.h>
 #include <libcircle.h>
 #include <libtransport.h>
@@ -68,6 +69,7 @@ private:
 };
 
 // Manages all the rides in a maxheap
+// class uber::rides : public bst<uber::ride> {
 class uber::rides : public maxheap<uber::ride> {
 public:
     rides();

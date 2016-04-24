@@ -18,7 +18,6 @@ int test_maxheap_order() {
 
     char barr[20];
     char key[20];
-    MACRO_PRINT_FILE_LINE("Done filling%s\n", "");
     for (i = 0; i <= 20; ++i) {
         sprintf(key, "%020d", i);
         barr[i] = b[key];

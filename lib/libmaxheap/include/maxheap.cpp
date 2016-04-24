@@ -163,7 +163,11 @@ data_type & maxheap<data_type>::get( unsigned int num )
 	}
 	// Find it
 	unsigned int index = 0;
-	return get( num, index, root )->value();
+	maxheap_node<data_type> * found = get( num, index, root );
+    MACRO_PRINT_FILE_LINE("Found is %p index is %d\n", found, index);
+    if (found)
+        MACRO_PRINT_FILE_LINE("Found is %s\n", found->key());
+    return found->value();
 }
 
 
@@ -241,7 +245,7 @@ maxheap_node<data_type> * maxheap<data_type>::get( const char * key, maxheap_nod
 	{
 		return NULL;
 	}
-    MACRO_PRINT_FILE_LINE("root is %p %s, want %s\n", root, root->key(), key);
+
 	// If key return
 	if ( 0 == strcmp( root->key(), key ) )
 	{
@@ -256,6 +260,7 @@ maxheap_node<data_type> * maxheap<data_type>::get( const char * key, maxheap_nod
     if (try_right != NULL) {
         return try_right;
     }
+    return NULL;
 }
 
 
@@ -310,12 +315,6 @@ maxheap_node<data_type> * maxheap<data_type>::insert( const char * key, maxheap_
     // FIXME i know this is wrong but i dont have time to add a parent
     // and it still works
     this->fix_maxheap(root);
-    MACRO_PRINT_FILE_LINE("Root is now %s\n", root->key());
-    if (root->right())
-        MACRO_PRINT_FILE_LINE("root right is %s\n", root->right()->key());
-    if (root->left())
-        MACRO_PRINT_FILE_LINE("root left is %s\n", root->left()->key());
-
     return node;
 }
 
@@ -361,13 +360,6 @@ maxheap_node<data_type> * maxheap<data_type>::fix_maxheap(maxheap_node<data_type
     if (node == NULL) {
         return NULL;
     }
-    /*
-    MACRO_PRINT_FILE_LINE("I am %s\n", node->key());
-    if (node->right())
-        MACRO_PRINT_FILE_LINE("my right is %s\n", node->right()->key());
-    if (node->left())
-        MACRO_PRINT_FILE_LINE("my left is %s\n", node->left()->key());
-    */
     // Make sure our children are who we hoep they are
     fix_maxheap(node->left());
     fix_maxheap(node->right());
@@ -375,7 +367,7 @@ maxheap_node<data_type> * maxheap<data_type>::fix_maxheap(maxheap_node<data_type
     if (node->left() && 0 >= strcmp(node->key(), node->left()->key())) {
         maxheap_node<data_type> * tmp = node;
         node = node->left();
-        // MACRO_PRINT_FILE_LINE("left  swaping %s for %s\n", tmp->key(), node->key());
+        // Whatever was to your right needs to be to your left
         tmp->right() = node->right();
         node->right() = tmp->right();
         tmp->left() = node->left();
@@ -385,7 +377,6 @@ maxheap_node<data_type> * maxheap<data_type>::fix_maxheap(maxheap_node<data_type
     } else if (node->right() && 0 >= strcmp(node->key(), node->right()->key())) {
         maxheap_node<data_type> * tmp = node;
         node = node->right();
-        // MACRO_PRINT_FILE_LINE("right swaping %s for %s\n", tmp->key(), node->key());
         // Whatever was to your left need to be to my left
         tmp->left() = node->left();
         node->left() = tmp->left();
@@ -393,7 +384,7 @@ maxheap_node<data_type> * maxheap<data_type>::fix_maxheap(maxheap_node<data_type
         node->right() = tmp;
         return NULL;
     }
-    // MACRO_PRINT_FILE_LINE("No swap %s\n", node->key());
+
     return NULL;
 }
 
@@ -442,12 +433,6 @@ template <typename data_type>
 int maxheap<data_type>::search_maxheap( const char * key, maxheap_node<data_type> * & node)
 {
 	// Binary search
-    MACRO_PRINT_FILE_LINE("looking for %s, node is %s\n", key, node->key());
-    MACRO_PRINT_FILE_LINE("I am %s\n", node->key());
-    if (node->right())
-        MACRO_PRINT_FILE_LINE("my right is %s\n", node->right()->key());
-    if (node->left())
-        MACRO_PRINT_FILE_LINE("my left is %s\n", node->left()->key());
 	if ( 0 < strcmp( node->key(), key ) )
 	{
         return MAXHEAP_GO_LEFT;

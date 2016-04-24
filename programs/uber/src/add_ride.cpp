@@ -81,12 +81,10 @@ int add_ride(int argc, char ** argv, uber::car *& standard, uber::car *& premium
             if (num_riders < 1.0 || num_riders > 50.0) {
                 MACRO_LOG_FATAL("Either you are riding with no one, 0, or you are riding with less than 51 people, no car hold more than that, you said you were riding with %0.01f people", num_riders - 1.0);
             }
-            MACRO_PRINT_FILE_LINE("The fare will be $%0.02f\n", base_group_fare / num_riders);
             trip_to_add = new transport::ride(0.0, base_group_fare / num_riders, 5.0, 5.0, start, end);
         }
         // Combine the trip and the ride
         uber::ride ride_to_add(*found, *trip_to_add, customer);
-        ride_to_add.save(STDOUT_FILENO);
         // We have no use for these anymore
         MACRO_DELETE_IF_NOT_NULL(trip_to_add);
         MACRO_DELETE_IF_NOT_NULL(found);
