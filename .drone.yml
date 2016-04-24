@@ -1,0 +1,5 @@
+build:
+  image: pdxjohnny/cpp
+  commands:
+    - make -C programs/uber
+    - make -C programs/uber test

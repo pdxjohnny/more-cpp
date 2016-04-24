@@ -1,4 +1,4 @@
-NAME=bst
+NAME=cards
 # Libs in use
 LIB_NAMES=$(notdir $(wildcard deps/*))
 LIB_HEADERS=$(addprefix -I./deps/,$(addsuffix /include/,$(LIB_NAMES)))

@@ -6,7 +6,7 @@ LIBS=$(addprefix ./deps/,$(join $(addsuffix /bin/,$(LIB_NAMES)),$(addsuffix .a,$
 LIB_NAMES_CLEAN=$(addprefix ./clean/,$(LIB_NAMES))
 # Compiler settings
 CC=g++
-CFLAGS=-g -Wall -c -I./include/ $(LIB_HEADERS)
+CFLAGS=-g -fPIC -Wall -c -I./include/ $(LIB_HEADERS)
 LDFLAGS=
 # Build the lib
 CLI_SOURCES=$(wildcard src/*.cpp)
