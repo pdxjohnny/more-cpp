@@ -70,7 +70,7 @@ public:
     // Allows access by key value
     data_type & get( const char * key );
     // Inserts a data of the bst type into the bst
-    data_type & insert( const char * key );
+    virtual data_type & insert( const char * key );
     // Check if key is present
     bool contains( const char * key );
     // Returns the number of elements in the bst

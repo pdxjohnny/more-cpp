@@ -159,7 +159,7 @@ data_type & bst<data_type>::get( unsigned int num )
 	{
 		char key [20];
 		sprintf( key, "%020d", num );
-		return insert( key );
+		return this->insert( key );
 	}
 	// Find it
 	unsigned int index = 0;
@@ -219,7 +219,7 @@ data_type & bst<data_type>::get( const char * key )
 	// Try to get if that doesnt work then insert
 	if ( !get( key, root ) )
 	{
-		return insert( key );
+		return this->insert( key );
 	}
 	return get( key, root )->value();
 }
@@ -267,7 +267,7 @@ bst_node<data_type> * bst<data_type>::get( const char * key, bst_node<data_type>
 template <typename data_type>
 data_type & bst<data_type>::insert( const char * key )
 {
-	return insert( key, root )->value();
+	return this->insert( key, root )->value();
 }
 
 
@@ -282,7 +282,7 @@ data_type & bst<data_type>::insert( const char * key )
 template <typename data_type>
 bst_node<data_type> * bst<data_type>::insert_return_node( const char * key )
 {
-	return insert( key, root );
+	return this->insert( key, root );
 }
 
 
@@ -301,7 +301,7 @@ bst_node<data_type> * bst<data_type>::insert( const char * key, bst_node<data_ty
     bst_node<data_type> * node;
 
     // Insert like normal
-    node = insert_bst(key, root);
+    node = this->insert_bst(key, root);
 
     return node;
 }
@@ -326,9 +326,9 @@ bst_node<data_type> * bst<data_type>::insert_bst( const char * key, bst_node<dat
 	// Binary search
     switch (search_bst(key, node)) {
     case BST_GO_LEFT:
-        return insert_bst( key, node->left());
+        return this->insert_bst( key, node->left());
     case BST_GO_RIGHT:
-        return insert_bst( key, node->right());
+        return this->insert_bst( key, node->right());
     }
     return NULL;
 }

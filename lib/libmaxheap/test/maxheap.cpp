@@ -1,6 +1,6 @@
 /*
  * John Andersen
- * File: maxheap test
+ * File: Test maxheap
 */
 
 #include "maxheap.h"

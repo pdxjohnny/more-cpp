@@ -8,7 +8,7 @@
 int test_maxheap_order() {
     int i;
     char match[20];
-    maxheap<char> b;
+    test_maxheap<char> b;
     for (i = 0; i < 20; ++i) {
         match[i] = (char)(i + 70);
         b[i] = (char)(i + 70);
@@ -17,8 +17,11 @@ int test_maxheap_order() {
     b[20] = '\0';
 
     char barr[20];
+    char key[20];
+    MACRO_PRINT_FILE_LINE("Done filling%s\n", "");
     for (i = 0; i <= 20; ++i) {
-        barr[i] = b[i];
+        sprintf(key, "%020d", i);
+        barr[i] = b[key];
     }
     MACRO_TEST_MEM_STR_EQ(barr, match);
 

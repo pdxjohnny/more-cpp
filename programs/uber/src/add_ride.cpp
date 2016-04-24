@@ -93,7 +93,9 @@ int add_ride(int argc, char ** argv, uber::car *& standard, uber::car *& premium
         // Add that ride to the rides manager teh key wiith which we add with
         // be the time
         time_t treq = ride_to_add.time_requested();
-        char * timestamp = std::ctime(&treq);
+        // We dont want to compare the human readable string
+        char timestamp[21];
+        sprintf(timestamp, "%020ld", treq);
         rides[timestamp] = ride_to_add;
         return EXIT_SUCCESS;
     }

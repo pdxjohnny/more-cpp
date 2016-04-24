@@ -1,6 +1,6 @@
 /*
  * John Andersen
- * File: maxheap test
+ * File: maxheap test func
 */
 
 // Should return 42 to make sure the library works
