@@ -1,6 +1,6 @@
 #include <ctime>
 
-#include <libbst.h>
+#include <libmaxheap.h>
 #include <libcircle.h>
 #include <libtransport.h>
 
@@ -62,8 +62,8 @@ private:
     time_t timestamp;
 };
 
-// Manages all the rides in a bst
-class uber::rides : public bst<uber::ride> {
+// Manages all the rides in a maxheap
+class uber::rides : public maxheap<uber::ride> {
 public:
     rides();
     ~rides();
