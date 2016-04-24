@@ -61,13 +61,14 @@ int add_ride(int argc, char ** argv, uber::car *& standard, uber::car *& premium
         // and end locations for this ride
         if (0 == strcmp(car_category, "standard")) {
             category = standard = (uber::car *)found->bump();
-            trip_to_add = new transport::ride(0.0, 5.0, 2.0, 2.0, 5.0, 5.0, start, end);
+            trip_to_add = new transport::ride(0.0, 5.0, 5.0, 5.0, start, end);
         } else if (0 == strcmp(car_category, "premium")) {
             category = premium = (uber::car *)found->bump();
-            trip_to_add = new transport::ride(0.0, 2.0, 5.0, 5.0, 5.0, 5.0, start, end);
+            // $25 minimum on premium
+            trip_to_add = new transport::ride(25.0, 6.0, 5.0, 5.0, start, end);
         } else if (0 == strcmp(car_category, "group")) {
             category = group = (uber::car *)found->bump();
-            trip_to_add = new transport::ride(0.0, 5.0, 1.0, 1.0, 1.0, 1.0, start, end);
+            trip_to_add = new transport::ride(0.0, 2.5, 5.0, 5.0, start, end);
         }
         // Combine the trip and the ride
         uber::ride ride_to_add(*found, *trip_to_add, customer);

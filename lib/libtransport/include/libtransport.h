@@ -93,7 +93,7 @@ class transport::ride : public transport::trip {
         // Constuctors and destructors
         ride();
         // Initailize with all of fares
-        ride(float, float, float, float, float, float, info::location &, info::location &);
+        ride(float, float, float, float, info::location &, info::location &);
         ride(ride &);
         ride & operator=(const transport::ride & copy);
         virtual ~ride();
@@ -108,11 +108,6 @@ class transport::ride : public transport::trip {
     private:
         // The least a ride can cost for it to be accepted by the driver
         float fare_minimum;
-        // Base fare is like the drivers booking fee, it gets added on to the
-        // cost of the trip
-        float fare_base;
-        // The cost per minute of the ride
-        float fare_per_minute;
         // The cost per mile of the ride
         float fare_per_mile;
         // Fee associated with booking
