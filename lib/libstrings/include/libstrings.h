@@ -1,3 +1,8 @@
+/*
+ * John Andersen
+ * File: libstrings/include/libstrings.h
+*/
+
 #ifndef LIBSTRINGS
 
 #define LIBSTRINGS

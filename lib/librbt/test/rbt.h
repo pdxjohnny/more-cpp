@@ -1,3 +1,8 @@
+/*
+ * John Andersen
+ * File: librbt
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

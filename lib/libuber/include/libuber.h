@@ -1,3 +1,8 @@
+/*
+ * John Andersen
+ * File: libuber/include/libuber.h
+*/
+
 #include <ctime>
 
 #include <libmaxheap.h>

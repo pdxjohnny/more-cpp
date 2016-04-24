@@ -1,3 +1,8 @@
+/*
+ * John Andersen
+ * File: libinfo/test/info.h
+*/
+
 #include <cstdlib>
 #include <cstring>
 #include <stdint.h>

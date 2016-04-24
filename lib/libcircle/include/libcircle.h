@@ -1,3 +1,8 @@
+/*
+ * John Andersen
+ * File: libcircle/include/circle.h
+*/
+
 #include <cstdlib>
 
 #include <libmacro.h>

@@ -1,3 +1,8 @@
+/*
+ * John Andersen
+ * File: libstrings/test/strings.h
+*/
+
 #include <cstdlib>
 #include <cstring>
 #include <stdint.h>

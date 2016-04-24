@@ -1,3 +1,8 @@
+/*
+ * John Andersen
+ * File: libinfo/src/info.h
+*/
+
 #include <cstdlib>
 #include <cstring>
 #include <cmath>

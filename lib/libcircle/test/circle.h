@@ -1,3 +1,8 @@
+/*
+ * John Andersen
+ * File: libcircle/test/circle.h
+*/
+
 #include <cstdlib>
 #include <cstring>
 #include <stdint.h>

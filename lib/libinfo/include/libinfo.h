@@ -1,3 +1,8 @@
+/*
+ * John Andersen
+ * File: libinfo/include/libinfo.h
+*/
+
 #ifndef LIBINFO
 
 #define LIBINFO

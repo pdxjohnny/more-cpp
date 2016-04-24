@@ -1,3 +1,8 @@
+/*
+ * John Andersen
+ * File: libtransport/include/libtransport.h
+*/
+
 #include <libinfo.h>
 
 #ifndef LIBTRANSPORT
