@@ -9,6 +9,5 @@
 #include <cerrno>
 
 #include <libmacro.h>
-#include <libstrings.h>
 
 #include <libcards.h>
