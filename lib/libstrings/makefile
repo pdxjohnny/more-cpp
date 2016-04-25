@@ -21,14 +21,14 @@ TEST_SOURCES=$(wildcard test/*.cpp)
 TEST_OBJECTS=$(addprefix obj/test/,$(notdir $(TEST_SOURCES:.cpp=.o)))
 TEST=bin/$(NAME)-test
 
-all: $(LIB_NAMES) $(LIB_SOURCES) $(LIB) $(TEST_SOURCES) $(TEST) $(TAR)
+all: $(LIB_NAMES) $(LIB_SOURCES) $(LIB) $(TEST_SOURCES) $(TEST)
 
 $(LIB_NAMES):
 	@$(foreach dep,$(addprefix ./deps/,$@),$(MAKE) -C $(dep))
 
-$(TAR): $(LIB)
+tar: $(LIB)
 	@tar --transform 's,include/,usr/include/,' \
-		--transform 's,bin/,usr/lib/,' -czf $@ $(LIB) $(HEADERS)
+		--transform 's,bin/,usr/lib/,' -czf $(TAR) $(LIB) $(HEADERS)
 
 # Build the lib
 $(LIB): $(LIB_OBJECTS) $(LIB_NAMES)

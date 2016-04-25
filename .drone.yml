@@ -1,5 +1,5 @@
 build:
-  image: pdxjohnny/cpp
+  image: gcc
   commands:
     - make -C programs/uber
     - make -C programs/uber test

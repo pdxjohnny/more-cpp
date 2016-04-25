@@ -19,7 +19,7 @@ TEST_SOURCES=$(wildcard test/*.cpp)
 TEST_OBJECTS=$(addprefix obj/test/,$(notdir $(TEST_SOURCES:.cpp=.o)))
 TEST=bin/$(NAME)-test
 
-all: $(LIB_NAMES) $(CLI_SOURCES) $(CLI) $(TEST_SOURCES) $(TEST) $(TAR)
+all: $(LIB_NAMES) $(CLI_SOURCES) $(CLI) $(TEST_SOURCES) $(TEST)
 
 $(LIB_NAMES):
 	@# Make them all
@@ -49,7 +49,7 @@ $(CLI): $(CLI_OBJECTS)
 	@mkdir -p bin
 	$(CC) $(CLI_OBJECTS) $(LIBS) $(LDFLAGS) -o $@
 
-$(TAR):
+tar:
 	@tar --transform 's,^/,uber,' --dereference --exclude='*/bin/*' \
 		--exclude='*/obj/*' -czf $@ .
 

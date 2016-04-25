@@ -16,14 +16,14 @@ LIB=bin/lib$(NAME).a
 TAR=bin/lib$(NAME).tar.gz
 HEADERS=$(wildcard include/*.h)
 
-all: $(LIB_NAMES) $(LIB_SOURCES) $(LIB) $(TAR)
+all: $(LIB_NAMES) $(LIB_SOURCES) $(LIB)
 
 $(LIB_NAMES):
 	@$(foreach dep,$(addprefix ./deps/,$@),$(MAKE) -C $(dep))
 
-$(TAR): $(LIB)
+tar: $(LIB)
 	@tar --transform 's,include/,usr/include/,' \
-		--transform 's,bin/,usr/lib/,' -czf $@ $(LIB) $(HEADERS)
+		--transform 's,bin/,usr/lib/,' -czf $(TAR) $(LIB) $(HEADERS)
 
 # Build the lib
 $(LIB): $(LIB_OBJECTS) $(LIB_NAMES)
