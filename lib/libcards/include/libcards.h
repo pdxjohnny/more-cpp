@@ -3,6 +3,9 @@
  * File: libcards/include/libcards.h
 */
 
+// No card games name is longer than this
+#define CARDS_MAX_GAME_NAME_SIZE 100
+
 // namespace cards provides card games and their abstract base class the card
 // game. You can play the games that are here or create your own game by
 // deriving from cards::game
@@ -17,6 +20,11 @@ namespace cards {
     // Methods to play and manage card games
     // Plays a card game
     void play(cards::game &);
+    // Returns an instance of the game requested by the string
+    cards::game * game_from_string(char * game_name);
+
+    // Various card games that this library has already implemented
+    class solitare;
 };
 
 // cards::hand is a hand of cards. A hand is the cards the player is holding.
@@ -65,4 +73,9 @@ class cards::deck {
 // there for a card game is a deck plus whatever you to to the deck to play the
 // game
 class cards::game : public cards::deck {
+};
+
+// This is the game of solitare
+#define CARDS_GAME_SOLITARE "solitare"
+class cards::solitare : public cards::game {
 };

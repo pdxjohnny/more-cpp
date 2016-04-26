@@ -10,3 +10,4 @@
 
 #include <libmacro.h>
 #include <libuser.h>
+int test_user_base_output();

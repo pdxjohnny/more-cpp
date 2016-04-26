@@ -5,4 +5,6 @@
 
 #include <cstdlib>
 
+#include <libmacro.h>
+
 #include <libcards.h>
