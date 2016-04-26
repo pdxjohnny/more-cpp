@@ -10,4 +10,5 @@
 
 #include <libmacro.h>
 #include <libuser.h>
-int test_user_base_output();
+int test_user_ibasic_output();
+int test_user_obasic_output();
