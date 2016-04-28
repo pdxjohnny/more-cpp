@@ -3,20 +3,20 @@
 	Date: 02/19/2015
 	Description: Binary Tree
 */
-#include "libbst.h"
+#include "liblll.h"
 
-#ifndef BST_METHODS
-#define BST_METHODS
+#ifndef LLL_METHODS
+#define LLL_METHODS
 
 /*
-	Class: bst
+	Class: lll
 	Method: Constructor
 	Use: Initialises data members
 	Input: None
 	Output: None
 */
 template <typename data_type>
-bst<data_type>::bst()
+lll<data_type>::lll()
 {
 	init();
 }
@@ -24,14 +24,14 @@ bst<data_type>::bst()
 
 
 /*
-	Class: bst
+	Class: lll
 	Method: Destructor
 	Use: Deallocates all nodes
 	Input: None
 	Output: None
 */
 template <typename data_type>
-bst<data_type>::~bst()
+lll<data_type>::~lll()
 {
 	destroy();
 }
@@ -39,46 +39,46 @@ bst<data_type>::~bst()
 
 
 /*
-	Class: bst
+	Class: lll
 	Method: init
 	Use: Initialises data members
 	Input: None
 	Output: None
 */
 template <typename data_type>
-void bst<data_type>::init( void )
+void lll<data_type>::init( void )
 {
 	root = NULL;
-	in_bst = 0;
+	in_lll = 0;
 }
 
 
 
 /*
-	Class: bst
+	Class: lll
 	Method: destroy
 	Use: Deallocates all nodes
 	Input: None
 	Output: None
 */
 template <typename data_type>
-void bst<data_type>::destroy( void )
+void lll<data_type>::destroy( void )
 {
 	destroy( root );
-	in_bst = 0;
+	in_lll = 0;
 }
 
 
 
 /*
-	Class: bst
+	Class: lll
 	Method: destroy
 	Use: Deallocates all nodes recursivly
-	Input: Root of bst
+	Input: Root of lll
 	Output: None
 */
 template <typename data_type>
-void bst<data_type>::destroy( bst_node<data_type> * & root )
+void lll<data_type>::destroy( lll_node<data_type> * & root )
 {
 	if ( !root )
 		return;
@@ -94,14 +94,14 @@ void bst<data_type>::destroy( bst_node<data_type> * & root )
 
 
 /*
-	Class: bst
+	Class: lll
 	Method: operator []
-	Use: Access values as if the bst was a sorted array
+	Use: Access values as if the lll was a sorted array
 	Input: Index of item
 	Output: Value of node found
 */
 template <typename data_type>
-data_type & bst<data_type>::operator [] ( unsigned int num )
+data_type & lll<data_type>::operator [] ( unsigned int num )
 {
 	return get( num );
 }
@@ -109,14 +109,14 @@ data_type & bst<data_type>::operator [] ( unsigned int num )
 
 
 /*
-	Class: bst
+	Class: lll
 	Method: operator []
-	Use: Gets a key in the bst
+	Use: Gets a key in the lll
 	Input: Key to search for
 	Output: Value of node found
 */
 template <typename data_type>
-data_type & bst<data_type>::operator [] ( const char * key )
+data_type & lll<data_type>::operator [] ( const char * key )
 {
 	return get( key );
 }
@@ -124,17 +124,17 @@ data_type & bst<data_type>::operator [] ( const char * key )
 
 
 /*
-	Class: bst
+	Class: lll
 	Method: key
-	Use: Access keys as if the bst was a sorted array
+	Use: Access keys as if the lll was a sorted array
 	Input: Index of key
 	Output: Key of node found
 */
 template <typename data_type>
-char * bst<data_type>::key( unsigned int num )
+char * lll<data_type>::key( unsigned int num )
 {
-	// It cant be in the bst if its bigger than the number of item sin it
-	if ( in_bst <= num )
+	// It cant be in the lll if its bigger than the number of item sin it
+	if ( in_lll <= num )
 	{
 		return NULL;
 	}
@@ -145,17 +145,17 @@ char * bst<data_type>::key( unsigned int num )
 
 
 /*
-	Class: bst
+	Class: lll
 	Method: get
-	Use: Access values as if the bst was a sorted array
+	Use: Access values as if the lll was a sorted array
 	Input: Index of item
 	Output: Value of node found
 */
 template <typename data_type>
-data_type & bst<data_type>::get( unsigned int num )
+data_type & lll<data_type>::get( unsigned int num )
 {
 	// It wont be found so create it
-	if ( in_bst <= num )
+	if ( in_lll <= num )
 	{
 		char key [20];
 		sprintf( key, "%020d", num );
@@ -169,19 +169,19 @@ data_type & bst<data_type>::get( unsigned int num )
 
 
 /*
-	Class: bst
+	Class: lll
 	Method: get
-	Use: Access nodes as if the bst was a sorted array
-	Input: Index of item to find, current index, and root of the bst
+	Use: Access nodes as if the lll was a sorted array
+	Input: Index of item to find, current index, and root of the lll
 	Output: Node found
 */
 template <typename data_type>
-bst_node<data_type> * bst<data_type>::get( unsigned int & num, unsigned int & index, bst_node<data_type> * root )
+lll_node<data_type> * lll<data_type>::get( unsigned int & num, unsigned int & index, lll_node<data_type> * root )
 {
 	if ( !root )
 		return NULL;
 	// To see if one of the sides found it
-	bst_node<data_type> * found = NULL;
+	lll_node<data_type> * found = NULL;
 	// Look of the index on the left, that will be index 0 if its the leftmost node
 	found = get( num, index, root->left() );
 	if ( found )
@@ -207,14 +207,14 @@ bst_node<data_type> * bst<data_type>::get( unsigned int & num, unsigned int & in
 
 
 /*
-	Class: bst
+	Class: lll
 	Method: get
-	Use: Finds the value of a key in the bst
+	Use: Finds the value of a key in the lll
 	Input: Key to search for
 	Output: Value of node found
 */
 template <typename data_type>
-data_type & bst<data_type>::get( const char * key )
+data_type & lll<data_type>::get( const char * key )
 {
 	// Try to get if that doesnt work then insert
 	if ( !get( key, root ) )
@@ -227,14 +227,14 @@ data_type & bst<data_type>::get( const char * key )
 
 
 /*
-	Class: bst
+	Class: lll
 	Method: get
-	Use: Finds a node coresponding to a key in the bst
-	Input: Key to search for and root of the bst
+	Use: Finds a node coresponding to a key in the lll
+	Input: Key to search for and root of the lll
 	Output: Node found
 */
 template <typename data_type>
-bst_node<data_type> * bst<data_type>::get( const char * key, bst_node<data_type> * root )
+lll_node<data_type> * lll<data_type>::get( const char * key, lll_node<data_type> * root )
 {
 	// Look for the key this si a simple binary search algoritham
 	if ( !root )
@@ -258,14 +258,14 @@ bst_node<data_type> * bst<data_type>::get( const char * key, bst_node<data_type>
 
 
 /*
-	Class: bst
+	Class: lll
 	Method: insert
-	Use: Inserts a node into the bst
+	Use: Inserts a node into the lll
 	Input: Key to insert
 	Output: Values of the inserted node
 */
 template <typename data_type>
-data_type & bst<data_type>::insert( const char * key )
+data_type & lll<data_type>::insert( const char * key )
 {
 	return this->insert( key, root )->value();
 }
@@ -273,14 +273,14 @@ data_type & bst<data_type>::insert( const char * key )
 
 
 /*
-	Class: bst
+	Class: lll
 	Method: insert
-	Use: Inserts a node into the bst
+	Use: Inserts a node into the lll
 	Input: Key to insert
 	Output: Values of the inserted node
 */
 template <typename data_type>
-bst_node<data_type> * bst<data_type>::insert_return_node( const char * key )
+lll_node<data_type> * lll<data_type>::insert_return_node( const char * key )
 {
 	return this->insert( key, root );
 }
@@ -288,20 +288,20 @@ bst_node<data_type> * bst<data_type>::insert_return_node( const char * key )
 
 
 /*
-	Class: bst
-	Method: insert_bst
+	Class: lll
+	Method: insert_lll
 	Use: Fixes problems with the red black tree to make sure it conforms to the rules
-	Input: Key to insert and the root of the bst
+	Input: Key to insert and the root of the lll
 	Output: Node inserted
 */
 template <typename data_type>
-bst_node<data_type> * bst<data_type>::insert( const char * key, bst_node<data_type> * & root)
+lll_node<data_type> * lll<data_type>::insert( const char * key, lll_node<data_type> * & root)
 {
     // Save the node because fixing the tree may fuck it up
-    bst_node<data_type> * node;
+    lll_node<data_type> * node;
 
     // Insert like normal
-    node = this->insert_bst(key, root);
+    node = this->insert_lll(key, root);
 
     return node;
 }
@@ -309,14 +309,14 @@ bst_node<data_type> * bst<data_type>::insert( const char * key, bst_node<data_ty
 
 
 /*
-	Class: bst
-	Method: insert_bst
-	Use: Inserts a node into the bst as if it was a bst
-	Input: Key to insert and the root of the bst
+	Class: lll
+	Method: insert_lll
+	Use: Inserts a node into the lll as if it was a lll
+	Input: Key to insert and the root of the lll
 	Output: Node inserted
 */
 template <typename data_type>
-bst_node<data_type> * bst<data_type>::insert_bst( const char * key, bst_node<data_type> * & node)
+lll_node<data_type> * lll<data_type>::insert_lll( const char * key, lll_node<data_type> * & node)
 {
     // Insert like normal
 	if (!node)
@@ -324,11 +324,11 @@ bst_node<data_type> * bst<data_type>::insert_bst( const char * key, bst_node<dat
 		return create_node(key, node);
 	}
 	// Binary search
-    switch (search_bst(key, node)) {
-    case BST_GO_LEFT:
-        return this->insert_bst( key, node->left());
-    case BST_GO_RIGHT:
-        return this->insert_bst( key, node->right());
+    switch (search_lll(key, node)) {
+    case LLL_GO_LEFT:
+        return this->insert_lll( key, node->left());
+    case LLL_GO_RIGHT:
+        return this->insert_lll( key, node->right());
     }
     return NULL;
 }
@@ -336,17 +336,17 @@ bst_node<data_type> * bst<data_type>::insert_bst( const char * key, bst_node<dat
 
 
 /*
-	Class: bst
+	Class: lll
 	Method: create_node
-	Use: Inserts a node into the bst as if it was a bst
-	Input: Key to insert and the root of the bst
+	Use: Inserts a node into the lll as if it was a lll
+	Input: Key to insert and the root of the lll
 	Output: Node inserted
 */
 template <typename data_type>
-bst_node<data_type> * bst<data_type>::create_node( const char * key, bst_node<data_type> * & node)
+lll_node<data_type> * lll<data_type>::create_node( const char * key, lll_node<data_type> * & node)
 {
     node_added();
-    node = new bst_node<data_type>(key);
+    node = new lll_node<data_type>(key);
     return node;
 }
 
@@ -354,49 +354,49 @@ bst_node<data_type> * bst<data_type>::create_node( const char * key, bst_node<da
 
 
 /*
-	Class: bst
+	Class: lll
 	Method: node_added
-	Use: Inserts a node into the bst as if it was a bst
-	Input: Key to insert and the root of the bst
+	Use: Inserts a node into the lll as if it was a lll
+	Input: Key to insert and the root of the lll
 	Output: Node inserted
 */
 template <typename data_type>
-int bst<data_type>::node_added() {
-    return ++in_bst;
+int lll<data_type>::node_added() {
+    return ++in_lll;
 }
 
 
 
 /*
-	Class: bst
-	Method: insert_bst
-	Use: Inserts a node into the bst as if it was a bst
-	Input: Key to insert and the root of the bst
+	Class: lll
+	Method: insert_lll
+	Use: Inserts a node into the lll as if it was a lll
+	Input: Key to insert and the root of the lll
 	Output: Node inserted
 */
 template <typename data_type>
-int bst<data_type>::search_bst( const char * key, bst_node<data_type> * & node)
+int lll<data_type>::search_lll( const char * key, lll_node<data_type> * & node)
 {
 	// Binary search
 	if ( 0 < strcmp( node->key(), key ) )
 	{
-        return BST_GO_LEFT;
+        return LLL_GO_LEFT;
 	}
-    return BST_GO_RIGHT;
+    return LLL_GO_RIGHT;
 }
 
 
 
 /*
-	Class: bst
+	Class: lll
 	Method: contains
-	Use: Checks if a key is in the bst
+	Use: Checks if a key is in the lll
 	Input: Key to search for
 	Output: True or false that is set due to a not found being
 		NULL and a found being the pointer so true
 */
 template <typename data_type>
-bool bst<data_type>::contains( const char * key )
+bool lll<data_type>::contains( const char * key )
 {
 	return get( key, root );
 }
@@ -404,35 +404,35 @@ bool bst<data_type>::contains( const char * key )
 
 
 /*
-	Class: bst
+	Class: lll
 	Method: size
-	Use: How many items are in the bst
+	Use: How many items are in the lll
 	Input: None
-	Output: Number of nodes in the bst
+	Output: Number of nodes in the lll
 */
 template <typename data_type>
-unsigned int bst<data_type>::size( void )
+unsigned int lll<data_type>::size( void )
 {
-	return in_bst;
+	return in_lll;
 }
 
 
 /*
-	Class: bst
+	Class: lll
 	Method: all
-	Use: Creates an array to access bst values
+	Use: Creates an array to access lll values
 	Input: None
 	Output: An array whos members a pointers to the values of nodes
-		this allows a client to eficently opperate on the bst as if
+		this allows a client to eficently opperate on the lll as if
 		it were a sorted array without the need to find the thoretical
 		position every time the subscript operator is used
 */
 template <typename data_type>
-data_type ** bst<data_type>::all( void )
+data_type ** lll<data_type>::all( void )
 {
 	// More indexing, see get ( unsigned int num ) for explination of how this works
 	unsigned int index = 0;
-	data_type ** array = new data_type * [ in_bst ];
+	data_type ** array = new data_type * [ in_lll ];
 	all( index, array, root );
 	return array;
 }
@@ -440,14 +440,14 @@ data_type ** bst<data_type>::all( void )
 
 
 /*
-	Class: bst
+	Class: lll
 	Method: all
 	Use: Fills an array with the pointers to node values
 	Input: Current index, array to fill, and pointer to root
 	Output: None
 */
 template <typename data_type>
-void bst<data_type>::all( unsigned int & index , data_type ** array, bst_node<data_type> * root )
+void lll<data_type>::all( unsigned int & index , data_type ** array, lll_node<data_type> * root )
 {
 	// More indexing, see get ( unsigned int num ) for explination of how this works
 	if ( !root )
@@ -462,37 +462,37 @@ void bst<data_type>::all( unsigned int & index , data_type ** array, bst_node<da
 
 
 /*
-	Class: bst
+	Class: lll
 	Method: keys
-	Use: Creates an array to access bst keys
+	Use: Creates an array to access lll keys
 	Input: None
 	Output: An array whos members a pointers to the keys of nodes
-		this allows a client to eficently opperate on the bst as if
+		this allows a client to eficently opperate on the lll as if
 		it were a sorted array without the need to find the thoretical
 		position every time the subscript operator is used
 */
 template <typename data_type>
-char *** bst<data_type>::keys( void )
+char *** lll<data_type>::keys( void )
 {
 	// More indexing, see get ( unsigned int num ) for explination of how this works
 	unsigned int index = 0;
-	char *** array = new char ** [in_bst + 1];
+	char *** array = new char ** [in_lll + 1];
 	keys( index, array, root );
-    array[in_bst] = NULL;
+    array[in_lll] = NULL;
 	return array;
 }
 
 
 
 /*
-	Class: bst
+	Class: lll
 	Method: keys
 	Use: Fills an array with the pointers to node keys
 	Input: Current index, array to fill, and pointer to root
 	Output: None
 */
 template <typename data_type>
-void bst<data_type>::keys( unsigned int & index , char *** array, bst_node<data_type> * root )
+void lll<data_type>::keys( unsigned int & index , char *** array, lll_node<data_type> * root )
 {
 	// More indexing, see get ( unsigned int num ) for explination of how this works
 	if ( !root ) {
@@ -512,14 +512,14 @@ void bst<data_type>::keys( unsigned int & index , char *** array, bst_node<data_
 
 
 /*
-	Class: bst
+	Class: lll
 	Method: remove
-	Use: Removes a node from the bst
+	Use: Removes a node from the lll
 	Input: Key to remove
 	Output: 1 for removed 0 for not	found
 */
 template <typename data_type>
-bool bst<data_type>::remove( const char * key )
+bool lll<data_type>::remove( const char * key )
 {
 	return remove( key, root );
 }
@@ -527,14 +527,14 @@ bool bst<data_type>::remove( const char * key )
 
 
 /*
-	Class: bst
+	Class: lll
 	Method: remove
-	Use: Removes a node from the bst
-	Input: Key of node to remove and root of bst
+	Use: Removes a node from the lll
+	Input: Key of node to remove and root of lll
 	Output: 1 for removed 0 for not	found
 */
 template <typename data_type>
-bool bst<data_type>::remove( const char * key, bst_node<data_type> * & root )
+bool lll<data_type>::remove( const char * key, lll_node<data_type> * & root )
 {
 	if ( !root )
 	{
@@ -543,7 +543,7 @@ bool bst<data_type>::remove( const char * key, bst_node<data_type> * & root )
 	if ( 0 == strcmp( root->key(), key ) )
 	{
 		// We know we are goiong to delete root
-		bst_node<data_type> * del = root;
+		lll_node<data_type> * del = root;
 		// If its a leaf then no problem delete
 		if ( !root->left() && !root->right() )
 		{
@@ -563,9 +563,9 @@ bool bst<data_type>::remove( const char * key, bst_node<data_type> * & root )
 		else
 		{
 			// Find inorder successor
-			bst_node<data_type> * successor = NULL;
-			bst_node<data_type> * parent = NULL;
-			// Find the inorder successor to the bst_node
+			lll_node<data_type> * successor = NULL;
+			lll_node<data_type> * parent = NULL;
+			// Find the inorder successor to the lll_node
 			successor = inorder( root, parent );
 			// Set the left of the parent of the inorder
 			// to the inorder's right, it will have no left
@@ -580,7 +580,7 @@ bool bst<data_type>::remove( const char * key, bst_node<data_type> * & root )
 		}
 		// Delete
 		delete del;
-		--in_bst;
+		--in_lll;
 		return true;
 	}
 	// Binary search
@@ -594,15 +594,15 @@ bool bst<data_type>::remove( const char * key, bst_node<data_type> * & root )
 
 
 /*
-	Class: bst
+	Class: lll
 	Method: inorder
-	Use: Finds the inorder successor to a node in the bst
+	Use: Finds the inorder successor to a node in the lll
 	Input: The node whose inorder successor is being found
 		and the node which will point to the parent of the successor 
 	Output: The successor and the parent of the successor is also set
 */
 template <typename data_type>
-bst_node<data_type> * bst<data_type>::inorder( bst_node<data_type> * root, bst_node<data_type> * & parent )
+lll_node<data_type> * lll<data_type>::inorder( lll_node<data_type> * root, lll_node<data_type> * & parent )
 {
 	// Goes right then all the way left and returns
 	if ( !root )

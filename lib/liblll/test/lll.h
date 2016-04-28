@@ -1,6 +1,6 @@
 /*
  * John Andersen
- * File: libbst/test/0_order.cpp
+ * File: liblll/test/0_order.cpp
 */
 
 #include <stdio.h>
@@ -11,21 +11,20 @@
 #include <time.h>
 
 #include <libmacro.h>
-#include <libbst.h>
+#include <liblll.h>
 
 template <typename dt>
-class test_bst: public bst<dt> {
+class test_lll: public lll<dt> {
 /*
  * This is left as an example of how to provide custom search functions
  */
 /*
 protected:
-    int search_bst(char * key, bst_node<dt> * & root) {
+    int search_lll(char * key, lll_node<dt> * & root) {
         MACRO_PRINT_FILE_LINE("Searching for %s\n", key);
-        return bst<dt>::search_bst(key, root);
+        return lll<dt>::search_lll(key, root);
     };
 */
 };
 
 
-int test_bst_order();

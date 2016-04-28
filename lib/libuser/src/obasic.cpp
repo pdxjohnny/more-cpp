@@ -4,6 +4,6 @@
 */
 #include <libuser.h>
 
-user::obasic::obasic() : std::ios(0), std::ostream(&obasic_stream_instance) {}
+user::obasic::obasic() : std::ios(0), std::iostream(&obasic_stream_instance) {}
 
 user::obasic::~obasic() {}
