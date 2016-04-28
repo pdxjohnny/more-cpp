@@ -49,22 +49,6 @@ class lll_node_basic {
         lll_node_basic * next;
 };
 
-/*
-    Struct: lll_node_data is just an lll node that holds some templated data
-*/
-template <typename data_type>
-class lll_node : public lll_node_basic {
-    public:
-        // Constructors and Destructors
-        lll_node<data_type>();
-        ~lll_node<data_type>();
-        // Return the value we are managing
-        data_type & value();
-    private:
-        // The data we are holding
-        data_type data_value;
-};
-
 
 /*
  * lll_basic is a basic linked list
@@ -90,6 +74,22 @@ class lll_basic {
         unsigned int contains;
 };
 
+/*
+ * lll_node is just an lll_node_basic that holds some templated data
+*/
+template <typename data_type>
+class lll_node : public lll_node_basic {
+    public:
+        // Constructors and Destructors
+        lll_node<data_type>();
+        ~lll_node<data_type>();
+        // Return the value we are managing
+        data_type & value();
+    private:
+        // The data we are holding
+        data_type data_value;
+};
+
 
 /*
  * A liniar linked list
@@ -100,19 +100,14 @@ class lll : public lll_basic {
         // Constructor and deconstructor
         lll<data_type>();
         ~lll<data_type>();
-        // Deallocates the lll
-        void remove_all();
         // Allows access by key value
         data_type & operator [] (unsigned int index);
-        data_type & get(unsigned int index);
-        // Returns the number of elements in the lll
-        unsigned int size();
-        bool remove(unsigned int index);
+    protected:
+        // So the lll_basic can access our head
+        lll_node<data_type> *& head();
     private:
         // Head of the lll
-        lll_node<data_type> * head;
-        // Number of nodes in the lll
-        unsigned int contains;
+        lll_node<data_type> * head_value;
 };
 
 

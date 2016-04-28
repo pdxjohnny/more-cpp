@@ -43,7 +43,7 @@ lll_node_basic * lll_basic::get(unsigned int index) {
         return NULL;
     }
     // If they want the frist one then return head
-    if (index == 0) {
+    if (index == 0U) {
         return head_ptr;
     }
     // Otherwise let the nodes deal with it
@@ -60,7 +60,7 @@ bool lll_basic::remove(unsigned int index) {
         return false;
     }
     // If they want the frist one then remove the head
-    if (index == 0) {
+    if (index == 0U) {
         head_ptr->remove_self(head());
         return true;
     }
