@@ -18,3 +18,5 @@ int test_lll_node_basic_remove_increasing();
 int test_lll_node_basic_remove_decreasing();
 int test_lll_node_basic_remove_all();
 int test_lll_node_basic_remove_self();
+int test_lll_node_basic_get_index0();
+int test_lll_node_basic_get();

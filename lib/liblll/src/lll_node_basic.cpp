@@ -28,7 +28,7 @@ lll_node_basic * lll_node_basic::get(unsigned int index) {
     // If someone wanted to get index 0 they would have just used this node
     // We pass 1 so that if they requested to get index one then we will
     // get the one after us
-    unsigned int start = 1;
+    unsigned int start = 0;
     return this->get_count(index, start);
 }
 
@@ -36,14 +36,14 @@ lll_node_basic * lll_node_basic::get(unsigned int index) {
  * Attempts to get a node at the given index and counts along the way
  */
 lll_node_basic * lll_node_basic::get_count(unsigned int & index, unsigned int & curr) {
+    // If we are on the index we wish to get then return ourself
+    if (index == curr) {
+        return this;
+    }
     // We want to get the next one but we cant because there is
     // nothing to get
     if (this->next == NULL) {
         return NULL;
-    }
-    // If we are on the index we wish to get then return ourself
-    if (index == curr) {
-        return this;
     }
     return this->next->get_count(index, ++curr);
 }

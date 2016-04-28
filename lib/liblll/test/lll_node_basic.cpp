@@ -57,3 +57,17 @@ int test_lll_node_basic_remove_self() {
     MACRO_TEST_POINTER_EQ(head, NULL);
     return EXIT_SUCCESS;
 }
+
+int test_lll_node_basic_get_index0() {
+    lnb head;
+    MACRO_TEST_POINTER_EQ(head.get(0), &head);
+    return EXIT_SUCCESS;
+}
+
+int test_lll_node_basic_get() {
+    lnb head;
+    lnb * a = head.add();
+    MACRO_TEST_POINTER_EQ(head.get(1), a);
+    MACRO_TEST_EQ(head.remove_all(), 1);
+    return EXIT_SUCCESS;
+}
