@@ -1,8 +1,5 @@
 #include "liblll.h"
 
-#ifndef LIBLLL_LLL_NODE_BAISC_METHODS
-#define LIBLLL_LLL_NODE_BAISC_METHODS 1
-
 /*
  * Constructor for lll_node_basic
  */
@@ -22,6 +19,33 @@ lll_node_basic *& lll_node_basic::add() {
         return this->next;
     }
     return this->next->add();
+}
+
+/*
+ * Attempts to remove a node at the given index
+ */
+lll_node_basic * lll_node_basic::get(unsigned int index) {
+    // If someone wanted to get index 0 they would have just used this node
+    // We pass 1 so that if they requested to get index one then we will
+    // get the one after us
+    unsigned int start = 1;
+    return this->get_count(index, start);
+}
+
+/*
+ * Attempts to get a node at the given index and counts along the way
+ */
+lll_node_basic * lll_node_basic::get_count(unsigned int & index, unsigned int & curr) {
+    // We want to get the next one but we cant because there is
+    // nothing to get
+    if (this->next == NULL) {
+        return NULL;
+    }
+    // If we are on the index we wish to get then return ourself
+    if (index == curr) {
+        return this;
+    }
+    return this->next->get_count(index, ++curr);
 }
 
 /*
@@ -72,4 +96,16 @@ unsigned int lll_node_basic::remove_all() {
     return 1 + num_removed;
 }
 
-#endif
+/*
+ * If remove self is called the caller needs to be aware that this does not
+ * update the next pointer of the node previous to this one and will break the
+ * list. If this is the head pointer then that doesnt matter because there is
+ * no previous poitner. However if you have the pointer previous to this it is
+ * preferable to all the remove(index) function so that the next poitners of
+ * the lll will be updated correctly
+ */
+lll_node_basic * lll_node_basic::remove_self(lll_node_basic *& replace) {
+    replace = this->next;
+    delete this;
+    return replace;
+}

@@ -13,7 +13,8 @@
 #include <libmacro.h>
 #include <liblll.h>
 
-int test_lll_add();
-int test_lll_remove_increasing();
-int test_lll_remove_decreasing();
-int test_lll_remove_all();
+int test_lll_node_basic_add();
+int test_lll_node_basic_remove_increasing();
+int test_lll_node_basic_remove_decreasing();
+int test_lll_node_basic_remove_all();
+int test_lll_node_basic_remove_self();

@@ -1,10 +1,8 @@
 /*
     Author: John Andersen
-    Date: 04/07/2015
-    Description: Red Black Tree
+    Date: 04/28/2015
+    Description: Linear Linked List
 */
-
-
 
 // For NULL
 #ifndef NULL
@@ -31,12 +29,20 @@ class lll_node_basic {
         virtual ~lll_node_basic();
         // Add a node to the end
         virtual lll_node_basic *& add();
+        // Get a node at an index
+        virtual lll_node_basic * get(unsigned int index);
         // Remove a node at an index returns 1 if there was a node at that index to
         // remove. Returns 0 if there was not a node at that index to remove
         virtual bool remove(unsigned int index);
         // Remove every node return the number removed
         virtual unsigned int remove_all();
+        // Removes this node which will not update the node before its previous
+        // and returns this nodes next node. It also sets replace to the return
+        // value so you and check and set in one call
+        virtual lll_node_basic * remove_self(lll_node_basic *& replace);
     private:
+        // We need to be counting so we know what to get
+        virtual lll_node_basic * get_count(unsigned int & index, unsigned int & curr);
         // We need to be counting so we know when to remove
         bool remove_count(unsigned int & index, unsigned int & curr);
         // The next node in the list
@@ -69,10 +75,9 @@ class lll_basic {
         lll_basic();
         virtual ~lll_basic();
         // Deallocates the lll
-        virtual void destroy();
+        virtual unsigned int remove_all();
         // Allows access by key value
-        // data_type & operator [] (unsigned int index);
-        virtual lll_node_basic *& get(unsigned int index);
+        virtual lll_node_basic * get(unsigned int index);
         // Removes a node from the list
         bool remove(unsigned int index);
         // Returns the number of elements in the lll
@@ -90,13 +95,13 @@ class lll_basic {
  * A liniar linked list
  */
 template <typename data_type>
-class lll {
+class lll : public lll_basic {
     public:
         // Constructor and deconstructor
         lll<data_type>();
         ~lll<data_type>();
         // Deallocates the lll
-        void destroy();
+        void remove_all();
         // Allows access by key value
         data_type & operator [] (unsigned int index);
         data_type & get(unsigned int index);
