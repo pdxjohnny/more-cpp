@@ -32,6 +32,11 @@
     MACRO_PRINT("%s:%d    " format, __FILE__, __LINE__, __VA_ARGS__);\
 })
 
+#define MACRO_LOG_INT(var) \
+({\
+    MACRO_PRINT_FILE_LINE(#var ": %d\n", var);\
+})
+
 #define MACRO_TEST_LOG_ERROR(format, ...) \
 ({\
     MACRO_PRINT_FILE_LINE(MACRO_RED "ERROR" MACRO_RESET ": " format ": %s\n", __VA_ARGS__, strerror(errno));\

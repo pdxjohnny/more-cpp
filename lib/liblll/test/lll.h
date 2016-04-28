@@ -13,4 +13,7 @@
 #include <libmacro.h>
 #include <liblll.h>
 
-int test_lll_order();
+int test_lll_add();
+int test_lll_remove_increasing();
+int test_lll_remove_decreasing();
+int test_lll_remove_all();
