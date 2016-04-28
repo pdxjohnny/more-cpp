@@ -1,0 +1,10 @@
+/*
+ * John Andersen
+ * File: liblll/test/lll_node_basic.cpp
+*/
+#include "lll.h"
+
+int test_lll_order() {
+    return EXIT_SUCCESS;
+}
+

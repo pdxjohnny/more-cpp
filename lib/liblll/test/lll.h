@@ -1,6 +1,6 @@
 /*
  * John Andersen
- * File: liblll/test/0_order.cpp
+ * File: liblll/test/lll.h
 */
 
 #include <stdio.h>
@@ -13,18 +13,4 @@
 #include <libmacro.h>
 #include <liblll.h>
 
-template <typename dt>
-class test_lll: public lll<dt> {
-/*
- * This is left as an example of how to provide custom search functions
- */
-/*
-protected:
-    int search_lll(char * key, lll_node<dt> * & root) {
-        MACRO_PRINT_FILE_LINE("Searching for %s\n", key);
-        return lll<dt>::search_lll(key, root);
-    };
-*/
-};
-
-
+int test_lll_order();

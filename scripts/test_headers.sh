@@ -5,7 +5,7 @@ TMP_HEADER_FILE=test-headers
 TMP_MAIN_FILE=test-main
 HEADER="test/$NAME.h"
 MAIN="test/$NAME.cpp"
-FILES=$(find test -type f | grep -v 'string.' | sort)
+FILES=$(find test -type f -name '*.cpp' | grep -v 'string.' | sort)
 
 sed -i '/test_/d' $MAIN
 sed -i '/int test_/d' $HEADER

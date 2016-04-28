@@ -22,85 +22,92 @@
 #include <cstring>
 
 /*
-    Struct: lll_node
-    Use: Holds the left right and data for a key in the lll
+ * The lll_node is a basic node in a lll that contains no data
+ */
+class lll_node_basic {
+    public:
+        // Constructors and Destructors
+        lll_node_basic();
+        virtual ~lll_node_basic();
+        // Add a node to the end
+        virtual lll_node_basic *& add();
+        // Remove a node at an index returns 1 if there was a node at that index to
+        // remove. Returns 0 if there was not a node at that index to remove
+        virtual bool remove(unsigned int index);
+        // Remove every node return the number removed
+        virtual unsigned int remove_all();
+    private:
+        // We need to be counting so we know when to remove
+        bool remove_count(unsigned int & index, unsigned int & curr);
+        // The next node in the list
+        lll_node_basic * next;
+};
+
+/*
+    Struct: lll_node_data is just an lll node that holds some templated data
 */
 template <typename data_type>
-class lll_node {
-public:
-    lll_node<data_type>();
-    lll_node<data_type>( const char * key );
-    ~lll_node<data_type>();
-    char *& key();
-    data_type & value();
-    lll_node *& left();
-    lll_node *& right();
-private:
-    char * key_value;
-    data_type data_value;
-    lll_node * left_node;
-    lll_node * right_node;
+class lll_node : public lll_node_basic {
+    public:
+        // Constructors and Destructors
+        lll_node<data_type>();
+        ~lll_node<data_type>();
+        // Return the value we are managing
+        data_type & value();
+    private:
+        // The data we are holding
+        data_type data_value;
 };
 
 
 /*
-    Class: lll
-    Use: A binary lll organised by key
-*/
+ * lll_basic is a basic linked list
+ */
+class lll_basic {
+    public:
+        // Constructor and deconstructor
+        lll_basic();
+        virtual ~lll_basic();
+        // Deallocates the lll
+        virtual void destroy();
+        // Allows access by key value
+        // data_type & operator [] (unsigned int index);
+        virtual lll_node_basic *& get(unsigned int index);
+        // Removes a node from the list
+        bool remove(unsigned int index);
+        // Returns the number of elements in the lll
+        unsigned int size();
+    protected:
+        // Provide us with the head to do operations on
+        virtual lll_node_basic *& head() = 0;
+    private:
+        // Number of nodes in the lll
+        unsigned int contains;
+};
+
+
+/*
+ * A liniar linked list
+ */
 template <typename data_type>
-class lll
-{
-public:
-    // Constructor and deconstructor
-    lll<data_type>();
-    ~lll<data_type>();
-    // Allocates the lll
-    void init( void );
-    // Deallocates the lll
-    void destroy( void );
-    // Allows access by key value
-    data_type & operator [] ( unsigned int num );
-    data_type & operator [] ( const char * key );
-    // Access by index when ordered by key
-    char * key( unsigned int num );
-    data_type & get( unsigned int num );
-    // Allows access by key value
-    data_type & get( const char * key );
-    // Inserts a data of the lll type into the lll
-    virtual data_type & insert( const char * key );
-    // Check if key is present
-    bool contains( const char * key );
-    // Returns the number of elements in the lll
-    unsigned int size( void );
-    // Returns the keys of the elements in the lll
-    data_type ** all( void );
-    char *** keys( void );
-    // Removes an element from the array
-    bool remove( const char * key );
-protected:
-    // Deallocates the lll
-    void destroy( lll_node<data_type> * & root );
-    // Access by index when ordered by key
-    lll_node<data_type> * get( unsigned int & num, unsigned int & index, lll_node<data_type> * root );
-    // Allows access by key value
-    lll_node<data_type> * get( const char * key, lll_node<data_type> * root );
-    // Inserts a data of the lll type into the lll
-    lll_node<data_type> * insert_return_node( const char * key );
-    lll_node<data_type> * insert( const char * key, lll_node<data_type> * & root );
-    lll_node<data_type> * insert_lll( const char * key, lll_node<data_type> * & root);
-    virtual lll_node<data_type> * create_node( const char * key, lll_node<data_type> * & root);
-    int node_added();
-    virtual int search_lll( const char * key, lll_node<data_type> * & root);
-    void all( unsigned int & index , data_type ** array, lll_node<data_type> * root );
-    // Returns the keys of the elements in the lll
-    void keys( unsigned int & index , char *** array, lll_node<data_type> * root );
-    bool remove( const char * key, lll_node<data_type> * & root );
-    lll_node<data_type> * inorder( lll_node<data_type> * root, lll_node<data_type> * & parent);
-private:
-    // Root of the lll
-    lll_node<data_type> * root;
-    // Number of nodes in the lll
-    unsigned int in_lll;
+class lll {
+    public:
+        // Constructor and deconstructor
+        lll<data_type>();
+        ~lll<data_type>();
+        // Deallocates the lll
+        void destroy();
+        // Allows access by key value
+        data_type & operator [] (unsigned int index);
+        data_type & get(unsigned int index);
+        // Returns the number of elements in the lll
+        unsigned int size();
+        bool remove(unsigned int index);
+    private:
+        // Head of the lll
+        lll_node<data_type> * head;
+        // Number of nodes in the lll
+        unsigned int contains;
 };
 
 
