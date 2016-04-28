@@ -1,5 +1,4 @@
 build:
   image: gcc
   commands:
-    - make -C programs/uber
-    - make -C programs/uber test
+    - bash ./scripts/all_tests.sh

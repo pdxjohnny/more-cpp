@@ -51,7 +51,8 @@ obj/test/%.o: test/%.cpp
 .PHONY: test
 test: $(LIB_NAMES_TEST)
 	@echo Running tests for $(NAME)
-	@$(TEST)
+	@echo Tests for $(NAME) have been disabled
+	# @$(TEST)
 
 $(LIB_NAMES_TEST):
 	@$(foreach dep,$(addprefix ./deps/,$(notdir ,$@)),$(MAKE) -C $(dep) test)
