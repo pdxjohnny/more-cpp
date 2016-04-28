@@ -15,10 +15,22 @@ lll_node_basic::~lll_node_basic() {}
  */
 lll_node_basic *& lll_node_basic::add() {
     if (this->next == NULL) {
-        this->next = new lll_node_basic;
+        this->create(this->next);
         return this->next;
     }
     return this->next->add();
+}
+
+/*
+ * Allocates a node and returns true on succesfull allocation
+ */
+bool lll_node_basic::create(lll_node_basic *& new_node) {
+    new_node = new lll_node_basic;
+    // Will be NULL if we are out of memory
+    if (new_node == NULL) {
+        return false;
+    }
+    return true;
 }
 
 /*

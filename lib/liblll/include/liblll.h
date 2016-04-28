@@ -12,8 +12,6 @@
 // Ensure nothing gets redeclared
 #ifndef LLL
 #define LLL 1
-#define LLL_GO_LEFT 1
-#define LLL_GO_RIGHT 2
 
 #include <cstdio>
 #include <cstdlib>
@@ -29,6 +27,8 @@ class lll_node_basic {
         virtual ~lll_node_basic();
         // Add a node to the end
         virtual lll_node_basic *& add();
+        // Creates a node of the type we wish to add, new is set to new_node
+        virtual bool create(lll_node_basic *& new_node);
         // Get a node at an index
         virtual lll_node_basic * get(unsigned int index);
         // Remove a node at an index returns 1 if there was a node at that index to
