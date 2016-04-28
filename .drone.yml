@@ -2,3 +2,11 @@ build:
   image: gcc
   commands:
     - bash ./scripts/all_tests.sh
+notify:
+  email:
+    from: "$$EMAIL_USERNAME"
+    host: smtp.gmail.com
+    username: "$$EMAIL_USERNAME"
+    password: "$$EMAIL_PASSWORD"
+    recipients:
+      - johnandersenpdx@gmail.com

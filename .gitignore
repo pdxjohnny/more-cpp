@@ -5,3 +5,4 @@
 *.a
 *.tar.gz
 vgcore.*
+secrets.yml
