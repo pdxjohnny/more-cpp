@@ -9,4 +9,4 @@ notify:
     username: "$$EMAIL_USERNAME"
     password: "$$EMAIL_PASSWORD"
     recipients:
-      - johnandersenpdx@gmail.com
+      - "$$EMAIL_TO"
