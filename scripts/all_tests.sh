@@ -7,6 +7,6 @@ LIBS=$(ls lib)
 
 for lib in $LIBS; do
     make -C "$LIBS_DIR/$lib" clean
-    make -C "$LIBS_DIR/$lib"
-    make -C "$LIBS_DIR/$lib" test
+    make -e -C "$LIBS_DIR/$lib"
+    make -e -C "$LIBS_DIR/$lib" test
 done
