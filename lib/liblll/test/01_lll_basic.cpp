@@ -13,9 +13,8 @@ int test_lll_basic_add() {
 int test_lll_basic_remove() {
     lll_basic list;
     MACRO_TEST_CANT_EQ(list.add(), NULL);
-    MACRO_LOG_STR("Removing...");
-    MACRO_TEST_INT_CANT_EQ(list.remove(0), true);
-    MACRO_LOG_STR("Removed");
+    bool removed = list.remove(0);
+    MACRO_TEST_EQ(removed, true);
     return EXIT_SUCCESS;
 }
 
@@ -26,7 +25,8 @@ int test_lll_basic_remove_all() {
     for (i = 0; i < to_remove; ++i) {
         MACRO_TEST_CANT_EQ(list.add(), NULL);
     }
-    MACRO_TEST_EQ(list.remove_all(), to_remove);
+    int num_removed = list.remove_all();
+    MACRO_TEST_EQ(num_removed, to_remove);
     return EXIT_SUCCESS;
 }
 

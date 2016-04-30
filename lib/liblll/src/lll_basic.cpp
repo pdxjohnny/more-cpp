@@ -59,7 +59,6 @@ lll_node_basic * lll_basic::get(unsigned int index) {
  */
 bool lll_basic::remove(unsigned int index) {
     lll_node_basic * head_ptr = head();
-    MACRO_LOG_POINTER(head_ptr);
     // Nothing to get from
     if (head_ptr == NULL) {
         return false;
@@ -67,7 +66,6 @@ bool lll_basic::remove(unsigned int index) {
     // If they want the frist one then remove the head
     if (index == 0U) {
         head_ptr->remove_self(head());
-        MACRO_LOG_STR("Returning true");
         return true;
     }
     // Otherwise let the nodes deal with it

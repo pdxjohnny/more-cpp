@@ -390,5 +390,54 @@ Clearly we should be returning to the test function!!!!!!
 
 rsp is 0x00401ccb so retq should take us back!!!!
 
+Alright I have been documenting this as I go. I just realized this was the
+problem.
 
+```cpp
+   │13      int test_lll_basic_remove() {
+B+ │14          lll_basic list;
+   │15          MACRO_TEST_CANT_EQ(list.add(), NULL);
+   │16          MACRO_LOG_STR("Removing...");
+  >│17          MACRO_TEST_CANT_EQ(list.remove(0), true);
+   │18          MACRO_LOG_STR("Removed");
+   │19          return EXIT_SUCCESS;
+   │20      }
+```
 
+Here is the can EQ function.
+
+```cpp
+#define MACRO_TEST_INT_CANT_EQ(var, should_be) \
+({\
+    if (var == should_be) {\
+        MACRO_TEST_LOG_ERROR(#var " should not have been %d but was %d", should_be, var);\
+        return -1;\
+    }\
+})
+```
+
+var was the function call and therefore it called the function twice. Once to
+check if it was equal and once to report therefore it was a different value
+each time.
+
+This is the offending test case. The problem is that I copy pasted from the add
+test case. That should have been:
+
+```cpp
+int test_lll_basic_remove() {
+    lll_basic list;
+    MACRO_TEST_CANT_EQ(list.add(), NULL);
+    MACRO_LOG_STR("Removing...");
+    bool removed = list.remove(0);
+    MACRO_TEST_EQ(removed, true);
+    MACRO_LOG_STR("Removed");
+    return EXIT_SUCCESS;
+}
+```
+
+This way it doesnt call the remove function twice which is what lead me to
+believe that it was jumping right back into the function but it is really just
+doing that so it can print that the test case failed.
+
+I guess the bright side is that I still know how to use gdb and that I now know
+x64 assembly, yay.
