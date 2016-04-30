@@ -37,6 +37,16 @@
     MACRO_PRINT_FILE_LINE(#var ": %d\n", var);\
 })
 
+#define MACRO_LOG_POINTER(var) \
+({\
+    MACRO_PRINT_FILE_LINE(#var ": %p\n", var);\
+})
+
+#define MACRO_LOG_STR(var) \
+({\
+    MACRO_PRINT_FILE_LINE(#var ": %s\n", var);\
+})
+
 #define MACRO_TEST_LOG_ERROR(format, ...) \
 ({\
     MACRO_PRINT_FILE_LINE(MACRO_RED "ERROR" MACRO_RESET ": " format ": %s\n", __VA_ARGS__, strerror(errno));\
@@ -70,6 +80,14 @@
 ({\
     if (var == should_be) {\
         MACRO_TEST_LOG_ERROR(#var " should not have been %p but was %p", (void *)should_be, (void *)var);\
+        return -1;\
+    }\
+})
+
+#define MACRO_TEST_INT_CANT_EQ(var, should_be) \
+({\
+    if (var == should_be) {\
+        MACRO_TEST_LOG_ERROR(#var " should not have been %d but was %d", should_be, var);\
         return -1;\
     }\
 })

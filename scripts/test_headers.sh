@@ -22,15 +22,14 @@ cat $FILES | grep 'int test_'  | grep -v 'Binary file' | sed 's/ {/;/g' > $TMP_H
 while read func; do
     grep -q "$func" $HEADER
     if [ $? -eq 1 ]; then
-        echo Adding... "$func" to $HEADER
-        echo $func >> $HEADER
+        echo "$func" >> $HEADER
     fi
-    func=$(echo $func | sed 's/int //g' | sed 's/;//g' | sed 's/()//g')
+    func=$(echo "$func" | sed 's/int //g' | sed 's/;//g' | sed 's/()//g')
     grep -q "$func" $MAIN
     if [ $? -eq 1 ]; then
-        echo Adding... "$func" to $MAIN
         echo -e "MACRO_TEST($func);" >> $TMP_MAIN_FILE
     fi
+    echo Adding... "$func"
 done < $TMP_HEADER_FILE
 rm $TMP_HEADER_FILE
 
@@ -41,4 +40,3 @@ done <&3
 3<&-
 cp $TMP_MAIN_FILE $MAIN
 rm $TMP_MAIN_FILE
-

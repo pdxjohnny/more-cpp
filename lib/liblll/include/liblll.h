@@ -58,20 +58,26 @@ class lll_basic {
         // Constructor and deconstructor
         lll_basic();
         virtual ~lll_basic();
-        // Deallocates the lll
-        virtual unsigned int remove_all();
+        // Adds a node to the lll
+        lll_node_basic *& add();
+        // What node we should create
+        virtual bool create(lll_node_basic *& new_node);
         // Allows access by key value
-        virtual lll_node_basic * get(unsigned int index);
+        lll_node_basic * get(unsigned int index);
         // Removes a node from the list
         bool remove(unsigned int index);
+        // Deallocates the lll
+        unsigned int remove_all();
         // Returns the number of elements in the lll
         unsigned int size();
     protected:
-        // Provide us with the head to do operations on
-        virtual lll_node_basic *& head() = 0;
+        // Provides the head to do operations on
+        lll_node_basic *& head();
     private:
         // Number of nodes in the lll
         unsigned int contains;
+        // Provide us with the head to do operations on
+        lll_node_basic * head_value;
 };
 
 /*
