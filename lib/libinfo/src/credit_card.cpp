@@ -76,7 +76,11 @@ int info::credit_card::credit_card_from_string(const char * from) {
     err = strings::parse(data, from, INFO_CREDIT_CARD_DELIM);
     // Make sure parsing worked
     if (err != EXIT_SUCCESS) {
-        goto DELETE_AND_EXIT;
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_number);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_exp_month);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_exp_year);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_cvc);
+        return err;
     }
     // Check CC#
     errno = EXIT_SUCCESS;
@@ -84,7 +88,11 @@ int info::credit_card::credit_card_from_string(const char * from) {
     // Check if parsing failed
     if (errno == ERANGE || errno == EINVAL) {
         err = -1;
-        goto DELETE_AND_EXIT;
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_number);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_exp_month);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_exp_year);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_cvc);
+        return err;
     }
     // Check EXP month
     errno = EXIT_SUCCESS;
@@ -92,7 +100,11 @@ int info::credit_card::credit_card_from_string(const char * from) {
     // Check if parsing failed
     if (errno == ERANGE || errno == EINVAL) {
         err = -1;
-        goto DELETE_AND_EXIT;
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_number);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_exp_month);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_exp_year);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_cvc);
+        return err;
     }
     // Check EXP year
     errno = EXIT_SUCCESS;
@@ -100,7 +112,11 @@ int info::credit_card::credit_card_from_string(const char * from) {
     // Check if parsing failed
     if (errno == ERANGE || errno == EINVAL) {
         err = -1;
-        goto DELETE_AND_EXIT;
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_number);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_exp_month);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_exp_year);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_cvc);
+        return err;
     }
     // Check CVC
     errno = EXIT_SUCCESS;
@@ -108,9 +124,12 @@ int info::credit_card::credit_card_from_string(const char * from) {
     // Check if parsing failed
     if (errno == ERANGE || errno == EINVAL) {
         err = -1;
-        goto DELETE_AND_EXIT;
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_number);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_exp_month);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_exp_year);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_cvc);
+        return err;
     }
-DELETE_AND_EXIT:
     MACRO_DELETE_ARRAY_IF_NOT_NULL(str_number);
     MACRO_DELETE_ARRAY_IF_NOT_NULL(str_exp_month);
     MACRO_DELETE_ARRAY_IF_NOT_NULL(str_exp_year);

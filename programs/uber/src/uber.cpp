@@ -120,7 +120,19 @@ int main(int argc, char ** argv, char ** env) {
     err = user_action(argc, argv, standard, premium, group, rides);
     if (err != EXIT_SUCCESS) {
         // MACRO_LOG_ERROR("Couldnt exicute request %s", "");
-        goto DELETE_CARS_AND_RIDES;
+        if (standard != NULL) {
+            standard->destroy();
+            delete standard;
+        }
+        if (premium != NULL) {
+            premium->destroy();
+            delete premium;
+        }
+        if (group != NULL) {
+            group->destroy();
+            delete group;
+        }
+        return err;
     }
     // Clear the existing save files
     rides_fd = open(rides_file, O_CREAT | O_TRUNC | O_WRONLY, S_IRUSR | S_IWUSR);
@@ -151,7 +163,6 @@ int main(int argc, char ** argv, char ** env) {
         close(cars_fd);
     }
     // Delete the list of cars and bst of rides
-DELETE_CARS_AND_RIDES:
     if (standard != NULL) {
         standard->destroy();
         delete standard;

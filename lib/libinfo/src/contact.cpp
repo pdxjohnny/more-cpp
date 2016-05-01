@@ -65,7 +65,8 @@ int info::contact::contact_from_string(const char * from) {
     err = strings::parse(data, from, INFO_CONTACT_DELIM);
     // Make sure parsing worked
     if (err != EXIT_SUCCESS) {
-        goto DELETE_AND_EXIT;
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_phone);
+        return err;
     }
     // Check phone
     errno = EXIT_SUCCESS;
@@ -73,9 +74,9 @@ int info::contact::contact_from_string(const char * from) {
     // Check if parsing failed
     if (errno == ERANGE || errno == EINVAL) {
         err = -1;
-        goto DELETE_AND_EXIT;
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_phone);
+        return err;
     }
-DELETE_AND_EXIT:
     MACRO_DELETE_ARRAY_IF_NOT_NULL(str_phone);
     // Success is determined by parse
     return err;

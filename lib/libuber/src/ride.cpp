@@ -101,22 +101,42 @@ int uber::ride::ride_from_string(const char * from) {
     err = strings::parse(data, from, UBER_RIDE_DELIM);
     // Make sure parsing worked
     if (err != EXIT_SUCCESS) {
-        goto DELETE_AND_EXIT;
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_ride);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_car);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_customer);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_timestamp);
+        // Success is determined by parse
+        return err;
     }
     // Parse in the ride data
     err = transport::ride::ride_from_string(str_ride);
     if (err != EXIT_SUCCESS) {
-        goto DELETE_AND_EXIT;
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_ride);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_car);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_customer);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_timestamp);
+        // Success is determined by parse
+        return err;
     }
     // Parse in the car data
     err = car_from_string(str_car);
     if (err != EXIT_SUCCESS) {
-        goto DELETE_AND_EXIT;
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_ride);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_car);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_customer);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_timestamp);
+        // Success is determined by parse
+        return err;
     }
     // Parse in the customer data
     err = customer_from_string(str_customer);
     if (err != EXIT_SUCCESS) {
-        goto DELETE_AND_EXIT;
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_ride);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_car);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_customer);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_timestamp);
+        // Success is determined by parse
+        return err;
     }
     // Parse in the timestamp data
     errno = EXIT_SUCCESS;
@@ -124,9 +144,13 @@ int uber::ride::ride_from_string(const char * from) {
     // Check if parsing failed
     if (errno == ERANGE) {
         err = -1;
-        goto DELETE_AND_EXIT;
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_ride);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_car);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_customer);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_timestamp);
+        // Success is determined by parse
+        return err;
     }
-DELETE_AND_EXIT:
     MACRO_DELETE_ARRAY_IF_NOT_NULL(str_ride);
     MACRO_DELETE_ARRAY_IF_NOT_NULL(str_car);
     MACRO_DELETE_ARRAY_IF_NOT_NULL(str_customer);

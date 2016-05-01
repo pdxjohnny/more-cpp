@@ -72,19 +72,24 @@ int info::customer::customer_from_string(const char * from) {
     err = strings::parse(data, from, INFO_CUSTOMER_DELIM);
     // Make sure parsing worked
     if (err != EXIT_SUCCESS) {
-        goto DELETE_AND_EXIT;
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_contact);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_credit_card);
+        return err;
     }
     // Check contact
     err = contact_from_string(str_contact);
     if (err != EXIT_SUCCESS) {
-        goto DELETE_AND_EXIT;
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_contact);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_credit_card);
+        return err;
     }
     // Check credit_card
     err = credit_card_from_string(str_credit_card);
     if (err != EXIT_SUCCESS) {
-        goto DELETE_AND_EXIT;
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_contact);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_credit_card);
+        return err;
     }
-DELETE_AND_EXIT:
     MACRO_DELETE_ARRAY_IF_NOT_NULL(str_contact);
     MACRO_DELETE_ARRAY_IF_NOT_NULL(str_credit_card);
     // Success is determined by parse

@@ -105,12 +105,24 @@ int transport::ride::ride_from_string(const char * from) {
     err = strings::parse(data, from, TRANSPORT_RIDE_DELIM);
     // Make sure parsing worked
     if (err != EXIT_SUCCESS) {
-        goto DELETE_AND_EXIT;
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_trip);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_fare_minimum);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_fare_per_mile);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_fee_booking);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_fee_cancel);
+        // Success is determined by parse
+        return err;
     }
     // Parse in the trip data
     err = trip_from_string(str_trip);
     if (err != EXIT_SUCCESS) {
-        goto DELETE_AND_EXIT;
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_trip);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_fare_minimum);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_fare_per_mile);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_fee_booking);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_fee_cancel);
+        // Success is determined by parse
+        return err;
     }
     // Parse in the fare and fee data
     errno = EXIT_SUCCESS;
@@ -118,30 +130,53 @@ int transport::ride::ride_from_string(const char * from) {
     // Check if parsing failed
     if (errno == ERANGE) {
         err = -1;
-        goto DELETE_AND_EXIT;
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_trip);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_fare_minimum);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_fare_per_mile);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_fee_booking);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_fee_cancel);
+        // Success is determined by parse
+        return err;
     }
     errno = EXIT_SUCCESS;
     this->fare_per_mile = strtof(str_fare_per_mile, NULL);
     // Check if parsing failed
     if (errno == ERANGE) {
         err = -1;
-        goto DELETE_AND_EXIT;
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_trip);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_fare_minimum);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_fare_per_mile);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_fee_booking);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_fee_cancel);
+        // Success is determined by parse
+        return err;
     }
     errno = EXIT_SUCCESS;
     this->fee_booking = strtof(str_fee_booking, NULL);
     // Check if parsing failed
     if (errno == ERANGE) {
         err = -1;
-        goto DELETE_AND_EXIT;
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_trip);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_fare_minimum);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_fare_per_mile);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_fee_booking);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_fee_cancel);
+        // Success is determined by parse
+        return err;
     }
     errno = EXIT_SUCCESS;
     this->fee_cancel = strtof(str_fee_cancel, NULL);
     // Check if parsing failed
     if (errno == ERANGE) {
         err = -1;
-        goto DELETE_AND_EXIT;
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_trip);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_fare_minimum);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_fare_per_mile);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_fee_booking);
+        MACRO_DELETE_ARRAY_IF_NOT_NULL(str_fee_cancel);
+        // Success is determined by parse
+        return err;
     }
-DELETE_AND_EXIT:
     MACRO_DELETE_ARRAY_IF_NOT_NULL(str_trip);
     MACRO_DELETE_ARRAY_IF_NOT_NULL(str_fare_minimum);
     MACRO_DELETE_ARRAY_IF_NOT_NULL(str_fare_per_mile);
