@@ -64,6 +64,9 @@ class lll_basic {
         virtual bool create(lll_node_basic *& new_node);
         // Allows access by key value
         lll_node_basic * get(unsigned int index);
+        // Preforms a get and if no node is present we create nodes until it is
+        // present
+        lll_node_basic * operator[](unsigned int index);
         // Removes a node from the list
         bool remove(unsigned int index);
         // Deallocates the lll
@@ -72,7 +75,7 @@ class lll_basic {
         unsigned int size();
     protected:
         // Provides the head to do operations on
-        lll_node_basic *& head();
+        virtual lll_node_basic *& head();
     private:
         // Number of nodes in the lll
         unsigned int contains;
@@ -106,8 +109,9 @@ class lll : public lll_basic {
         // Constructor and deconstructor
         lll<data_type>();
         ~lll<data_type>();
-        // Allows access by key value
-        data_type & operator [] (unsigned int index);
+        // Allows access by key value and creates up to that index if it is not
+        // in the list
+        data_type & operator[](unsigned int index);
     protected:
         // So the lll_basic can access our head
         lll_node<data_type> *& head();
@@ -115,7 +119,6 @@ class lll : public lll_basic {
         // Head of the lll
         lll_node<data_type> * head_value;
 };
-
 
 #include "lll_node.cpp"
 #include "lll.cpp"

@@ -24,3 +24,4 @@ int test_lll_basic_add();
 int test_lll_basic_remove();
 int test_lll_basic_remove_all();
 int test_lll_basic_get();
+int test_lll_basic_operator_subscript();

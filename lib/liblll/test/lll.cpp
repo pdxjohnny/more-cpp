@@ -17,6 +17,7 @@ MACRO_TEST(test_lll_basic_add);
 MACRO_TEST(test_lll_basic_remove);
 MACRO_TEST(test_lll_basic_remove_all);
 MACRO_TEST(test_lll_basic_get);
+MACRO_TEST(test_lll_basic_operator_subscript);
 return EXIT_SUCCESS;
 }
 

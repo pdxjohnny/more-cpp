@@ -37,10 +37,7 @@ bool lll_node_basic::create(lll_node_basic *& new_node) {
  * Attempts to remove a node at the given index
  */
 lll_node_basic * lll_node_basic::get(unsigned int index) {
-    // If someone wanted to get index 0 they would have just used this node
-    // We pass 1 so that if they requested to get index one then we will
-    // get the one after us
-    unsigned int start = 0;
+    unsigned int start = 0U;
     return this->get_count(index, start);
 }
 

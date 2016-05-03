@@ -40,3 +40,15 @@ int test_lll_basic_get() {
     }
     return EXIT_SUCCESS;
 }
+
+int test_lll_basic_operator_subscript() {
+    lll_basic list;
+    const int to_remove = 10;
+    lll_node_basic * added = list[to_remove];
+    MACRO_TEST_CANT_EQ(added, NULL);
+    lll_node_basic * to_get = list.get(to_remove);
+    MACRO_TEST_POINTER_EQ(added, to_get);
+    int num_removed = list.remove_all();
+    MACRO_TEST_EQ(num_removed, to_remove);
+    return EXIT_SUCCESS;
+}

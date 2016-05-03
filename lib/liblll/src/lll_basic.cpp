@@ -17,11 +17,12 @@ lll_basic::~lll_basic() {
  * Adds a node to the lll
  */
 lll_node_basic *& lll_basic::add() {
-    if (head() == NULL) {
-        create(head());
-        return head();
+    ++contains;
+    if (this->head() == NULL) {
+        this->create(this->head());
+        return this->head();
     }
-    return head()->add();
+    return this->head()->add();
 }
 
 /*
@@ -41,7 +42,7 @@ bool lll_basic::create(lll_node_basic *& new_node) {
  * Gets a particular index in the lll
  */
 lll_node_basic * lll_basic::get(unsigned int index) {
-    lll_node_basic * head_ptr = head();
+    lll_node_basic * head_ptr = this->head();
     // Nothing to get from
     if (head_ptr == NULL) {
         return NULL;
@@ -51,21 +52,44 @@ lll_node_basic * lll_basic::get(unsigned int index) {
         return head_ptr;
     }
     // Otherwise let the nodes deal with it
-    return head_ptr->get(index);
+    return head_ptr->get(index - 1U);
+}
+
+/*
+ * Creates all the nodes up to index if they do not exist and returns the index
+ */
+lll_node_basic * lll_basic::operator[](unsigned int index) {
+    // The node to return
+    lll_node_basic * to_ret = NULL;
+    // If we have the index in the lll then just return it
+    if (index < this->size()) {
+        return this->get(index);
+    }
+    // index is unsigned so the following will fail if we have nothing in the
+    // list becuase i would have been -1
+    if (0 < this->size() - 1) {
+        to_ret = this->add();
+    }
+    // Create nodes until we have created the requested index
+    unsigned int i = 0U;
+    for (i = this->size(); i < index; ++i) {
+        to_ret = this->add();
+    }
+    return to_ret;
 }
 
 /*
  * Removes a particular index in the lll
  */
 bool lll_basic::remove(unsigned int index) {
-    lll_node_basic * head_ptr = head();
+    lll_node_basic * head_ptr = this->head();
     // Nothing to get from
     if (head_ptr == NULL) {
         return false;
     }
     // If they want the frist one then remove the head
     if (index == 0U) {
-        head_ptr->remove_self(head());
+        head_ptr->remove_self(this->head());
         return true;
     }
     // Otherwise let the nodes deal with it
@@ -76,7 +100,7 @@ bool lll_basic::remove(unsigned int index) {
  * Removes all the nodes in the lll
  */
 unsigned int lll_basic::remove_all() {
-    lll_node_basic * head_ptr = head();
+    lll_node_basic * head_ptr = this->head();
     // Nothing to remove
     if (head_ptr == NULL) {
         return 0;
@@ -84,7 +108,7 @@ unsigned int lll_basic::remove_all() {
     // Remove all from the list
     unsigned int num_removed = head_ptr->remove_all();
     // Remove head
-    head_ptr->remove_self(head());
+    head_ptr->remove_self(this->head());
     // We just removed the head so increment num_removed
     ++num_removed;
     // Make sure we keep track of how many wer removed
