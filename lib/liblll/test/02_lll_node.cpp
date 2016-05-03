@@ -4,6 +4,7 @@
 */
 #include "lll.h"
 
+/*
 int test_lll_node_add() {
     lll_node<int> head;
     lll_node<int> * added = head.add();
@@ -69,3 +70,4 @@ int test_lll_node_get() {
     MACRO_TEST_EQ(head.remove_all(), 1);
     return EXIT_SUCCESS;
 }
+*/
