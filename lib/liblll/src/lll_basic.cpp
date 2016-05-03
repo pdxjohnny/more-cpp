@@ -16,13 +16,17 @@ lll_basic::~lll_basic() {
 /*
  * Adds a node to the lll
  */
-lll_node_basic *& lll_basic::add() {
+bool lll_basic::add(lll_node_basic *& store) {
     ++contains;
     if (this->head() == NULL) {
-        this->create(this->head());
-        return this->head();
+        if (this->create(this->head()) == false) {
+            store = NULL;
+            return (store != NULL);
+        }
+        store = this->head();
+        return (store != NULL);
     }
-    return this->head()->add();
+    return this->head()->add(store);
 }
 
 /*
@@ -41,41 +45,52 @@ bool lll_basic::create(lll_node_basic *& new_node) {
 /*
  * Gets a particular index in the lll
  */
-lll_node_basic * lll_basic::get(unsigned int index) {
+bool lll_basic::get(unsigned int index, lll_node_basic *& store) {
     lll_node_basic * head_ptr = this->head();
     // Nothing to get from
     if (head_ptr == NULL) {
-        return NULL;
+        store = NULL;
+        return (store != NULL);
     }
     // If they want the frist one then return head
     if (index == 0U) {
-        return head_ptr;
+        store = head_ptr;
+        return (store != NULL);
     }
     // Otherwise let the nodes deal with it
-    return head_ptr->get(index - 1U);
+    return head_ptr->get(index - 1U, store);
 }
 
 /*
  * Creates all the nodes up to index if they do not exist and returns the index
  */
-lll_node_basic * lll_basic::operator[](unsigned int index) {
-    // The node to return
-    lll_node_basic * to_ret = NULL;
+bool lll_basic::get_extend(unsigned int index, lll_node_basic *& store) {
     // If we have the index in the lll then just return it
     if (index < this->size()) {
-        return this->get(index);
+        return this->get(index, store);
     }
     // index is unsigned so the following will fail if we have nothing in the
     // list becuase i would have been -1
     if (0 < this->size() - 1) {
-        to_ret = this->add();
+        return this->add(store);
     }
     // Create nodes until we have created the requested index
     unsigned int i = 0U;
     for (i = this->size(); i < index; ++i) {
-        to_ret = this->add();
+        if (this->add(store) == false) {
+            return false;
+        }
     }
-    return to_ret;
+    return true;
+}
+
+/*
+ * Calls get_extend
+ */
+lll_node_basic * lll_basic::operator[](unsigned int index) {
+    lll_node_basic * store;
+    this->get_extend(index, store);
+    return store;
 }
 
 /*

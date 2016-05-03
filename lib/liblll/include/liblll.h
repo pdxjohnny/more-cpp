@@ -60,12 +60,11 @@ class lll_basic {
         virtual ~lll_basic();
         // Adds a node to the lll and stores it in store
         bool add(lll_node_basic *& store);
-        // What node we should create
-        virtual bool create(lll_node_basic *& new_node);
         // Allows access by key value and stores it in store
         bool get(unsigned int index, lll_node_basic *& store);
         // Preforms a get and if no node is present we create nodes until it is
         // present
+        bool get_extend(unsigned int index, lll_node_basic *& store);
         lll_node_basic * operator[](unsigned int index);
         // Removes a node from the list
         bool remove(unsigned int index);
@@ -76,7 +75,8 @@ class lll_basic {
     protected:
         // Provides the head to do operations on
         virtual lll_node_basic *& head();
-        virtual head(lll_node_basic *& set);
+        // What node we should create
+        virtual bool create(lll_node_basic *& new_node);
     private:
         // Number of nodes in the lll
         unsigned int contains;
@@ -114,9 +114,10 @@ class lll : public lll_basic {
         // in the list
         data_type & operator[](unsigned int index);
     protected:
-        // So the lll_basic can access our head
-        lll_node<data_type> *& head();
-        head(lll_node<data_type> *& set);
+        // What node we should create
+        virtual bool create(lll_node<data_type> *& new_node);
+        // Provides the head to do operations on
+        virtual lll_node<data_type> *& head();
     private:
         // Head of the lll
         lll_node<data_type> * head_value;

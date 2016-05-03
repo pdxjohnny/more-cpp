@@ -13,12 +13,16 @@ lll_node_basic::~lll_node_basic() {}
 /*
  * Adds a node to the end of the lll_basic
  */
-lll_node_basic *& lll_node_basic::add() {
+bool lll_node_basic::add(lll_node_basic *& store) {
     if (this->next == NULL) {
-        this->create(this->next);
-        return this->next;
+        if (this->create(this->next) == false) {
+            store = NULL;
+            return false;
+        }
+        store = this->next;
+        return true;
     }
-    return this->next->add();
+    return this->next->add(store);
 }
 
 /*
@@ -36,9 +40,10 @@ bool lll_node_basic::create(lll_node_basic *& new_node) {
 /*
  * Attempts to remove a node at the given index
  */
-lll_node_basic * lll_node_basic::get(unsigned int index) {
+bool lll_node_basic::get(unsigned int index, lll_node_basic *& store) {
     unsigned int start = 0U;
-    return this->get_count(index, start);
+    store = this->get_count(index, start);
+    return true;
 }
 
 /*
@@ -113,8 +118,8 @@ unsigned int lll_node_basic::remove_all() {
  * preferable to all the remove(index) function so that the next poitners of
  * the lll will be updated correctly
  */
-lll_node_basic * lll_node_basic::remove_self(lll_node_basic *& replace) {
+bool lll_node_basic::remove_self(lll_node_basic *& replace) {
     replace = this->next;
     delete this;
-    return replace;
+    return (replace != NULL);
 }

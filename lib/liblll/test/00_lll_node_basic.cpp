@@ -4,18 +4,18 @@
 */
 #include "lll.h"
 
-#define lnb lll_node_basic
-
 int test_lll_node_basic_add() {
-    lnb head;
-    lnb * added = head.add();
+    lll_node_basic head;
+    lll_node_basic * added = NULL;
+    head.add(added);
     MACRO_TEST_CANT_EQ(added, NULL);
     delete added;
     return EXIT_SUCCESS;
 }
 
 int test_lll_node_basic_remove_increasing() {
-    lnb head;
+    lll_node_basic head;
+    lll_node_basic * added = NULL;
     const int to_remove = 10;
     int i;
     for (i = 0; i < to_remove; ++i) {
@@ -28,7 +28,8 @@ int test_lll_node_basic_remove_increasing() {
 }
 
 int test_lll_node_basic_remove_decreasing() {
-    lnb head;
+    lll_node_basic head;
+    lll_node_basic * added = NULL;
     const int to_remove = 10;
     int i;
     for (i = 0; i < to_remove; ++i) {
@@ -41,7 +42,8 @@ int test_lll_node_basic_remove_decreasing() {
 }
 
 int test_lll_node_basic_remove_all() {
-    lnb head;
+    lll_node_basic head;
+    lll_node_basic * added = NULL;
     const int to_remove = 10;
     int i;
     for (i = 0; i < to_remove; ++i) {
@@ -52,22 +54,27 @@ int test_lll_node_basic_remove_all() {
 }
 
 int test_lll_node_basic_remove_self() {
-    lnb * head = new lnb;
-    MACRO_TEST_POINTER_EQ(head->remove_self(head), NULL);
+    lll_node_basic * head = new lll_node_basic;
+    MACRO_TEST_EQ(head->remove_self(head), false);
     MACRO_TEST_POINTER_EQ(head, NULL);
     return EXIT_SUCCESS;
 }
 
 int test_lll_node_basic_get_index0() {
-    lnb head;
-    MACRO_TEST_POINTER_EQ(head.get(0), &head);
+    lll_node_basic head;
+    lll_node_basic * getnode = NULL;
+    MACRO_TEST_EQ(head.get(0, getnode), true);
+    MACRO_TEST_POINTER_EQ(getnode, &head);
     return EXIT_SUCCESS;
 }
 
 int test_lll_node_basic_get() {
-    lnb head;
-    lnb * a = head.add();
-    MACRO_TEST_POINTER_EQ(head.get(1), a);
+    lll_node_basic head;
+    lll_node_basic * added = NULL;
+    lll_node_basic * getnode = NULL;
+    MACRO_TEST_EQ(head.add(added), true);
+    MACRO_TEST_EQ(head.get(1, getnode), true);
+    MACRO_TEST_POINTER_EQ(getnode, added);
     MACRO_TEST_EQ(head.remove_all(), 1);
     return EXIT_SUCCESS;
 }

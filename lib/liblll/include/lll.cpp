@@ -15,7 +15,7 @@ lll<data_type>::~lll() {}
 // Allows access by key value
 template <typename data_type>
 data_type & lll<data_type>::operator[](unsigned int index) {
-    return lll_basic::operator[](index)->value();
+    return lll_basic::get_extend(index)->value();
 }
 
 // Return the value we are managing
