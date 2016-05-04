@@ -17,6 +17,7 @@
 #include <cstdlib>
 #include <cstring>
 
+
 /*
  * The lll_node is a basic node in a lll that contains no data
  */
@@ -40,6 +41,10 @@ class lll_node_basic {
         // and returns this nodes next node. It also sets replace to the return
         // value so you and check and set in one call
         virtual lll_node_basic * remove_self(lll_node_basic *& replace);
+    protected:
+        // Lets us get the address of what this is so that we can pass by
+        // refernece and still have the value
+        lll_node_basic *& as_basic();
     private:
         // We need to be counting so we know what to get
         virtual lll_node_basic * get_count(unsigned int & index, unsigned int & curr);
