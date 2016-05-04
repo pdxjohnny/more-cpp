@@ -49,7 +49,8 @@ int test_lll_operator_subscript() {
     lll_node<int> * to_get = (lll_node<int> *)list.get(to_remove);
     MACRO_TEST_POINTER_EQ(added, to_get);
     int num_removed = list.remove_all();
-    MACRO_TEST_EQ(num_removed, to_remove);
+    // Add one because index 10 means 0 through 10 so 11 nodes
+    MACRO_TEST_EQ(num_removed, to_remove + 1);
     return EXIT_SUCCESS;
 }
 
@@ -62,7 +63,7 @@ int test_lll_correct_data() {
     for (i = 1; i < to_remove; ++i) {
         head[i] = i;
     }
-    for (i = to_remove; i > 0; --i) {
+    for (i = to_remove - 1; i > 0; --i) {
         MACRO_TEST_EQ(head[i], i);
     }
     MACRO_TEST_EQ(head[0], value);

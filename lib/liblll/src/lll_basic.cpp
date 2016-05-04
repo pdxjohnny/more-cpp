@@ -44,12 +44,8 @@ lll_node_basic * lll_basic::get(int index) {
     if (head_ptr == NULL) {
         return NULL;
     }
-    // If they want the frist one then return head
-    if (index == 0) {
-        return head_ptr;
-    }
     // Otherwise let the nodes deal with it
-    return head_ptr->get(index - 1U);
+    return head_ptr->get(index);
 }
 
 /*
@@ -63,10 +59,8 @@ lll_node_basic * lll_basic::get_extend(int index) {
         return this->get(index);
     }
     // Create nodes until we have created the requested index
-    MACRO_LOG_INT(contains);
     int i = 0;
     for (i = this->size(); i <= index; ++i) {
-        MACRO_LOG_STR("added a node");
         to_ret = this->add();
     }
     return to_ret;

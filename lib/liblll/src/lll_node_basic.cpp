@@ -31,7 +31,7 @@ bool lll_node_basic::create(lll_node_basic *& node) {
 }
 
 /*
- * Attempts to remove a node at the given index
+ * Attempts to retrive a node at the given index
  */
 lll_node_basic * lll_node_basic::get(int index) {
     int start = 0;

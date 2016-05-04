@@ -66,8 +66,16 @@ int test_lll_node_basic_get_index0() {
 
 int test_lll_node_basic_get() {
     lnb head;
-    lnb * a = head.add();
-    MACRO_TEST_POINTER_EQ(head.get(1), a);
-    MACRO_TEST_EQ(head.remove_all(), 1);
+    lnb * added = NULL;
+    const int to_get = 10;
+    int i;
+    for (i = 1; i < to_get + 1; ++i) {
+        added = head.add();
+        MACRO_TEST_CANT_EQ(added, NULL);
+        MACRO_TEST_CANT_EQ(head.get(i), NULL);
+        MACRO_TEST_POINTER_EQ(head.get(i), added);
+    }
+    int num_removed = head.remove_all();
+    MACRO_TEST_EQ(num_removed, to_get);
     return EXIT_SUCCESS;
 }

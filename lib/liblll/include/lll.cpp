@@ -17,11 +17,11 @@ template <typename data_type>
 data_type & lll<data_type>::operator[](int index) {
     lll_node_basic * at_index = lll_basic::operator[](index);
     if (at_index == NULL) {
-        MACRO_LOG_STR("at_index was null");
+        // FIXME throw and error if this happened
     }
     lll_node<data_type> * data_node = dynamic_cast<lll_node<data_type> *>(at_index);
     if (data_node == NULL) {
-        MACRO_LOG_STR("data_node was null");
+        // FIXME throw and error if this happened
     }
     return data_node->value();
 }
