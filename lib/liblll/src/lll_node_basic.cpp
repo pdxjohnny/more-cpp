@@ -24,13 +24,10 @@ lll_node_basic *& lll_node_basic::add() {
 /*
  * Allocates a node and returns true on succesfull allocation
  */
-bool lll_node_basic::create(lll_node_basic *& new_node) {
-    new_node = new lll_node_basic;
+bool lll_node_basic::create(lll_node_basic *& node) {
+    node = new lll_node_basic;
     // Will be NULL if we are out of memory
-    if (new_node == NULL) {
-        return false;
-    }
-    return true;
+    return (node != NULL);
 }
 
 /*

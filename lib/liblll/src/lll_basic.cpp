@@ -26,16 +26,13 @@ lll_node_basic *& lll_basic::add() {
 }
 
 /*
- * Allocates a new node, this needs to be overridden if you wish to use
+ * Allocates a node, this needs to be overridden if you wish to use
  * anything other than lll_node_basic in your list
  */
-bool lll_basic::create(lll_node_basic *& new_node) {
-    new_node = new lll_node_basic;
+bool lll_basic::create(lll_node_basic *& node) {
+    node = new lll_node_basic;
     // Will be NULL if we are out of memory
-    if (new_node == NULL) {
-        return false;
-    }
-    return true;
+    return (node != NULL);
 }
 
 /*
@@ -58,7 +55,7 @@ lll_node_basic * lll_basic::get(unsigned int index) {
 /*
  * Creates all the nodes up to index if they do not exist and returns the index
  */
-lll_node_basic * lll_basic::operator[](unsigned int index) {
+lll_node_basic * lll_basic::get_extend(unsigned int index) {
     // The node to return
     lll_node_basic * to_ret = NULL;
     // If we have the index in the lll then just return it
@@ -68,14 +65,24 @@ lll_node_basic * lll_basic::operator[](unsigned int index) {
     // index is unsigned so the following will fail if we have nothing in the
     // list becuase i would have been -1
     if (0 < this->size() - 1) {
+        MACRO_LOG_STR("added a node");
         to_ret = this->add();
     }
     // Create nodes until we have created the requested index
+    MACRO_LOG_INT(contains);
     unsigned int i = 0U;
     for (i = this->size(); i < index; ++i) {
+        MACRO_LOG_STR("added a node");
         to_ret = this->add();
     }
     return to_ret;
+}
+
+/*
+ * Calls get_extend
+ */
+lll_node_basic * lll_basic::operator[](unsigned int index) {
+    return this->get_extend(index);
 }
 
 /*

@@ -69,3 +69,20 @@ int test_lll_node_get() {
     MACRO_TEST_EQ(head.remove_all(), 1);
     return EXIT_SUCCESS;
 }
+
+int test_lll_node_correct_data() {
+    const int value = 42;
+    lll_node<int> head;
+    head.value() = value;
+    const int to_remove = 10;
+    int i;
+    for (i = 0; i < to_remove; ++i) {
+        ((lll_node<int> *)head.add())->value() = i + 1;
+    }
+    for (i = to_remove; i > 0; --i) {
+        MACRO_TEST_EQ(((lll_node<int> *)head.get(i))->value(), i);
+    }
+    MACRO_TEST_EQ(head.value(), value);
+    MACRO_TEST_EQ(head.remove_all(), to_remove);
+    return EXIT_SUCCESS;
+}

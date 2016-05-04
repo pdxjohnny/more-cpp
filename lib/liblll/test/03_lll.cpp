@@ -1,6 +1,6 @@
 /*
  * John Andersen
- * File: liblll/test/lll_node_basic.cpp
+ * File: liblll/test/lll_node<int>.cpp
 */
 #include "lll.h"
 
@@ -44,11 +44,28 @@ int test_lll_get() {
 int test_lll_operator_subscript() {
     lll<int> list;
     const int to_remove = 10;
-    lll_node_basic * added = list[to_remove];
+    lll_node<int> * added = (lll_node<int> *)list.get_extend(to_remove);
     MACRO_TEST_CANT_EQ(added, NULL);
-    lll_node_basic * to_get = list.get(to_remove);
+    lll_node<int> * to_get = (lll_node<int> *)list.get(to_remove);
     MACRO_TEST_POINTER_EQ(added, to_get);
     int num_removed = list.remove_all();
     MACRO_TEST_EQ(num_removed, to_remove);
+    return EXIT_SUCCESS;
+}
+
+int test_lll_correct_data() {
+    const int value = 42;
+    lll<int> head;
+    head[0] = value;
+    const int to_remove = 10;
+    int i;
+    for (i = 1; i < to_remove; ++i) {
+        head[i] = i;
+    }
+    for (i = to_remove; i > 0; --i) {
+        MACRO_TEST_EQ(head[i], i);
+    }
+    MACRO_TEST_EQ(head[0], value);
+    MACRO_TEST_EQ(head.remove_all(), to_remove);
     return EXIT_SUCCESS;
 }

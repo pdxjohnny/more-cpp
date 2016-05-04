@@ -28,8 +28,8 @@ class lll_node_basic {
         virtual ~lll_node_basic();
         // Add a node to the end
         virtual lll_node_basic *& add();
-        // Creates a node of the type we wish to add, new is set to new_node
-        virtual bool create(lll_node_basic *& new_node);
+        // Creates a node of the type we wish to add
+        virtual bool create(lll_node_basic *& node);
         // Get a node at an index
         virtual lll_node_basic * get(unsigned int index);
         // Remove a node at an index returns 1 if there was a node at that index to
@@ -66,11 +66,13 @@ class lll_basic {
         // Adds a node to the lll
         lll_node_basic *& add();
         // What node we should create
-        virtual bool create(lll_node_basic *& new_node);
+        virtual bool create(lll_node_basic *& node);
         // Allows access by key value
         lll_node_basic * get(unsigned int index);
         // Preforms a get and if no node is present we create nodes until it is
         // present
+        lll_node_basic * get_extend(unsigned int index);
+        // Calls get_extend
         lll_node_basic * operator[](unsigned int index);
         // Removes a node from the list
         bool remove(unsigned int index);
@@ -97,6 +99,8 @@ class lll_node : public lll_node_basic {
         // Constructors and Destructors
         lll_node<data_type>();
         ~lll_node<data_type>();
+        // Allocates one of us
+        bool create(lll_node_basic *& node);
         // Return the value we are managing
         data_type & value();
     private:
@@ -114,15 +118,12 @@ class lll : public lll_basic {
         // Constructor and deconstructor
         lll<data_type>();
         ~lll<data_type>();
+        // Allocates a lll_node and stores it in the pointer to an
+        // lll_node_basic
+        bool create(lll_node_basic *& node);
         // Allows access by key value and creates up to that index if it is not
         // in the list
         data_type & operator[](unsigned int index);
-    protected:
-        // So the lll_basic can access our head
-        lll_node<data_type> *& head();
-    private:
-        // Head of the lll
-        lll_node<data_type> * head_value;
 };
 
 #include "lll_node.cpp"
