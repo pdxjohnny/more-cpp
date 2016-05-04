@@ -40,6 +40,10 @@ class lll_node_basic {
         lll_node_basic();
         lll_node_basic(const lll_node_basic & copy);
         virtual ~lll_node_basic();
+        // Copy a node, not the whole list
+        virtual lll_node_basic & operator=(const lll_node_basic & copy);
+        // Copy the whole list
+        virtual lll_node_basic & copy(const lll_node_basic & copy);
         // Add a node to the end
         virtual lll_node_basic *& add();
         // Creates a node of the type we wish to add
@@ -76,8 +80,10 @@ class lll_basic {
     public:
         // Constructor and deconstructor
         lll_basic();
-        lll_basic(const lll_basic & copy);
+        lll_basic(lll_basic & copy);
         virtual ~lll_basic();
+        // Copy the list
+        virtual lll_basic & operator=(lll_basic & copy);
         // Adds a node to the lll
         lll_node_basic *& add();
         // What node we should create

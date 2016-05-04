@@ -79,3 +79,24 @@ int test_lll_node_basic_get() {
     MACRO_TEST_EQ(num_removed, to_get);
     return EXIT_SUCCESS;
 }
+
+int test_lll_node_basic_copy() {
+    lnb head;
+    lnb copy;
+    lnb * added = NULL;
+    const int to_get = 10;
+    int i;
+    for (i = 1; i < to_get + 1; ++i) {
+        added = head.add();
+        MACRO_TEST_CANT_EQ(added, NULL);
+        MACRO_TEST_CANT_EQ(head.get(i), NULL);
+        MACRO_TEST_POINTER_EQ(head.get(i), added);
+    }
+    // Now preform the copy
+    copy.copy(head);
+    int num_removed = head.remove_all();
+    MACRO_TEST_EQ(num_removed, to_get);
+    num_removed = copy.remove_all();
+    MACRO_TEST_EQ(num_removed, to_get);
+    return EXIT_SUCCESS;
+}

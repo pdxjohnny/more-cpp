@@ -6,9 +6,9 @@
 lll_basic::lll_basic() : contains(0), head_value(NULL) {}
 
 /*
- * Copies one lll to another
+ * Copies one lll to another, cant use const because of head()
  */
-lll_basic::lll_basic(const lll_basic & copy) : contains(0), head_value(NULL) {
+lll_basic::lll_basic(lll_basic & copy) : contains(0), head_value(NULL) {
     this->operator=(copy);
 }
 
@@ -17,6 +17,17 @@ lll_basic::lll_basic(const lll_basic & copy) : contains(0), head_value(NULL) {
  */
 lll_basic::~lll_basic() {
     remove_all();
+}
+
+/*
+ * Copy the whole list, cant use const beacuse of head()
+ */
+lll_basic & lll_basic::operator=(lll_basic & copy) {
+    // Must call the method with a pointer to have the virtual fucniton invoked
+    if ((&copy)->head() == NULL) {
+        return *this;
+    }
+    return *this;
 }
 
 /*

@@ -57,3 +57,23 @@ int test_lll_basic_operator_subscript() {
     MACRO_TEST_EQ(num_removed, to_remove + 1);
     return EXIT_SUCCESS;
 }
+
+int test_lll_basic_operator_copy() {
+    lll_basic list;
+    lll_basic copy;
+    const int to_remove = 10;
+    // Create all the nodes in list
+    lll_node_basic * added = list[to_remove];
+    MACRO_TEST_CANT_EQ(added, NULL);
+    lll_node_basic * to_get = list.get(to_remove);
+    MACRO_TEST_POINTER_EQ(added, to_get);
+    // Copy all the nodes to copy
+    copy = list;
+    // Now remove them all
+    int num_removed = list.remove_all();
+    MACRO_TEST_EQ(num_removed, to_remove + 1);
+    // Make sure the copy has removed the same amount
+    num_removed = copy.remove_all();
+    MACRO_TEST_EQ(num_removed, to_remove + 1);
+    return EXIT_SUCCESS;
+}

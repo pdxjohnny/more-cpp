@@ -6,9 +6,39 @@
 lll_node_basic::lll_node_basic() : next(NULL) {}
 
 /*
+ * Copy constructor for lll_node_basic
+ */
+lll_node_basic::lll_node_basic(const lll_node_basic & copy) : next(NULL) {
+    this->operator=(copy);
+}
+
+/*
  * Destructor for lll_node_basic
  */
 lll_node_basic::~lll_node_basic() {}
+
+/*
+ * Copy a node, not the whole list
+ */
+lll_node_basic & lll_node_basic::operator=(const lll_node_basic & copy) {
+    return *this;
+}
+
+/*
+ * Copy the whole list
+ */
+lll_node_basic & lll_node_basic::copy(const lll_node_basic & copy) {
+    // Copy what we hold
+    this->operator=(copy);
+    // This is all there is to copy
+    if (copy.next == NULL) {
+        return *this;
+    }
+    // There is more to copy
+    this->create(this->next);
+    this->next->copy(*copy.next);
+    return *this;
+}
 
 /*
  * Adds a node to the end of the lll_basic
