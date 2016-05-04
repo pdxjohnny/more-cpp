@@ -16,6 +16,19 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <exception>
+
+/*
+ * This exception is thrown if lll cannot return the data type requested by its
+ * templated value. This happens when its nodes are of a class other than
+ * lll_node<data_type> * or lll_basic failed to allocate a node
+ */
+class lll_out_of_range : public std::exception {
+    public:
+        lll_out_of_range();
+        ~lll_out_of_range() throw();
+        virtual const char * what() const throw();
+};
 
 
 /*
@@ -25,6 +38,7 @@ class lll_node_basic {
     public:
         // Constructors and Destructors
         lll_node_basic();
+        lll_node_basic(const lll_node_basic & copy);
         virtual ~lll_node_basic();
         // Add a node to the end
         virtual lll_node_basic *& add();
@@ -62,6 +76,7 @@ class lll_basic {
     public:
         // Constructor and deconstructor
         lll_basic();
+        lll_basic(const lll_basic & copy);
         virtual ~lll_basic();
         // Adds a node to the lll
         lll_node_basic *& add();
@@ -123,7 +138,7 @@ class lll : public lll_basic {
         bool create(lll_node_basic *& node);
         // Allows access by key value and creates up to that index if it is not
         // in the list
-        data_type & operator[](int index);
+        data_type & operator[](int index) throw(lll_out_of_range);
 };
 
 #include "lll_node.cpp"

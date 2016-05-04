@@ -1,10 +1,16 @@
-#include "liblll.h"
-#include <libmacro.h>
+#include <liblll.h>
 
 /*
  * Constructor for the lll
  */
 lll_basic::lll_basic() : contains(0), head_value(NULL) {}
+
+/*
+ * Copies one lll to another
+ */
+lll_basic::lll_basic(const lll_basic & copy) : contains(0), head_value(NULL) {
+    this->operator=(copy);
+}
 
 /*
  * Destuctor for the lll

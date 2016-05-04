@@ -14,14 +14,14 @@ lll<data_type>::~lll() {}
 
 // Allows access by key value
 template <typename data_type>
-data_type & lll<data_type>::operator[](int index) {
+data_type & lll<data_type>::operator[](int index) throw(lll_out_of_range) {
     lll_node_basic * at_index = lll_basic::operator[](index);
     if (at_index == NULL) {
-        // FIXME throw and error if this happened
+        throw lll_out_of_range();
     }
     lll_node<data_type> * data_node = dynamic_cast<lll_node<data_type> *>(at_index);
     if (data_node == NULL) {
-        // FIXME throw and error if this happened
+        throw lll_out_of_range();
     }
     return data_node->value();
 }
