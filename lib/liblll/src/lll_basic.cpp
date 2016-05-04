@@ -27,6 +27,10 @@ lll_basic & lll_basic::operator=(lll_basic & copy) {
     if ((&copy)->head() == NULL) {
         return *this;
     }
+    if (this->head() == NULL) {
+        this->create(this->head());
+    }
+    this->head()->copy(*((&copy)->head()));
     return *this;
 }
 
