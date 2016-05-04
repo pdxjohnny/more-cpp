@@ -31,12 +31,12 @@ class lll_node_basic {
         // Creates a node of the type we wish to add
         virtual bool create(lll_node_basic *& node);
         // Get a node at an index
-        virtual lll_node_basic * get(unsigned int index);
+        virtual lll_node_basic * get(int index);
         // Remove a node at an index returns 1 if there was a node at that index to
         // remove. Returns 0 if there was not a node at that index to remove
-        virtual bool remove(unsigned int index);
+        virtual bool remove(int index);
         // Remove every node return the number removed
-        virtual unsigned int remove_all();
+        virtual int remove_all();
         // Removes this node which will not update the node before its previous
         // and returns this nodes next node. It also sets replace to the return
         // value so you and check and set in one call
@@ -47,9 +47,9 @@ class lll_node_basic {
         lll_node_basic *& as_basic();
     private:
         // We need to be counting so we know what to get
-        virtual lll_node_basic * get_count(unsigned int & index, unsigned int & curr);
+        virtual lll_node_basic * get_count(int & index, int & curr);
         // We need to be counting so we know when to remove
-        bool remove_count(unsigned int & index, unsigned int & curr);
+        bool remove_count(int & index, int & curr);
         // The next node in the list
         lll_node_basic * next;
 };
@@ -68,24 +68,24 @@ class lll_basic {
         // What node we should create
         virtual bool create(lll_node_basic *& node);
         // Allows access by key value
-        lll_node_basic * get(unsigned int index);
+        lll_node_basic * get(int index);
         // Preforms a get and if no node is present we create nodes until it is
         // present
-        lll_node_basic * get_extend(unsigned int index);
+        lll_node_basic * get_extend(int index);
         // Calls get_extend
-        lll_node_basic * operator[](unsigned int index);
+        lll_node_basic * operator[](int index);
         // Removes a node from the list
-        bool remove(unsigned int index);
+        bool remove(int index);
         // Deallocates the lll
-        unsigned int remove_all();
+        int remove_all();
         // Returns the number of elements in the lll
-        unsigned int size();
+        int size();
     protected:
         // Provides the head to do operations on
         virtual lll_node_basic *& head();
     private:
         // Number of nodes in the lll
-        unsigned int contains;
+        int contains;
         // Provide us with the head to do operations on
         lll_node_basic * head_value;
 };
@@ -123,7 +123,7 @@ class lll : public lll_basic {
         bool create(lll_node_basic *& node);
         // Allows access by key value and creates up to that index if it is not
         // in the list
-        data_type & operator[](unsigned int index);
+        data_type & operator[](int index);
 };
 
 #include "lll_node.cpp"

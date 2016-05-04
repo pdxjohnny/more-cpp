@@ -14,7 +14,7 @@ lll<data_type>::~lll() {}
 
 // Allows access by key value
 template <typename data_type>
-data_type & lll<data_type>::operator[](unsigned int index) {
+data_type & lll<data_type>::operator[](int index) {
     lll_node_basic * at_index = lll_basic::operator[](index);
     if (at_index == NULL) {
         MACRO_LOG_STR("at_index was null");

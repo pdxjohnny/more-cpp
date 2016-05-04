@@ -33,15 +33,15 @@ bool lll_node_basic::create(lll_node_basic *& node) {
 /*
  * Attempts to remove a node at the given index
  */
-lll_node_basic * lll_node_basic::get(unsigned int index) {
-    unsigned int start = 0U;
+lll_node_basic * lll_node_basic::get(int index) {
+    int start = 0;
     return this->get_count(index, start);
 }
 
 /*
  * Attempts to get a node at the given index and counts along the way
  */
-lll_node_basic * lll_node_basic::get_count(unsigned int & index, unsigned int & curr) {
+lll_node_basic * lll_node_basic::get_count(int & index, int & curr) {
     // If we are on the index we wish to get then return ourself
     if (index == curr) {
         return this;
@@ -57,18 +57,18 @@ lll_node_basic * lll_node_basic::get_count(unsigned int & index, unsigned int & 
 /*
  * Attempts to remove a node at the given index
  */
-bool lll_node_basic::remove(unsigned int index) {
+bool lll_node_basic::remove(int index) {
     // If someone wanted to remove index 0 they would have just removed us
     // We pass 1 so that if they requested to remove index one then we will
     // remove the one after us
-    unsigned int start = 1;
+    int start = 1;
     return this->remove_count(index, start);
 }
 
 /*
  * Attempts to remove a node at the given index and counts along the way
  */
-bool lll_node_basic::remove_count(unsigned int & index, unsigned int & curr) {
+bool lll_node_basic::remove_count(int & index, int & curr) {
     // We want to remove the next one but we cant because there is
     // nothing to remove
     if (this->next == NULL) {
@@ -91,12 +91,12 @@ bool lll_node_basic::remove_count(unsigned int & index, unsigned int & curr) {
 /*
  * Removes all the nodes after this one but not this one
  */
-unsigned int lll_node_basic::remove_all() {
+int lll_node_basic::remove_all() {
     // If we are at the end this is no more to remove
     if (this->next == NULL) {
         return 0;
     }
-    unsigned int num_removed = this->next->remove_all();
+    int num_removed = this->next->remove_all();
     delete this->next;
     this->next = NULL;
     return 1 + num_removed;
