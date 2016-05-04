@@ -71,7 +71,9 @@ bool lll_basic::get_extend(unsigned int index, lll_node_basic *& store) {
     }
     // index is unsigned so the following will fail if we have nothing in the
     // list becuase i would have been -1
-    if (0 < this->size() - 1) {
+    // NOTE this will cause an error if contains is larger than MAX_INT or
+    // MAX_UNSIGNED_INT / 2
+    if (0 < (int)(this->size()) - 1) {
         return this->add(store);
     }
     // Create nodes until we have created the requested index
@@ -88,7 +90,7 @@ bool lll_basic::get_extend(unsigned int index, lll_node_basic *& store) {
  * Calls get_extend
  */
 lll_node_basic * lll_basic::operator[](unsigned int index) {
-    lll_node_basic * store;
+    lll_node_basic * store = NULL;
     this->get_extend(index, store);
     return store;
 }

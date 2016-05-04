@@ -1,4 +1,5 @@
 #include "liblll.h"
+#include <libmacro.h>
 
 /*
  * Constructor for lll_node_basic

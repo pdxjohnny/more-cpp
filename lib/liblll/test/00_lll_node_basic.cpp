@@ -19,7 +19,7 @@ int test_lll_node_basic_remove_increasing() {
     const int to_remove = 10;
     int i;
     for (i = 0; i < to_remove; ++i) {
-        MACRO_TEST_CANT_EQ(head.add(), NULL);
+        MACRO_TEST_EQ(head.add(added), true);
     }
     for (i = 1; i <= to_remove; ++i) {
         MACRO_TEST_EQ(head.remove(1), true);
@@ -33,7 +33,7 @@ int test_lll_node_basic_remove_decreasing() {
     const int to_remove = 10;
     int i;
     for (i = 0; i < to_remove; ++i) {
-        MACRO_TEST_CANT_EQ(head.add(), NULL);
+        MACRO_TEST_EQ(head.add(added), true);
     }
     for (i = to_remove; i > 0; --i) {
         MACRO_TEST_EQ(head.remove(i), true);
@@ -47,7 +47,7 @@ int test_lll_node_basic_remove_all() {
     const int to_remove = 10;
     int i;
     for (i = 0; i < to_remove; ++i) {
-        head.add();
+        MACRO_TEST_EQ(head.add(added), true);
     }
     MACRO_TEST_EQ(head.remove_all(), to_remove);
     return EXIT_SUCCESS;
