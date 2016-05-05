@@ -35,5 +35,6 @@ MACRO_TEST(test_cards_card_not_equal_to);
 MACRO_TEST(test_cards_deck_correct_size);
 MACRO_TEST(test_cards_deck_shuffle);
 MACRO_TEST(test_cards_deck_random);
+MACRO_TEST(test_cards_game_player_rotation);
 return EXIT_SUCCESS;
 }

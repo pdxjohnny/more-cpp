@@ -194,7 +194,7 @@ class cards::game : public cards::deck {
         // Play should return true if it is possible to play the game.
         // when games play is called it adds it to the list of players in
         // game.players
-        virtual bool play(player &);
+        virtual bool play(int num_players, ...);
         // next_turn should be called until it returns false. This way you can
         // call play to set up the game then you call next_turn to have the
         // next player take their turn
@@ -210,7 +210,7 @@ class cards::game : public cards::deck {
         // protected allows us to avoid putting it in every other class that
         // uses players. Because we might need to add to the players or remove
         // from the players in another play implementation
-        lll<cards::player> players;
+        lll<cards::player *> players;
     private:
         // This keeps track of which players turn it is
         int current_player;

@@ -41,3 +41,4 @@ int test_cards_card_not_equal_to();
 int test_cards_deck_correct_size();
 int test_cards_deck_shuffle();
 int test_cards_deck_random();
+int test_cards_game_player_rotation();
