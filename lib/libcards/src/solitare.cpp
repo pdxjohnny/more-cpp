@@ -13,6 +13,14 @@ cards::solitare::~solitare() {}
 /*
  * Turn asks the player what we should do on this turn
  */
-bool cards::solitare::turn(player & current_player) {
+bool cards::solitare::turn(cards::player & curr) {
+    curr.out() << *this;
     return true;
+}
+
+/*
+ * Displays the board
+ */
+void cards::solitare::display(std::ostream & out) {
+    return;
 }

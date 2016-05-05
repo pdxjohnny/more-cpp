@@ -51,6 +51,10 @@ namespace cards {
     bool operator != (const cards::card &, const cards::card &);
     bool operator == (const cards::card &, const cards::card &);
 
+    // Displays a game, up to that game to implement game::display
+    // this is for showing the user the current cards
+    std::ostream & operator << (std::ostream &, cards::game &);
+
     // Various card games that this library has already implemented
     class solitare;
 };
@@ -199,6 +203,15 @@ class cards::game : public cards::deck {
         // call play to set up the game then you call next_turn to have the
         // next player take their turn
         bool next_turn();
+        // Displays the game to all players, usefull if you want to show it to
+        // everyone as soon as one player does something
+        virtual void display_all();
+        // Displays the game. This should be overridden or else it wont display
+        // anything
+        virtual void display(std::ostream &);
+        // Displays a game, up to that game to implement game::display
+        // this is for showing the user the current cards
+        friend std::ostream & operator << (std::ostream &, cards::game &);
     protected:
         // turn is called by next_turn which manages which players turn it is
         // turn needs to be implemented by the game deriving from game because
@@ -225,4 +238,6 @@ class cards::solitare : public cards::game {
         // We only need to implement turn because game sets up a single player
         // for us and that is all we need
         bool turn(player &);
+        // Show the board
+        void display(std::ostream &);
 };

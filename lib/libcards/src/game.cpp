@@ -36,3 +36,28 @@ bool cards::game::next_turn() {
     ++current_player;
     return keep_going;
 }
+
+/*
+ * Displays self to all of the players
+ */
+void cards::game::display_all() {
+    int i;
+    for (i = players.size() - 1; i >= 0; --i) {
+        operator<<(players[i]->out(), *this);
+    }
+}
+
+/*
+ * Displays the game. This should be overridden or else it wont display
+ * anything
+ */
+void cards::game::display(std::ostream & out) {}
+
+/*
+ * Displays a game, up to that game to implement game::display
+ * this is for showing the user the current cards
+ */
+std::ostream & cards::operator<<(std::ostream & out, cards::game & game) {
+    game.display(out);
+    return out;
+}

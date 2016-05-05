@@ -14,6 +14,10 @@ class test_cards_game : public cards::game {
             ++p_count->called;
             return true;
         }
+        void display(std::ostream & out) {
+            out << "This is the board";
+            out.flush();
+        }
 };
 
 int test_cards_game_player_rotation() {
@@ -36,6 +40,16 @@ int test_cards_game_player_rotation() {
     for (i = turns - 1; i >= 0; --i) {
         bool keep_going = game.next_turn();
         MACRO_TEST_EQ(keep_going, true);
+        game.display_all();
+        MACRO_TEST_STR_EQ(p1_out.str().c_str(), "This is the board");
+        MACRO_TEST_STR_EQ(p2_out.str().c_str(), "This is the board");
+        MACRO_TEST_STR_EQ(p3_out.str().c_str(), "This is the board");
+        p1_out.str("");
+        p1_out.clear();
+        p2_out.str("");
+        p2_out.clear();
+        p3_out.str("");
+        p3_out.clear();
     }
     MACRO_TEST_EQ(p1.called, 2);
     MACRO_TEST_EQ(p2.called, 2);
