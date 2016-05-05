@@ -132,6 +132,32 @@ int test_cards_card_same_color_clubs_clubs() {
 }
 
 /*
+ * Make sure the card throws and error when it is passed an invalid value
+ */
+int test_cards_card_invalid_card_value_error() {
+    try {
+        cards::card invalid('P', cards::SUIT_HEARTS);
+    } catch (cards::invalid_card_value) {
+        return EXIT_SUCCESS;
+    }
+    MACRO_PRINT_FILE_LINE("The card did not throw and inavlid_card_value exception when it was given and invalid value%s\n", "");
+    return -1;
+}
+
+/*
+ * Make sure the card throws and error when it is passed an invalid suit
+ */
+int test_cards_card_invalid_card_suit_error() {
+    try {
+        cards::card invalid('K', 'P');
+    } catch (cards::invalid_card_suit) {
+        return EXIT_SUCCESS;
+    }
+    MACRO_PRINT_FILE_LINE("The card did not throw and inavlid_card_suit exception when it was given and invalid suit%s\n", "");
+    return -1;
+}
+
+/*
  * Test the equality operators for all cards
  */
 int test_cards_card_equality() {

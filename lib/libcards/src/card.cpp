@@ -6,10 +6,25 @@
  * A card cant change its suit or value so it wouldnt make sence to
  * have those be a default value
  */
-cards::card::card(char value, char suit) : value(value), suit(suit) {
-    // Make sure that this is a value value for a card, so 2 - 9 and 
+cards::card::card(char value, char suit) throw(cards::invalid_card_value, cards::invalid_card_suit) : value(value), suit(suit) {
     // Make the value upercase so that comparisons will always work
     this->value = std::toupper(value);
+    // Make sure the suit is upercase as well
+    this->suit = std::toupper(suit);
+    // Make sure that this is a value value for a card, so 1 - 9 and K,Q,J,A
+    // 1 will repsresent 10
+    if (!((this->value >= '1' && this->value <= '9') ||
+                this->value == 'K' || this->value == 'Q' ||
+                this->value == 'J' || this->value == 'A')) {
+        throw cards::invalid_card_value();
+    }
+    // Make sure that the suit is valid
+    if (!(this->suit == cards::SUIT_HEARTS ||
+                this->suit == cards::SUIT_DIMONDS ||
+                this->suit == cards::SUIT_SPADES ||
+                this->suit == cards::SUIT_CLUBS)) {
+        throw cards::invalid_card_suit();
+    }
 }
 
 /*

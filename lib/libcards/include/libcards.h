@@ -2,6 +2,7 @@
  * John Andersen
  * File: libcards/include/libcards.h
 */
+#include <exception>
 #include <liblll.h>
 
 // No card games name is longer than this
@@ -25,22 +26,43 @@ namespace cards {
     // Returns an instance of the game requested by the string
     cards::game * game_from_string(char * game_name);
     // Constants that are used to play cards
-    const char SUIT_HEARTS = 1;
-    const char SUIT_DIMONDS = 3;
-    const char SUIT_SPADES = 2;
-    const char SUIT_CLUBS = 6;
-    const char SUIT_MASK_IS_RED = 0xFE;
-    const char SUIT_MASK_IS_BLACK = 0xFD;
+    const char SUIT_HEARTS = 'H';
+    const char SUIT_DIMONDS = 'D';
+    const char SUIT_SPADES = 'S';
+    const char SUIT_CLUBS = 'C';
+    // Exceptions
+    // invalid_card_value means that the value is not 1 - 9 or K,Q,J,A
+    class invalid_card_value;
+    // invalid_card_suit means that the suit is invalid, not H,D,S,C
+    class invalid_card_suit;
 
     // Various card games that this library has already implemented
     class solitare;
+};
+
+// If the value given to the card constructor is not a regular card value this
+// is thrown
+class cards::invalid_card_value : public std::exception {
+    public:
+        invalid_card_value();
+        ~invalid_card_value() throw();
+        virtual const char * what() const throw();
+};
+
+// If the suit given to the card constructor is not a regular suit this is
+// thrown
+class cards::invalid_card_suit : public std::exception {
+    public:
+        invalid_card_suit();
+        ~invalid_card_suit() throw();
+        virtual const char * what() const throw();
 };
 
 class cards::card {
     public:
         // A card cant change its suit or value so it wouldnt make sence to
         // have those be a default value
-        card(char value, char suit);
+        card(char value, char suit) throw(cards::invalid_card_value, cards::invalid_card_suit);
         // Copy another card
         card(const card & copy);
         // Destroy the card, no point this wont do anything

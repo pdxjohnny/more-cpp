@@ -23,6 +23,8 @@ MACRO_TEST(test_cards_card_same_color_clubs_hearts);
 MACRO_TEST(test_cards_card_same_color_clubs_dimonds);
 MACRO_TEST(test_cards_card_same_color_clubs_spades);
 MACRO_TEST(test_cards_card_same_color_clubs_clubs);
+MACRO_TEST(test_cards_card_invalid_card_value_error);
+MACRO_TEST(test_cards_card_invalid_card_suit_error);
 MACRO_TEST(test_cards_card_equality);
 return EXIT_SUCCESS;
 }
