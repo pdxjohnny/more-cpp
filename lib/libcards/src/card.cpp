@@ -71,21 +71,24 @@ bool cards::card::same_suit(const card & check) {
 /*
  * Lets us compare our value to that of another card
  */
-bool cards::operator <  (const cards::card & first, const cards::card & second) {
-    return (first.value <  second.value);
+bool cards::operator <  (const cards::card & one, const cards::card & two) {
+    if (two.value == 'K' && (one.value == 'Q')) {
+        return true;
+    }
+    return (one.value <  two.value);
 }
-bool cards::operator <= (const cards::card & first, const cards::card & second) {
-    return (first.value <= second.value);
+bool cards::operator <= (const cards::card & one, const cards::card & two) {
+    return (one.value <= two.value);
 }
-bool cards::operator >  (const cards::card & first, const cards::card & second) {
-    return (first.value >  second.value);
+bool cards::operator >  (const cards::card & one, const cards::card & two) {
+    return (one.value >  two.value);
 }
-bool cards::operator >= (const cards::card & first, const cards::card & second) {
-    return (first.value >= second.value);
+bool cards::operator >= (const cards::card & one, const cards::card & two) {
+    return (one.value >= two.value);
 }
-bool cards::operator != (const cards::card & first, const cards::card & second) {
-    return (first.value != second.value);
+bool cards::operator != (const cards::card & one, const cards::card & two) {
+    return (one.value != two.value);
 }
-bool cards::operator == (const cards::card & first, const cards::card & second) {
-    return (first.value == second.value);
+bool cards::operator == (const cards::card & one, const cards::card & two) {
+    return (one.value == two.value);
 }

@@ -26,5 +26,6 @@ MACRO_TEST(test_cards_card_same_color_clubs_clubs);
 MACRO_TEST(test_cards_card_invalid_card_value_error);
 MACRO_TEST(test_cards_card_invalid_card_suit_error);
 MACRO_TEST(test_cards_card_equality);
+MACRO_TEST(test_cards_card_lessthan);
 return EXIT_SUCCESS;
 }

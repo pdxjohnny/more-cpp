@@ -158,8 +158,37 @@ int test_cards_card_invalid_card_suit_error() {
 }
 
 /*
- * Test the equality operators for all cards
+ * Test equality operator
  */
 int test_cards_card_equality() {
+    char value_one[] = {'K'};
+    char value_two[] = {'K'};
+    bool result[] = {1};
+    const int to_check = sizeof(result);
+    int i;
+    for (i = 0; i < to_check; ++i) {
+        cards::card one(value_one[i], cards::SUIT_CLUBS);
+        cards::card two(value_two[i], cards::SUIT_CLUBS);
+        MACRO_TEST_EQ(one == two, result[i]);
+    }
+    return EXIT_SUCCESS;
+}
+
+/*
+ * Test lessthan operator
+ */
+int test_cards_card_lessthan() {
+    char value_one[] = {'A', 'J', 'Q', '2', '3', '4', '5', '6', '7', '8', '9', '1'};
+    char value_two[] = {'K', 'K', 'K', 'K', 'K', 'K', 'K', 'K', 'K', 'K', 'K', 'K'};
+    const int to_check = sizeof(value_one);
+    int i;
+    for (i = 0; i < to_check; ++i) {
+        cards::card one(value_one[i], cards::SUIT_CLUBS);
+        cards::card two(value_two[i], cards::SUIT_CLUBS);
+        if (!(one < two)) {
+            MACRO_PRINT_FILE_LINE("%c should have been greater than %c\n", value_two[i], value_one[i]);
+        }
+        MACRO_TEST_EQ(one < two, true);
+    }
     return EXIT_SUCCESS;
 }

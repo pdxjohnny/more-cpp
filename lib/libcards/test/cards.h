@@ -32,3 +32,4 @@ int test_cards_card_same_color_clubs_clubs();
 int test_cards_card_invalid_card_value_error();
 int test_cards_card_invalid_card_suit_error();
 int test_cards_card_equality();
+int test_cards_card_lessthan();
