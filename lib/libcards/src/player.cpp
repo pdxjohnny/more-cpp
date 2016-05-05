@@ -1,4 +1,4 @@
-#include <libcards.h>
+#include "cards.h"
 
 /*
  * Create a player with no input or output

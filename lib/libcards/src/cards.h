@@ -4,5 +4,6 @@
 */
 #include <cstdlib>
 #include <cstring>
+#include <cstdarg>
 
 #include <libcards.h>

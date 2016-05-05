@@ -1,4 +1,4 @@
-#include <libcards.h>
+#include "cards.h"
 
 /*
  * Initailize the game
