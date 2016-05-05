@@ -72,11 +72,16 @@ bool cards::card::same_suit(const card & check) {
  * Lets us compare our value to that of another card
  */
 bool cards::operator <  (const cards::card & one, const cards::card & two) {
+    // Ace is always less than everything but not if its againt itself then it
+    // is less than or equal
+    if (one.value == 'A' && two.value != 'A') {
+        return true;
+    }
     if (two.value == 'K' && (one.value == 'Q')) {
         return true;
     }
     // 1 represents 10 because 'A'ce represents 1
-    if (two.value == '1' && (one.value <= '2' && one.value >= '9')) {
+    if (two.value == '1' && (one.value >= '2' && one.value <= '9')) {
         return true;
     }
     return (one.value <  two.value);
