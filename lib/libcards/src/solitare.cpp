@@ -40,14 +40,14 @@ void cards::solitare::display(std::ostream & out) {
     // Clear any pervious output
     cards::clear(out);
     // Display the cards to choose from
-    int i;
-    int j;
+    int i = 0;
+    int j = 0;
+    int longest_column = 0;
     int choose_size = choose.size();
     for (i = 0; i < choose_size; ++i) {
         out << choose[i] << "  ";
     }
     // Ouput the top card on the top stacks
-    out << "      ";
     for (i = 0; i < 4; ++i) {
         if (top[i].size() > 0) {
             out << top[i][top[i].size() - 1] << "  ";
@@ -57,20 +57,26 @@ void cards::solitare::display(std::ostream & out) {
     }
     out << std::endl;
     out << std::endl;
-    // Ouput all of the hidden columns
+    // Find the longest column
     for (i = 0; i < 7; ++i) {
+        int hidden_and_viewable = column_hidden[i].size() + column[i].size();
+        if (hidden_and_viewable > longest_column) {
+            longest_column = hidden_and_viewable;
+        }
+    }
+    // Ouput all of the hidden columns
+    for (i = 0; i < longest_column; ++i) {
         for (j = 0; j < 7; ++j) {
             if (column_hidden[j].size() > i) {
-                // out << cards::CARD_UNKNOWN << "  ";
-                out << column_hidden[j][i] << "  ";
+                out << cards::CARD_UNKNOWN << "  ";
+            } else if (column[j].size() > (i - column_hidden[j].size())) {
+                out << column[j][i - column_hidden[j].size()] << "  ";
             } else {
                 out << "           ";
             }
         }
         out << std::endl;
     }
-    out << std::endl;
-    // Ouput all of the columns
     out << std::endl;
     return;
 }
@@ -103,5 +109,8 @@ void cards::solitare::populate_columns() {
         for (j = i - 1; j >= 0; --j) {
             column_hidden[i][j] = random();
         }
+    }
+    for (i = 6; i >= 0; --i) {
+        column[i][0] = random();
     }
 }
