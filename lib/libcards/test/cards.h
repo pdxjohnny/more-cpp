@@ -12,3 +12,21 @@
 #include <libmacro.h>
 
 #include <libcards.h>
+int test_cards_card_same_suit();
+int test_cards_card_same_color_hearts_hearts();
+int test_cards_card_same_color_hearts_dimonds();
+int test_cards_card_same_color_hearts_spades();
+int test_cards_card_same_color_hearts_clubs();
+int test_cards_card_same_color_dimonds_hearts();
+int test_cards_card_same_color_dimonds_dimonds();
+int test_cards_card_same_color_dimonds_spades();
+int test_cards_card_same_color_dimonds_clubs();
+int test_cards_card_same_color_spades_hearts();
+int test_cards_card_same_color_spades_dimonds();
+int test_cards_card_same_color_spades_spades();
+int test_cards_card_same_color_spades_clubs();
+int test_cards_card_same_color_clubs_hearts();
+int test_cards_card_same_color_clubs_dimonds();
+int test_cards_card_same_color_clubs_spades();
+int test_cards_card_same_color_clubs_clubs();
+int test_cards_card_equality();

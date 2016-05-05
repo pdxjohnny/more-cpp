@@ -2,6 +2,7 @@
  * John Andersen
  * File: libcards/include/libcards.h
 */
+#include <liblll.h>
 
 // No card games name is longer than this
 #define CARDS_MAX_GAME_NAME_SIZE 100
@@ -10,7 +11,8 @@
 // game. You can play the games that are here or create your own game by
 // deriving from cards::game
 namespace cards {
-    // Resets a card game
+    // Card coingtians the value and suit
+    class card;
     // The abstract base class
     class game;
     // A deck of cards
@@ -22,16 +24,50 @@ namespace cards {
     void play(cards::game &);
     // Returns an instance of the game requested by the string
     cards::game * game_from_string(char * game_name);
+    // Constants that are used to play cards
+    const char SUIT_HEARTS = 1;
+    const char SUIT_DIMONDS = 3;
+    const char SUIT_SPADES = 2;
+    const char SUIT_CLUBS = 6;
+    const char SUIT_MASK_IS_RED = 0xFE;
+    const char SUIT_MASK_IS_BLACK = 0xFD;
 
     // Various card games that this library has already implemented
     class solitare;
+};
+
+class cards::card {
+    public:
+        // A card cant change its suit or value so it wouldnt make sence to
+        // have those be a default value
+        card(char value, char suit);
+        // Copy another card
+        card(const card & copy);
+        // Destroy the card, no point this wont do anything
+        ~card();
+        // Copy the cards data
+        card & operator=(const card & copy);
+        // Checks if we are the same color as another card
+        bool same_color(const card & check);
+        // Checks if we are the same suit as another card
+        bool same_suit(const card & check);
+        // Lets us compare our value to that of another card
+        friend bool operator <  (const cards::card &, const cards::card &);
+        friend bool operator <= (const cards::card &, const cards::card &);
+        friend bool operator >  (const cards::card &, const cards::card &);
+        friend bool operator >= (const cards::card &, const cards::card &);
+        friend bool operator != (const cards::card &, const cards::card &);
+        friend bool operator == (const cards::card &, const cards::card &);
+    private:
+        char value;
+        char suit;
 };
 
 // cards::hand is a hand of cards. A hand is the cards the player is holding.
 // It contains the cards a player can and cant view. For example some games
 // like go fish you can always see all your cards. Other games like speed you
 // can only have a certain number of cards available to view
-class cards::hand {
+class cards::hand : public lll<cards::card> {
     public:
         // Initializes the hand. Some games the hand is a fixed size. If this
         // is the case specify the size, otherwise spcifiy 0 for a hand of
@@ -46,6 +82,9 @@ class cards::hand {
         // CARDS_DRAW_TO_VISABLE or CARDS_DRAW_TO_HIDDEN. anything else will
         // throw a no where to draw to error.
         char draw(cards::deck &, int (*)(char card));
+    private:
+        // Keep track of the card that we cant see
+        lll<cards::card> not_visable;
 };
 
 // cards::deck is a deck of cards. A deck of cards is organized by suite. A deck
