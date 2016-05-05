@@ -18,7 +18,9 @@ int main(int argc, char ** argv, char ** env) {
     if (game == NULL) {
         MACRO_LOG_FATAL("Sorry we do not have the game \"%s\"", game_name);
     }
-    game->play(std::cin, std::cout);
+    // Create a basic player
+    cards::player player_one(std::cout, std::cin);
+    game->play(player_one);
     // We have no more use for the game
     MACRO_DELETE_IF_NOT_NULL(game);
     return EXIT_SUCCESS;

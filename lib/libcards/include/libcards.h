@@ -39,6 +39,9 @@ namespace cards {
     class invalid_card_value;
     // invalid_card_suit means that the suit is invalid, not H,D,S,C
     class invalid_card_suit;
+    // In case there is no i or o stream
+    class player_no_ostream;
+    class player_no_istream;
 
     // Friend funcions
     bool operator <  (const cards::card &, const cards::card &);
@@ -143,20 +146,37 @@ class cards::deck {
         void shuffle();
 };
 
+// Errors for player
+class cards::player_no_ostream : public std::exception {
+    public:
+        player_no_ostream();
+        ~player_no_ostream() throw();
+        virtual const char * what() const throw();
+};
+
+class cards::player_no_istream : public std::exception {
+    public:
+        player_no_istream();
+        ~player_no_istream() throw();
+        virtual const char * what() const throw();
+};
+
 // A player contains an istream and ostream which game can use to interact with
 // that player
 class cards::player {
     public:
-        // Must be created with an already initialized istream and ostream
-        player(std::ostream &, std::istream &);
+        player();
+        player(std::ostream *, std::istream *);
         virtual ~player();
+        // Copy a player
+        player & operator=(const player & copy);
         // Provides people with access to our streams
-        virtual std::ostream & out();
-        virtual std::istream & in();
+        virtual std::ostream & out() throw(cards::player_no_ostream);
+        virtual std::istream & in() throw(cards::player_no_istream);
     private:
         // So we can keep track of the streams we are using
-        std::ostream & out_stream;
-        std::istream & in_stream;
+        std::ostream * out_stream;
+        std::istream * in_stream;
 };
 
 // cards::game is the base class with card games should be derived from. It
