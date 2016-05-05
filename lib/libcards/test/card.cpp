@@ -169,7 +169,7 @@ int test_cards_card_equality() {
     for (i = 0; i < to_check; ++i) {
         cards::card one(value_one[i], cards::SUIT_CLUBS);
         cards::card two(value_two[i], cards::SUIT_CLUBS);
-        MACRO_TEST_EQ(one == two, result[i]);
+        MACRO_TEST_EQ((one == two), result[i]);
     }
     return EXIT_SUCCESS;
 }
@@ -248,7 +248,7 @@ int test_cards_card_lessthan() {
         if (!(one < two)) {
             MACRO_PRINT_FILE_LINE("%c should have been less than %c\n", value_one[i], value_two[i]);
         }
-        MACRO_TEST_EQ(one < two, true);
+        MACRO_TEST_EQ((one < two), true);
     }
     return EXIT_SUCCESS;
 }
@@ -327,7 +327,7 @@ int test_cards_card_greaterthan() {
         if (!(two > one)) {
             MACRO_PRINT_FILE_LINE("%c should have been greater than %c\n", value_two[i], value_one[i]);
         }
-        MACRO_TEST_EQ(two > one, true);
+        MACRO_TEST_EQ((two > one), true);
     }
     return EXIT_SUCCESS;
 }
@@ -414,7 +414,7 @@ int test_cards_card_lessthan_or_equal_to() {
         if (!(one <= two)) {
             MACRO_PRINT_FILE_LINE("%c should have been less than or equal to %c\n", value_one[i], value_two[i]);
         }
-        MACRO_TEST_EQ(one <= two, true);
+        MACRO_TEST_EQ((one <= two), true);
     }
     return EXIT_SUCCESS;
 }
@@ -501,7 +501,7 @@ int test_cards_card_greaterthan_or_equal_to() {
         if (!(two >= one)) {
             MACRO_PRINT_FILE_LINE("%c should have been greater than or equal to %c\n", value_two[i], value_one[i]);
         }
-        MACRO_TEST_EQ(two >= one, true);
+        MACRO_TEST_EQ((two >= one), true);
     }
     return EXIT_SUCCESS;
 }
@@ -522,7 +522,7 @@ int test_cards_card_equal_to() {
         if (!(one == one)) {
             MACRO_PRINT_FILE_LINE("%c should have been equal to %c\n", value_one[i], value_one[i]);
         }
-        MACRO_TEST_EQ(one == one, true);
+        MACRO_TEST_EQ((one == one), true);
     }
     return EXIT_SUCCESS;
 }
@@ -549,7 +549,7 @@ int test_cards_card_not_equal_to() {
         if (!(one != two)) {
             MACRO_PRINT_FILE_LINE("%c should not have been equal to %c\n", value_one[i], value_two[i]);
         }
-        MACRO_TEST_EQ(one != two, true);
+        MACRO_TEST_EQ((one != two), true);
     }
     return EXIT_SUCCESS;
 }

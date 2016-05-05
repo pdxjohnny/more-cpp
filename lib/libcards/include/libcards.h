@@ -27,6 +27,8 @@ namespace cards {
     // Methods to play and manage card games
     // Plays a card game
     void play(cards::game &);
+    // Prints a whole bunch of lines to clear the screen
+    void clear(std::ostream &);
     // Returns an instance of the game requested by the string
     cards::game * game_from_string(char * game_name);
     // Constants that are used to play cards
@@ -102,6 +104,8 @@ class cards::card {
         friend bool operator >= (const cards::card &, const cards::card &);
         friend bool operator != (const cards::card &, const cards::card &);
         friend bool operator == (const cards::card &, const cards::card &);
+        // Outputs the card
+        friend std::ostream & operator << (std::ostream &, cards::card &);
     private:
         char value;
         char suit;
@@ -219,12 +223,12 @@ class cards::game : public cards::deck {
         // If turn ever returns false then that signals to next_turn that it
         // should return false and the game will be over
         virtual bool turn(player &) = 0;
+    private:
         // Becuase this is an abstract base class putting this data mamber in
         // protected allows us to avoid putting it in every other class that
         // uses players. Because we might need to add to the players or remove
         // from the players in another play implementation
         lll<cards::player *> players;
-    private:
         // This keeps track of which players turn it is
         int current_player;
 };
@@ -240,4 +244,12 @@ class cards::solitare : public cards::game {
         bool turn(player &);
         // Show the board
         void display(std::ostream &);
+    private:
+        // Solitare displays three cards at the top of the board which you can
+        // choose to put in the columns of to the top
+        lll<cards::card> choose;
+        // The four top coloums for each suit
+        lll<cards::card> top[4];
+        // The columns of the solitare board
+        lll<cards::card> column[7];
 };

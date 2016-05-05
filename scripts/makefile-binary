@@ -1,4 +1,5 @@
-NAME=uber
+mkfile_path=$(abspath $(lastword $(MAKEFILE_LIST)))
+NAME=$(notdir $(patsubst %/,%,$(dir $(mkfile_path))))
 # Libs in use
 LIB_NAMES=$(notdir $(wildcard deps/*))
 LIB_HEADERS=$(addprefix -I./deps/,$(addsuffix /include/,$(LIB_NAMES)))

@@ -107,3 +107,15 @@ bool cards::operator != (const cards::card & one, const cards::card & two) {
 bool cards::operator == (const cards::card & one, const cards::card & two) {
     return (one.value == two.value);
 }
+
+/*
+ * Displays a card
+ */
+std::ostream & cards::operator<<(std::ostream & out, cards::card & card) {
+    if (card.value == '1') {
+        out << "[ 10  " << card.suit << " ]";
+    } else {
+        out << "[ " << card.value << "   " << card.suit << " ]";
+    }
+    return out;
+}

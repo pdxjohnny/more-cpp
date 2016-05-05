@@ -9,7 +9,8 @@
 int main(int argc, char ** argv, char ** env) {
     // The first agrument should be the name of the game we want to play
     char * game_name = NULL;
-    if (argc < 1) {
+    if (argc < 2) {
+        errno = EINVAL;
         MACRO_LOG_FATAL("Usage: %s name_of_card_game", argv[0]);
     }
     game_name = argv[1];
@@ -20,7 +21,7 @@ int main(int argc, char ** argv, char ** env) {
     }
     // Create a basic player
     cards::player player_one(&std::cout, &std::cin);
-    game->play(player_one);
+    game->play(1, &player_one);
     try {
         // We dont need to do anything in between turns
         while(game->next_turn()) {};
