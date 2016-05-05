@@ -110,10 +110,15 @@ bool lll_basic::remove(int index) {
     // If they want the frist one then remove the head
     if (index == 0) {
         head_ptr->remove_self(this->head());
+        --contains;
         return true;
     }
     // Otherwise let the nodes deal with it
-    return head_ptr->remove(index);
+    bool removed = head_ptr->remove(index);
+    if (removed == true) {
+        --contains;
+    }
+    return removed;
 }
 
 /*

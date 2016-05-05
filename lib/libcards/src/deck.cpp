@@ -23,7 +23,12 @@ cards::deck::~deck() {}
  * longer available
  */
 cards::card cards::deck::random() {
-    int index = std::rand() % (size() - 1);
+    int index = 0;
+    int max = size() - 1;
+    // No floating point exceptions please
+    if (max > 0) {
+        index = std::rand() % (size() - 1);
+    }
     cards::card tmp = this->operator[](index);
     remove(index);
     return tmp;
