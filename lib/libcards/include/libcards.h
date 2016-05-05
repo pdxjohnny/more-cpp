@@ -36,6 +36,14 @@ namespace cards {
     // invalid_card_suit means that the suit is invalid, not H,D,S,C
     class invalid_card_suit;
 
+    // Friend funcions
+    bool operator <  (const cards::card &, const cards::card &);
+    bool operator <= (const cards::card &, const cards::card &);
+    bool operator >  (const cards::card &, const cards::card &);
+    bool operator >= (const cards::card &, const cards::card &);
+    bool operator != (const cards::card &, const cards::card &);
+    bool operator == (const cards::card &, const cards::card &);
+
     // Various card games that this library has already implemented
     class solitare;
 };
