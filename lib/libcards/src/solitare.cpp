@@ -28,6 +28,17 @@ bool cards::solitare::turn(cards::player & curr) {
     curr.out() << "Action: ";
     memset(buffer, 0, buffer_size);
     curr.in().getline(buffer, buffer_size);
+    // If there is not enough to work with this was a noop
+    if (strnlen(buffer, buffer_size) < 5) {
+        return true;
+    }
+    // We have enough info to work with, user can move with place index to
+    // place index with the syntax "C0 C6". This would move the card in column
+    // zero to be the last card in column 6, if it can otherwise it will do
+    // nothing. T for top to S for suit woulf move a card from the top three
+    // into the suit area, remoember you can only take the rightmost card from
+    // the top. T S3, moves the top card into the last suit position in the top
+    // row
     // Display the restuls
     display_all();
     return true;
@@ -39,13 +50,16 @@ bool cards::solitare::turn(cards::player & curr) {
 void cards::solitare::display(std::ostream & out) {
     // Clear any pervious output
     cards::clear(out);
-    // Display the cards to choose from
     int i = 0;
     int j = 0;
     int longest_column = 0;
-    int choose_size = choose.size();
-    for (i = 0; i < choose_size; ++i) {
-        out << choose[i] << "  ";
+    // Display the cards to choose from
+    for (i = 0; i < 3; ++i) {
+        if (choose.size() > i) {
+            out << choose[i] << "  ";
+        } else {
+            out << cards::CARD_BLANK << "  ";
+        }
     }
     // Ouput the top card on the top stacks
     for (i = 0; i < 4; ++i) {
@@ -72,7 +86,7 @@ void cards::solitare::display(std::ostream & out) {
             } else if (column[j].size() > (i - column_hidden[j].size())) {
                 out << column[j][i - column_hidden[j].size()] << "  ";
             } else {
-                out << "           ";
+                out << cards::CARD_BLANK << "  ";
             }
         }
         out << std::endl;
@@ -94,9 +108,17 @@ void cards::solitare::choose3() {
     // Remove the cards from choose
     choose.remove_all();
     // Draw three new random cards from the deck and put them in choose
-    choose[0] = random();
-    choose[1] = random();
-    choose[2] = random();
+    // Make sure we have enough cards to give from the deck before we call
+    // random
+    if (size() > 0) {
+        choose[0] = random();
+    }
+    if (size() > 0) {
+        choose[1] = random();
+    }
+    if (size() > 0) {
+        choose[2] = random();
+    }
 }
 
 /*

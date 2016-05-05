@@ -37,6 +37,7 @@ namespace cards {
     const char SUIT_SPADES = 'S';
     const char SUIT_CLUBS = 'C';
     const char CARD_UNKNOWN[] = MACRO_YELLOW "[#######]" MACRO_RESET;
+    const char CARD_BLANK[] = "         ";
     // Exceptions
     // invalid_card_value means that the value is not 1 - 9 or K,Q,J,A
     class invalid_card_value;
