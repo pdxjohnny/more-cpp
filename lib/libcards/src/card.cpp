@@ -3,6 +3,12 @@
 
 
 /*
+ * Create a card which by default is an Ace of Hearts just because we need a
+ * default
+ */
+cards::card::card() : value('A'), suit(cards::SUIT_HEARTS) {}
+
+/*
  * A card cant change its suit or value so it wouldnt make sence to
  * have those be a default value
  */

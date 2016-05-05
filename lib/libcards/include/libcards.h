@@ -78,8 +78,8 @@ class cards::invalid_card_suit : public std::exception {
 // same suit or color as another card
 class cards::card {
     public:
-        // A card cant change its suit or value so it wouldnt make sence to
-        // have those be a default value
+        card();
+        // Normally a card is initialized to something
         card(char value, char suit) throw(cards::invalid_card_value, cards::invalid_card_suit);
         // Copy another card
         card(const card & copy);
@@ -116,12 +116,10 @@ class cards::hand : public lll<cards::card> {
         hand();
         // Gets rid of the hand
         ~hand();
-        // Draws a card from the deck and places it in the hand. A callback can
-        // also be provided to decide if you want to place it into your cards
-        // you can see or the cards you cant see. The callback should return
-        // CARDS_DRAW_TO_VISABLE or CARDS_DRAW_TO_HIDDEN. anything else will
-        // throw a no where to draw to error.
-        char draw(cards::deck &, int (*)(char card));
+        // Draws a card from the deck and places it in the hand that is visable
+        cards::card & draw_visable(cards::deck &);
+        // Draws a card and places it in the not_visable cards we own
+        cards::card & draw_not_visable(cards::deck &);
     private:
         // Keep track of the card that we cant see
         lll<cards::card> not_visable;
@@ -129,7 +127,7 @@ class cards::hand : public lll<cards::card> {
 
 // cards::deck is a deck of cards. A deck of cards is organized by suite. A deck
 // also can be shuffled so that it can be used for a card game
-class cards::deck {
+class cards::deck : public lll<cards::card> {
     public:
         // Initailizes the deck
         deck();
@@ -137,10 +135,11 @@ class cards::deck {
         ~deck();
         // Lets you access a random card from the deck. That card will not be
         // available to access again until you have shuffled the deck. If there
-        // are no more cards to be played random returns -1 which is of course
-        // not a real card. Otherwise it will return the ASCII value of the
-        // card. That way its easier to diplay to the user
-        char random();
+        // are no more cards to be played random throws a no more cards
+        // exception. We return by value because the card will be removed from
+        // the deck and if we were to return by refernece the card would be no
+        // longer available
+        cards::card random();
         // Shuffling the deck makes it so all the cards can be accessed by
         // random again
         void shuffle();
@@ -162,8 +161,9 @@ class cards::player_no_istream : public std::exception {
 };
 
 // A player contains an istream and ostream which game can use to interact with
-// that player
-class cards::player {
+// that player a player is a hand of cards as well because a player without a
+// hand of cards cant play cards
+class cards::player : public cards::hand {
     public:
         player();
         player(std::ostream *, std::istream *);
@@ -211,6 +211,9 @@ class cards::game : public cards::deck {
         // uses players. Because we might need to add to the players or remove
         // from the players in another play implementation
         lll<cards::player> players;
+    private:
+        // This keeps track of which players turn it is
+        int current_player;
 };
 
 // This is the game of solitare
