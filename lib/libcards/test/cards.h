@@ -33,3 +33,8 @@ int test_cards_card_invalid_card_value_error();
 int test_cards_card_invalid_card_suit_error();
 int test_cards_card_equality();
 int test_cards_card_lessthan();
+int test_cards_card_greaterthan();
+int test_cards_card_lessthan_or_equal_to();
+int test_cards_card_greaterthan_or_equal_to();
+int test_cards_card_equal_to();
+int test_cards_card_not_equal_to();

@@ -27,5 +27,10 @@ MACRO_TEST(test_cards_card_invalid_card_value_error);
 MACRO_TEST(test_cards_card_invalid_card_suit_error);
 MACRO_TEST(test_cards_card_equality);
 MACRO_TEST(test_cards_card_lessthan);
+MACRO_TEST(test_cards_card_greaterthan);
+MACRO_TEST(test_cards_card_lessthan_or_equal_to);
+MACRO_TEST(test_cards_card_greaterthan_or_equal_to);
+MACRO_TEST(test_cards_card_equal_to);
+MACRO_TEST(test_cards_card_not_equal_to);
 return EXIT_SUCCESS;
 }

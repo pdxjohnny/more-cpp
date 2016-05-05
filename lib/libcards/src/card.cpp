@@ -90,10 +90,10 @@ bool cards::operator <= (const cards::card & one, const cards::card & two) {
     return (cards::operator <  (one, two)) || (cards::operator == (one, two));
 }
 bool cards::operator >  (const cards::card & one, const cards::card & two) {
-    return !(cards::operator <  (one, two));
+    return cards::operator <  (two, one);
 }
 bool cards::operator >= (const cards::card & one, const cards::card & two) {
-    return !(cards::operator <= (one, two));
+    return cards::operator <= (two, one);
 }
 bool cards::operator != (const cards::card & one, const cards::card & two) {
     return !(cards::operator == (one, two));
