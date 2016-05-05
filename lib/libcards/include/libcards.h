@@ -3,6 +3,7 @@
  * File: libcards/include/libcards.h
 */
 #include <exception>
+#include <iostream>
 #include <liblll.h>
 
 // No card games name is longer than this
@@ -14,6 +15,9 @@
 namespace cards {
     // Card coingtians the value and suit
     class card;
+    // A player just holds pointers to the istream and ostream they can be
+    // interfaced through
+    class player;
     // The abstract base class
     class game;
     // A deck of cards
@@ -66,6 +70,9 @@ class cards::invalid_card_suit : public std::exception {
         virtual const char * what() const throw();
 };
 
+// A card has a suit and a value and can be compared with operators to compare
+// its value to other cards. It also has methods to find out if it is in the
+// same suit or color as another card
 class cards::card {
     public:
         // A card cant change its suit or value so it wouldnt make sence to
@@ -136,15 +143,63 @@ class cards::deck {
         void shuffle();
 };
 
+// A player contains an istream and ostream which game can use to interact with
+// that player
+class cards::player {
+    public:
+        // Must be created with an already initialized istream and ostream
+        player(std::ostream &, std::istream &);
+        virtual ~player();
+        // Provides people with access to our streams
+        virtual std::ostream & out();
+        virtual std::istream & in();
+    private:
+        // So we can keep track of the streams we are using
+        std::ostream & out_stream;
+        std::istream & in_stream;
+};
+
 // cards::game is the base class with card games should be derived from. It
 // tells you what methods you must implement if you want to use the game_
 // functions under the cards namespace. Every card game has a deck of cards
 // there for a card game is a deck plus whatever you to to the deck to play the
 // game
 class cards::game : public cards::deck {
+    public:
+        game();
+        virtual ~game();
+        // Play needs to be given the primary player and then it will ask how
+        // who you want to play against, if applicable to that game. A player
+        // is just an istream and an ostream so we can interact with them.
+        // Play should return true if it is possible to play the game.
+        // when games play is called it adds it to the list of players in
+        // game.players
+        virtual bool play(player &);
+        // next_turn should be called until it returns false. This way you can
+        // call play to set up the game then you call next_turn to have the
+        // next player take their turn
+        bool next_turn();
+    protected:
+        // turn is called by next_turn which manages which players turn it is
+        // turn needs to be implemented by the game deriving from game because
+        // it should interact with the user to get their action for this turn.
+        // If turn ever returns false then that signals to next_turn that it
+        // should return false and the game will be over
+        virtual bool turn(player &) = 0;
+        // Becuase this is an abstract base class putting this data mamber in
+        // protected allows us to avoid putting it in every other class that
+        // uses players. Because we might need to add to the players or remove
+        // from the players in another play implementation
+        lll<cards::player> players;
 };
 
 // This is the game of solitare
 #define CARDS_GAME_SOLITARE "solitare"
 class cards::solitare : public cards::game {
+    public:
+        solitare();
+        ~solitare();
+        // We only need to implement turn because game sets up a single player
+        // for us and that is all we need
+        bool turn(player &);
 };
