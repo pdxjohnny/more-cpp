@@ -3,7 +3,10 @@
 /*
  * Create the game
  */
-cards::solitare::solitare() {}
+cards::solitare::solitare() {
+    choose3();
+    populate_columns();
+}
 
 /*
  * Clean up the game when its over
@@ -23,6 +26,7 @@ bool cards::solitare::turn(cards::player & curr) {
     display_all();
     // Ask the user what they want to do
     curr.out() << "Action: ";
+    memset(buffer, 0, buffer_size);
     curr.in().getline(buffer, buffer_size);
     // Display the restuls
     display_all();
@@ -42,27 +46,62 @@ void cards::solitare::display(std::ostream & out) {
     for (i = 0; i < choose_size; ++i) {
         out << choose[i] << "  ";
     }
-    out << std::endl;
     // Ouput the top card on the top stacks
-    out << "                    ";
+    out << "      ";
     for (i = 0; i < 4; ++i) {
         if (top[i].size() > 0) {
             out << top[i][top[i].size() - 1] << "  ";
         } else {
-            out << "        ";
+            out << cards::CARD_UNKNOWN << "  ";
         }
+    }
+    out << std::endl;
+    out << std::endl;
+    // Ouput all of the hidden columns
+    for (i = 0; i < 7; ++i) {
+        for (j = 0; j < 7; ++j) {
+            if (column_hidden[j].size() > i) {
+                // out << cards::CARD_UNKNOWN << "  ";
+                out << column_hidden[j][i] << "  ";
+            } else {
+                out << "           ";
+            }
+        }
+        out << std::endl;
     }
     out << std::endl;
     // Ouput all of the columns
-    for (i = 0; i < 4; ++i) {
-        for (j = 0; j < 4; ++j) {
-            if (top[i].size() > 0) {
-                out << top[i][top[i].size() - 1] << "  ";
-            } else {
-                out << "        ";
-            }
-        }
-    }
     out << std::endl;
     return;
+}
+
+/*
+ * Populates the choose cards
+ */
+void cards::solitare::choose3() {
+    // Put any cards in choose back into the deck
+    int choose_size = choose.size();
+    int i;
+    for (i = 0; i < choose_size; ++i) {
+        this->operator[](this->size()) = choose[i];
+    }
+    // Remove the cards from choose
+    choose.remove_all();
+    // Draw three new random cards from the deck and put them in choose
+    choose[0] = random();
+    choose[1] = random();
+    choose[2] = random();
+}
+
+/*
+ * Populates the columns
+ */
+void cards::solitare::populate_columns() {
+    int i;
+    int j;
+    for (i = 6; i >= 0; --i) {
+        for (j = i - 1; j >= 0; --j) {
+            column_hidden[i][j] = random();
+        }
+    }
 }

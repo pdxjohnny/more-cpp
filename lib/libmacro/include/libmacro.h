@@ -11,6 +11,7 @@
 #include <time.h>
 
 
+#define MACRO_BLACK   "\x1b[30m"
 #define MACRO_RED     "\x1b[31m"
 #define MACRO_GREEN   "\x1b[32m"
 #define MACRO_YELLOW  "\x1b[33m"

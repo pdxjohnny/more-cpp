@@ -36,6 +36,7 @@ namespace cards {
     const char SUIT_DIMONDS = 'D';
     const char SUIT_SPADES = 'S';
     const char SUIT_CLUBS = 'C';
+    const char CARD_UNKNOWN[] = MACRO_YELLOW "[#######]" MACRO_RESET;
     // Exceptions
     // invalid_card_value means that the value is not 1 - 9 or K,Q,J,A
     class invalid_card_value;
@@ -245,11 +246,17 @@ class cards::solitare : public cards::game {
         // Show the board
         void display(std::ostream &);
     private:
+        // Chooses3 cards from the deck the be the cards we can move
+        void choose3();
+        // Populates teh columsn for the initail setup
+        void populate_columns();
         // Solitare displays three cards at the top of the board which you can
         // choose to put in the columns of to the top
         lll<cards::card> choose;
         // The four top coloums for each suit
         lll<cards::card> top[4];
-        // The columns of the solitare board
+        // The columns of the solitare board that we can access
         lll<cards::card> column[7];
+        // The cards the get hidden under the other cards
+        lll<cards::card> column_hidden[7];
 };

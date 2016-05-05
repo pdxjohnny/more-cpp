@@ -5,5 +5,6 @@
 #include <cstdlib>
 #include <cstring>
 #include <cstdarg>
+#include <ctime>
 
 #include <libcards.h>

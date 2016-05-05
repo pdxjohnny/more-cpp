@@ -112,10 +112,16 @@ bool cards::operator == (const cards::card & one, const cards::card & two) {
  * Displays a card
  */
 std::ostream & cards::operator<<(std::ostream & out, cards::card & card) {
+    if (card.suit == cards::SUIT_HEARTS || card.suit == cards::SUIT_DIMONDS) {
+        out << MACRO_RED;
+    } else {
+        out << MACRO_CYAN;
+    }
     if (card.value == '1') {
         out << "[ 10  " << card.suit << " ]";
     } else {
         out << "[ " << card.value << "   " << card.suit << " ]";
     }
+    out << MACRO_RESET;
     return out;
 }

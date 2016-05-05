@@ -5,7 +5,7 @@
  */
 cards::deck::deck() {
     // So that random works
-    std::srand(0U);
+    std::srand(std::time(NULL));
     shuffle();
 }
 
