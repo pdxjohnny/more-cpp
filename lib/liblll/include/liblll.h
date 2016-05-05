@@ -120,6 +120,8 @@ class lll_node : public lll_node_basic {
         // Constructors and Destructors
         lll_node<data_type>();
         ~lll_node<data_type>();
+        // Copies the data
+        lll_node_basic & operator=(const lll_node_basic & copy);
         // Allocates one of us
         bool create(lll_node_basic *& node);
         // Return the value we are managing

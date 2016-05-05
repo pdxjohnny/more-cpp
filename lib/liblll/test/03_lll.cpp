@@ -70,3 +70,33 @@ int test_lll_correct_data() {
     MACRO_TEST_EQ(head.remove_all(), to_remove);
     return EXIT_SUCCESS;
 }
+
+int test_lll_operator_copy() {
+    lll<int> list;
+    lll<int> copy;
+    const int to_remove = 10;
+    // Create all the nodes in list
+    list[to_remove] = 42;
+    int added = list[to_remove];
+    MACRO_TEST_EQ(added, 42);
+    lll_node<int> * to_get = (lll_node<int> *)list.get(to_remove);
+    MACRO_TEST_EQ(added, to_get->value());
+    // Initialize all the data
+    int i;
+    for (i = list.size() - 1; i >= 0; --i) {
+        list[i] = i;
+    }
+    // Copy all the nodes to copy
+    copy = list;
+    // Make sure all the data is correct
+    for (i = list.size() - 1; i >= 0; --i) {
+        MACRO_TEST_EQ(copy[i], list[i]);
+    }
+    // Now remove them all
+    int num_removed = list.remove_all();
+    MACRO_TEST_EQ(num_removed, to_remove + 1);
+    // Make sure the copy has removed the same amount
+    num_removed = copy.remove_all();
+    MACRO_TEST_EQ(num_removed, to_remove + 1);
+    return EXIT_SUCCESS;
+}

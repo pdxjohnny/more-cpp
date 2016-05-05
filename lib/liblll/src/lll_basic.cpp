@@ -23,14 +23,18 @@ lll_basic::~lll_basic() {
  * Copy the whole list, cant use const beacuse of head()
  */
 lll_basic & lll_basic::operator=(lll_basic & copy) {
+    // Remove all nodes from this list
+    this->remove_all();
     // Must call the method with a pointer to have the virtual fucniton invoked
-    if ((&copy)->head() == NULL) {
+    lll_basic * copy_virtual = &copy;
+    if (copy_virtual->head() == NULL) {
         return *this;
     }
     if (this->head() == NULL) {
         this->create(this->head());
     }
-    this->head()->copy(*((&copy)->head()));
+    this->head()->copy(*(copy_virtual->head()));
+    this->contains = copy.contains;
     return *this;
 }
 

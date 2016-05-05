@@ -34,6 +34,7 @@ MACRO_TEST(test_lll_remove_all);
 MACRO_TEST(test_lll_get);
 MACRO_TEST(test_lll_operator_subscript);
 MACRO_TEST(test_lll_correct_data);
+MACRO_TEST(test_lll_operator_copy);
 return EXIT_SUCCESS;
 }
 

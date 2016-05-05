@@ -41,3 +41,4 @@ int test_lll_remove_all();
 int test_lll_get();
 int test_lll_operator_subscript();
 int test_lll_correct_data();
+int test_lll_operator_copy();
