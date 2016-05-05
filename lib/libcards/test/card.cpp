@@ -178,15 +178,75 @@ int test_cards_card_equality() {
  * Test lessthan operator
  */
 int test_cards_card_lessthan() {
-    char value_one[] = {'A', 'J', 'Q', '2', '3', '4', '5', '6', '7', '8', '9', '1'};
-    char value_two[] = {'K', 'K', 'K', 'K', 'K', 'K', 'K', 'K', 'K', 'K', 'K', 'K'};
+    char value_one[] = {
+        'Q', 'J', '1', '9', '8', '7',
+        '6', '5', '4', '3', '2', 'A',
+
+        'J', '1', '9', '8', '7',
+        '6', '5', '4', '3', '2', 'A',
+
+        '1', '9', '8', '7',
+        '6', '5', '4', '3', '2', 'A',
+
+        '9', '8', '7',
+        '6', '5', '4', '3', '2', 'A',
+
+        '8', '7',
+        '6', '5', '4', '3', '2', 'A',
+
+        '7',
+        '6', '5', '4', '3', '2', 'A',
+
+        '6', '5', '4', '3', '2', 'A',
+
+        '5', '4', '3', '2', 'A',
+
+        '4', '3', '2', 'A',
+
+        '3', '2', 'A',
+
+        '2', 'A',
+
+        'A',
+    };
+    char value_two[] = {
+        'K', 'K', 'K', 'K', 'K', 'K',
+        'K', 'K', 'K', 'K', 'K', 'K',
+
+        'Q', 'Q', 'Q', 'Q', 'Q',
+        'Q', 'Q', 'Q', 'Q', 'Q', 'Q',
+
+        'J', 'J', 'J', 'J',
+        'J', 'J', 'J', 'J', 'J', 'J',
+
+        '1', '1', '1',
+        '1', '1', '1', '1', '1', '1',
+
+        '9', '9',
+        '9', '9', '9', '9', '9', '9',
+
+        '8',
+        '8', '8', '8', '8', '8', '8',
+
+        '7', '7', '7', '7', '7', '7',
+
+        '6', '6', '6', '6', '6',
+
+        '5', '5', '5', '5',
+
+        '4', '4', '4',
+
+        '3', '3',
+
+        '1',
+    };
     const int to_check = sizeof(value_one);
     int i;
     for (i = 0; i < to_check; ++i) {
         cards::card one(value_one[i], cards::SUIT_CLUBS);
         cards::card two(value_two[i], cards::SUIT_CLUBS);
         if (!(one < two)) {
-            MACRO_PRINT_FILE_LINE("%c should have been greater than %c\n", value_two[i], value_one[i]);
+            MACRO_PRINT_FILE_LINE("%c should have been less than %c\n", value_one[i], value_two[i]);
         }
         MACRO_TEST_EQ(one < two, true);
     }

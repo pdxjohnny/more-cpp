@@ -75,19 +75,23 @@ bool cards::operator <  (const cards::card & one, const cards::card & two) {
     if (two.value == 'K' && (one.value == 'Q')) {
         return true;
     }
+    // 1 represents 10 because 'A'ce represents 1
+    if (two.value == '1' && (one.value <= '2' && one.value >= '9')) {
+        return true;
+    }
     return (one.value <  two.value);
 }
 bool cards::operator <= (const cards::card & one, const cards::card & two) {
-    return (one.value <= two.value);
+    return (cards::operator <  (one, two)) || (cards::operator == (one, two));
 }
 bool cards::operator >  (const cards::card & one, const cards::card & two) {
-    return (one.value >  two.value);
+    return !(cards::operator <  (one, two));
 }
 bool cards::operator >= (const cards::card & one, const cards::card & two) {
-    return (one.value >= two.value);
+    return !(cards::operator <= (one, two));
 }
 bool cards::operator != (const cards::card & one, const cards::card & two) {
-    return (one.value != two.value);
+    return !(cards::operator == (one, two));
 }
 bool cards::operator == (const cards::card & one, const cards::card & two) {
     return (one.value == two.value);
