@@ -21,6 +21,12 @@ int main(int argc, char ** argv, char ** env) {
     // Create a basic player
     cards::player player_one(&std::cout, &std::cin);
     game->play(player_one);
+    try {
+        // We dont need to do anything in between turns
+        while(game->next_turn()) {};
+    } catch (...) {
+        // Make sure we catch so that if something goes wrong we can free game
+    }
     // We have no more use for the game
     MACRO_DELETE_IF_NOT_NULL(game);
     return EXIT_SUCCESS;

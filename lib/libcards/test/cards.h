@@ -38,3 +38,5 @@ int test_cards_card_lessthan_or_equal_to();
 int test_cards_card_greaterthan_or_equal_to();
 int test_cards_card_equal_to();
 int test_cards_card_not_equal_to();
+int test_cards_deck_correct_size();
+int test_cards_deck_shuffle();
