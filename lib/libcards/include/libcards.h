@@ -63,6 +63,10 @@ namespace cards {
     // Various card games that this library has already implemented
     class solitare;
     class speed;
+
+    // Game spcific constants
+    const int SPEED_STACK_SIZE = 15;
+    const int SPEED_DISCARD_SIZE = 52;
 };
 
 // If the value given to the card constructor is not a regular card value this
@@ -264,6 +268,7 @@ class cards::solitare : public cards::game {
         bool move_column(cards::card &, int column_index);
         // Makes the hidden cards visable
         void make_visable(int index);
+        // FIXME these should be dll instead of lll
         // Solitare displays three cards at the top of the board which you can
         // choose to put in the columns of to the top
         lll<cards::card> top;
@@ -299,13 +304,14 @@ class cards::speed : public cards::game {
         bool move_column(cards::card &, int column_index);
         // Makes the hidden cards visable
         void make_visable(int index);
-        // Solitare displays three cards at the top of the board which you can
-        // choose to put in the columns of to the top
-        lll<cards::card> top;
-        // The four top coloums for each suit
-        lll<cards::card> suits[4];
-        // The columns of the speed board that we can access
-        lll<cards::card> column[7];
-        // The cards the get hidden under the other cards
-        lll<cards::card> column_hidden[7];
+        // Speed has too stacks that are essentially booth the deck. There is
+        // really no reason to do it the way I am going to other than that I
+        // have to use a lll of arrays. I am just going to fill each of them
+        // from the deck to initialize them
+        lll<cards::card *> stacks;
+        lll<cards::card *> discard;
+        // Because they are arrays we dont want to go past the end of them so
+        // when they are allocated we will keep track of their length here
+        int stack_sizes[2];
+        int discard_sizes[2];
 };
