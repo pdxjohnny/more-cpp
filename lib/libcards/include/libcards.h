@@ -255,6 +255,14 @@ class cards::solitare : public cards::game {
         void choose3();
         // Populates teh columsn for the initail setup
         void populate_columns();
+        // Shuffling restarts the game
+        void shuffle();
+        // Moves a card to suits and returns true if the movement was valid
+        bool move_suit(cards::card &, int suit_index);
+        // Moves a card to a column and returns true if the movement was valid
+        bool move_column(cards::card &, int column_index);
+        // Makes the hidden cards visable
+        void make_visable(int index);
         // Solitare displays three cards at the top of the board which you can
         // choose to put in the columns of to the top
         lll<cards::card> top;
