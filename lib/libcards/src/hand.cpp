@@ -7,7 +7,7 @@
  * variable size. The size of the hand you can see that is. The cards
  * you cant see but are still in your posession are
  */
-cards::hand::hand() {}
+cards::hand::hand() : num_visable(1) {}
 
 /*
  * Gets rid of the hand
@@ -18,6 +18,9 @@ cards::hand::~hand() {}
  * Draws a card from the deck and places it in the hand that is visable
  */
 cards::card & cards::hand::draw_visable(cards::deck & source) {
+    if (size() + 1 > num_visable) {
+        return draw_not_visable(source);
+    }
     this->operator[](size()) = source.random();
     return this->operator[](size() - 1);
 }
@@ -28,6 +31,26 @@ cards::card & cards::hand::draw_visable(cards::deck & source) {
 cards::card & cards::hand::draw_not_visable(cards::deck & source) {
     not_visable[not_visable.size()] = source.random();
     return not_visable[not_visable.size() - 1];
+}
+
+/*
+ * Sets the number of cards that are visable to us
+ */
+void cards::hand::set_num_visable(int num) {
+    num_visable = num;
+}
+
+/*
+ * When a card is removed from our visable set we need to add one of our cards
+ * from not visable if we can to maintian the right num_visable
+ */
+bool cards::hand::remove(int index) {
+    lll<cards::card>::remove(index);
+    if (size() < num_visable && not_visable.size() > 0) {
+        this->operator[](size()) = not_visable[not_visable.size() - 1];
+        not_visable.remove(not_visable.size() - 1);
+    }
+    return true;
 }
 
 /*

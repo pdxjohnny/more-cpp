@@ -141,6 +141,11 @@ class cards::hand : public lll<cards::card> {
         cards::card & draw_visable(cards::deck &);
         // Draws a card and places it in the not_visable cards we own
         cards::card & draw_not_visable(cards::deck &);
+        // Sets num_visable parameter
+        virtual void set_num_visable(int num);
+        // We want to replenish the visable hand with the not_visable hand when
+        // to get below whatever number is applicable
+        virtual bool remove(int index);
         // Displays the hand
         virtual void display(std::ostream &);
         // Outputs the hand
@@ -148,6 +153,8 @@ class cards::hand : public lll<cards::card> {
     private:
         // Keep track of the card that we cant see
         lll<cards::card> not_visable;
+        // How many cards should be visable at a time
+        int num_visable;
 };
 
 // cards::deck is a deck of cards. A deck of cards is organized by suite. A deck

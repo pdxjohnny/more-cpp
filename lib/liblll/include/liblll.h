@@ -96,7 +96,7 @@ class lll_basic {
         // Calls get_extend
         lll_node_basic * operator[](int index);
         // Removes a node from the list
-        bool remove(int index);
+        virtual bool remove(int index);
         // Deallocates the lll
         int remove_all();
         // Returns the number of elements in the lll

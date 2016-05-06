@@ -35,12 +35,10 @@ void cards::speed::player_setup(cards::player * player) {
     // Parent do its thing
     cards::game::player_setup(player);
     // Give the player five cards on hand and 15 in their not_visable
+    player->set_num_visable(5);
     int i;
-    for (i = 4; i >= 0; --i) {
+    for (i = 19; i >= 0; --i) {
         player->draw_visable(*this);
-    }
-    for (i = 14; i >= 0; --i) {
-        player->draw_not_visable(*this);
     }
 }
 
@@ -111,8 +109,6 @@ bool cards::speed::turn(cards::player & curr) {
             (add - last) == 1 || (add - last) == -1)) {
         return true;
     }
-    curr.out() << add << std::endl;
-    curr.out() << last << std::endl;
     // Everything checked out so append it to the discard pile
     discard[discard_index][discard_sizes[discard_index]] = add;
     ++discard_sizes[discard_index];
@@ -128,7 +124,7 @@ bool cards::speed::turn(cards::player & curr) {
  */
 void cards::speed::display(std::ostream & out) {
     // Clear any pervious output
-    // cards::clear(out);
+    cards::clear(out);
     // Display the stacks and discard piles
     if (stack_sizes[0] > 0) {
         out << cards::CARD_UNKNOWN << "  ";
