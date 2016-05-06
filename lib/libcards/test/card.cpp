@@ -553,3 +553,93 @@ int test_cards_card_not_equal_to() {
     }
     return EXIT_SUCCESS;
 }
+
+/*
+ * Test subtraction operator
+ */
+int test_cards_card_subtraction() {
+    char value_one[] = {
+        'Q', 'J', '1', '9', '8', '7',
+        '6', '5', '4', '3', '2', 'A',
+
+        'J', '1', '9', '8', '7',
+        '6', '5', '4', '3', '2', 'A',
+
+        '1', '9', '8', '7',
+        '6', '5', '4', '3', '2', 'A',
+
+        '9', '8', '7',
+        '6', '5', '4', '3', '2', 'A',
+
+        '8', '7',
+        '6', '5', '4', '3', '2', 'A',
+
+        '7',
+        '6', '5', '4', '3', '2', 'A',
+
+        '6', '5', '4', '3', '2', 'A',
+
+        '5', '4', '3', '2', 'A',
+
+        '4', '3', '2', 'A',
+
+        '3', '2', 'A',
+
+        '2', 'A',
+
+        'A',
+    };
+    char value_two[] = {
+        'K', 'K', 'K', 'K', 'K', 'K',
+        'K', 'K', 'K', 'K', 'K', 'K',
+
+        'Q', 'Q', 'Q', 'Q', 'Q',
+        'Q', 'Q', 'Q', 'Q', 'Q', 'Q',
+
+        'J', 'J', 'J', 'J',
+        'J', 'J', 'J', 'J', 'J', 'J',
+
+        '1', '1', '1',
+        '1', '1', '1', '1', '1', '1',
+
+        '9', '9',
+        '9', '9', '9', '9', '9', '9',
+
+        '8',
+        '8', '8', '8', '8', '8', '8',
+
+        '7', '7', '7', '7', '7', '7',
+
+        '6', '6', '6', '6', '6',
+
+        '5', '5', '5', '5',
+
+        '4', '4', '4',
+
+        '3', '3',
+
+        '2',
+    };
+    const int to_check = sizeof(value_one);
+    char last_value = value_two[0];
+    int diff = 1;
+    int calc = 0;
+    int i;
+    for (i = 0; i < to_check; ++i) {
+        // Difference should increase every time until we switch to a new case
+        // then it needs to go back to a difference of 1
+        if (last_value != value_two[i]) {
+            diff = 1;
+            last_value = value_two[i];
+        }
+        cards::card one(value_one[i], cards::SUIT_CLUBS);
+        cards::card two(value_two[i], cards::SUIT_CLUBS);
+        calc = two - one;
+        if (calc != diff) {
+            MACRO_PRINT_FILE_LINE("%c should have been %d less than %c but was %d less\n", value_one[i], diff, value_two[i], calc);
+        }
+        MACRO_TEST_EQ((calc == diff), true);
+        ++diff;
+    }
+    return EXIT_SUCCESS;
+}

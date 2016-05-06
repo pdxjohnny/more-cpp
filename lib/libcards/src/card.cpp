@@ -75,8 +75,35 @@ bool cards::card::same_suit(const card & check) {
 }
 
 /*
+ * Converts the value from a char representing the face value to an int
+ */
+int cards::card::to_int() const {
+    if (value >= '2' && value <= '9') {
+        return value - 48;
+    }
+    switch (value) {
+    case 'A':
+        return 1;
+    case '1':
+        return 10;
+    case 'J':
+        return 11;
+    case 'Q':
+        return 12;
+    case 'K':
+        return 13;
+    default:
+        break;
+    }
+    return 0;
+}
+
+/*
  * Lets us compare our value to that of another card
  */
+int  cards::operator -  (const cards::card & one, const cards::card & two) {
+    return one.to_int() - two.to_int();
+}
 bool cards::operator <  (const cards::card & one, const cards::card & two) {
     // Ace is always less than everything but not if its againt itself then it
     // is less than or equal

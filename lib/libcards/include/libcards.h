@@ -48,6 +48,7 @@ namespace cards {
     class player_no_istream;
 
     // Friend funcions
+    int  operator -  (const cards::card &, const cards::card &);
     bool operator <  (const cards::card &, const cards::card &);
     bool operator <= (const cards::card &, const cards::card &);
     bool operator >  (const cards::card &, const cards::card &);
@@ -99,7 +100,10 @@ class cards::card {
         bool same_color(const card & check);
         // Checks if we are the same suit as another card
         bool same_suit(const card & check);
+        // Lets us see what the cards iniger value is
+        int to_int() const;
         // Lets us compare our value to that of another card
+        friend int  operator -  (const cards::card &, const cards::card &);
         friend bool operator <  (const cards::card &, const cards::card &);
         friend bool operator <= (const cards::card &, const cards::card &);
         friend bool operator >  (const cards::card &, const cards::card &);
