@@ -23,6 +23,12 @@ bool cards::solitare::turn(cards::player & curr) {
     if (curr.in().eof()) {
         return false;
     }
+    // If there are no more cards in tho top then try to take soem from the
+    // deck and put them there
+    if (choose.size() < 1) {
+        choose3();
+    }
+    // Show everyone the cards
     display_all();
     // Ask the user what they want to do
     curr.out() << "Action: ";
@@ -39,6 +45,11 @@ bool cards::solitare::turn(cards::player & curr) {
     // into the suit area, remoember you can only take the rightmost card from
     // the top. T S3, moves the top card into the last suit position in the top
     // row
+    // If there are no more cards in tho top then try to take soem from the
+    // deck and put them there
+    if (choose.size() < 1) {
+        choose3();
+    }
     // Display the restuls
     display_all();
     return true;
