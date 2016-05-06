@@ -62,6 +62,7 @@ namespace cards {
 
     // Various card games that this library has already implemented
     class solitare;
+    class speed;
 };
 
 // If the value given to the card constructor is not a regular card value this
@@ -269,6 +270,41 @@ class cards::solitare : public cards::game {
         // The four top coloums for each suit
         lll<cards::card> suits[4];
         // The columns of the solitare board that we can access
+        lll<cards::card> column[7];
+        // The cards the get hidden under the other cards
+        lll<cards::card> column_hidden[7];
+};
+
+// This is the game of speed
+#define CARDS_GAME_SPEED "speed"
+class cards::speed : public cards::game {
+    public:
+        speed();
+        ~speed();
+        // We only need to implement turn because game sets up a single player
+        // for us and that is all we need
+        bool turn(player &);
+        // Show the board
+        void display(std::ostream &);
+    private:
+        // Chooses3 cards from the deck the be the cards we can move
+        void choose3();
+        // Populates teh columsn for the initail setup
+        void populate_columns();
+        // Shuffling restarts the game
+        void shuffle();
+        // Moves a card to suits and returns true if the movement was valid
+        bool move_suit(cards::card &, int suit_index);
+        // Moves a card to a column and returns true if the movement was valid
+        bool move_column(cards::card &, int column_index);
+        // Makes the hidden cards visable
+        void make_visable(int index);
+        // Solitare displays three cards at the top of the board which you can
+        // choose to put in the columns of to the top
+        lll<cards::card> top;
+        // The four top coloums for each suit
+        lll<cards::card> suits[4];
+        // The columns of the speed board that we can access
         lll<cards::card> column[7];
         // The cards the get hidden under the other cards
         lll<cards::card> column_hidden[7];
