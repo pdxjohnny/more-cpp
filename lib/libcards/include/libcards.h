@@ -6,6 +6,7 @@
 #include <iostream>
 #include <cstdarg>
 #include <liblll.h>
+#include <libdll.h>
 
 // No card games name is longer than this
 #define CARDS_MAX_GAME_NAME_SIZE 100
@@ -290,16 +291,15 @@ class cards::solitare : public cards::game {
         bool move_column(cards::card &, int column_index);
         // Makes the hidden cards visable
         void make_visable(int index);
-        // FIXME these should be dll instead of lll
         // Solitare displays three cards at the top of the board which you can
         // choose to put in the columns of to the top
-        lll<cards::card> top;
+        dll<cards::card> top;
         // The four top coloums for each suit
-        lll<cards::card> suits[4];
+        dll<cards::card> suits[4];
         // The columns of the solitare board that we can access
-        lll<cards::card> column[7];
+        dll<cards::card> column[7];
         // The cards the get hidden under the other cards
-        lll<cards::card> column_hidden[7];
+        dll<cards::card> column_hidden[7];
 };
 
 // This is the game of speed

@@ -1,0 +1,10 @@
+/*
+ * John Andersen
+ * File: libdll/test/dll_node_basic.cpp
+*/
+#include "dll.h"
+
+int test_dll_order() {
+    return EXIT_SUCCESS;
+}
+
