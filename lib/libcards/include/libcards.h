@@ -4,6 +4,7 @@
 */
 #include <exception>
 #include <iostream>
+#include <cstdarg>
 #include <liblll.h>
 
 // No card games name is longer than this
@@ -219,6 +220,7 @@ class cards::game : public cards::deck {
         // when games play is called it adds it to the list of players in
         // game.players
         virtual bool play(int num_players, ...);
+        virtual void player_setup(cards::player *);
         // next_turn should be called until it returns false. This way you can
         // call play to set up the game then you call next_turn to have the
         // next player take their turn
@@ -296,19 +298,9 @@ class cards::speed : public cards::game {
         bool turn(player &);
         // Show the board
         void display(std::ostream &);
+    protected:
+        void player_setup(cards::player * player);
     private:
-        // Chooses3 cards from the deck the be the cards we can move
-        void choose3();
-        // Populates teh columsn for the initail setup
-        void populate_columns();
-        // Shuffling restarts the game
-        void shuffle();
-        // Moves a card to suits and returns true if the movement was valid
-        bool move_suit(cards::card &, int suit_index);
-        // Moves a card to a column and returns true if the movement was valid
-        bool move_column(cards::card &, int column_index);
-        // Makes the hidden cards visable
-        void make_visable(int index);
         // Speed has too stacks that are essentially booth the deck. There is
         // really no reason to do it the way I am going to other than that I
         // have to use a lll of arrays. I am just going to fill each of them

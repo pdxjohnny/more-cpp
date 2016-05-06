@@ -34,11 +34,11 @@ cards::card & cards::hand::draw_not_visable(cards::deck & source) {
  * Displays the hand
  */
 void cards::hand::display(std::ostream & out) {
-    int hand_size = size() - 1;
+    int hand_size = size();
     int i;
     for (i = 0; i < hand_size; ++i) {
         out << this->operator[](i);
-        if (i % 5) {
+        if (i != 0 && (i + 1) % 5 == 0) {
             out << std::endl;
         } else {
             out << "  ";

@@ -29,6 +29,22 @@ cards::speed::speed() {
 }
 
 /*
+ * Play the game. Accept the first player and add it to the list of players
+ */
+void cards::speed::player_setup(cards::player * player) {
+    // Parent do its thing
+    cards::game::player_setup(player);
+    // Give the player five cards on hand and 15 in their not_visable
+    int i;
+    for (i = 4; i >= 0; --i) {
+        player->draw_visable(*this);
+    }
+    for (i = 14; i >= 0; --i) {
+        player->draw_not_visable(*this);
+    }
+}
+
+/*
  * Clean up the game when its over
  */
 cards::speed::~speed() {
@@ -92,9 +108,16 @@ bool cards::speed::turn(cards::player & curr) {
     // if that is not the case then just check like normal that all is well, if
     // not then return
     if (!((add == king && last == ace) || (add == ace && last == king) ||
-            ((add - last) != 1 && (add - last) != -1))) {
+            (add - last) == 1 || (add - last) == -1)) {
         return true;
     }
+    curr.out() << add << std::endl;
+    curr.out() << last << std::endl;
+    // Everything checked out so append it to the discard pile
+    discard[discard_index][discard_sizes[discard_index]] = add;
+    ++discard_sizes[discard_index];
+    // Remove it from the hand
+    curr.remove(hand_index);
     // Display the restuls
     display_all();
     return true;
@@ -105,7 +128,7 @@ bool cards::speed::turn(cards::player & curr) {
  */
 void cards::speed::display(std::ostream & out) {
     // Clear any pervious output
-    cards::clear(out);
+    // cards::clear(out);
     // Display the stacks and discard piles
     if (stack_sizes[0] > 0) {
         out << cards::CARD_UNKNOWN << "  ";
