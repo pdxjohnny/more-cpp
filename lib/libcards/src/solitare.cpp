@@ -34,49 +34,94 @@ bool cards::solitare::turn(cards::player & curr) {
     curr.out() << "Action: ";
     memset(buffer, 0, buffer_size);
     curr.in().getline(buffer, buffer_size);
-    // If there is not enough to work with this was a noop
-    if (strnlen(buffer, buffer_size) < 5) {
+    // Make sure we have enough for a one character action
+    if (strnlen(buffer, buffer_size) < 1) {
         return true;
     }
-    // We have enough info to work with, user can move with place index to
-    // place index with the syntax "C0 C6". This would move the card in column
-    // zero to be the last card in column 6, if it can otherwise it will do
-    // nothing. T for top to S for suit woulf move a card from the top three
-    // into the suit area, remoember you can only take the rightmost card from
-    // the top. T S3, moves the top card into the last suit position in the top
-    // row
-    // Move from Top to Suits
-    if (std::toupper(buffer[0]) == 'T' && strchr(buffer, 'S') != NULL &&
-            strlen(strchr(buffer, 'S')) > 1) {
-        int suits_index = atoi(&(strchr(buffer, 'S')[1]));
-        // We only have 4 suits
-        if (suits_index > 3) {
-            return true;
-        }
-        cards::card add = top[top.size() - 1];
-        // If there are no cards in that slot yet we can put it there and be
-        // done otherwise we have to make sure its a vaild placment
-        if (suits[suits_index].size() > 0) {
-            // Make sure that the card we are putting it on is exaxtly one less
-            // than this card and the same suit
-            cards::card suit_top = suits[suits_index][suits[suits_index].size() - 1];
-            if (!suit_top.same_suit(add) || (add - suit_top) != 1) {
-                // Either its not the same suit or it is not one above the card we
-                // are trying to put it on
+    // Handle one character operations like N for New top to choose from
+    switch (std::toupper(buffer[0])) {
+        case 'N':
+            choose3();
+            break;
+        default:
+            // If there is not enough to work with for other actions this was a noop
+            if (strnlen(buffer, buffer_size) < 4) {
                 return true;
             }
-        } else {
-            // If this is going to be the first into that suit spot it must be
-            // an Ace
-            cards::card must_be_ace('A', cards::SUIT_HEARTS);
-            if (add != must_be_ace) {
-                return true;
+            // We have enough info to work with, user can move with place index to
+            // place index with the syntax "C0 C6". This would move the card in column
+            // zero to be the last card in column 6, if it can otherwise it will do
+            // nothing. T for top to S for suit woulf move a card from the top three
+            // into the suit area, remoember you can only take the rightmost card from
+            // the top. T S3, moves the top card into the last suit position in the top
+            // row
+            // Move from Top to Suits
+            if (std::toupper(buffer[0]) == 'T' && strchr(buffer, 'S') != NULL &&
+                    strlen(strchr(buffer, 'S')) > 1) {
+                int suits_index = atoi(&(strchr(buffer, 'S')[1]));
+                // We only have 4 suits
+                if (suits_index > 3) {
+                    return true;
+                }
+                cards::card add = top[top.size() - 1];
+                // If there are no cards in that slot yet we can put it there and be
+                // done otherwise we have to make sure its a vaild placment
+                if (suits[suits_index].size() > 0) {
+                    // Make sure that the card we are putting it on is exaxtly one less
+                    // than this card and the same suit
+                    cards::card suit_top = suits[suits_index][suits[suits_index].size() - 1];
+                    if (!suit_top.same_suit(add) || (add - suit_top) != 1) {
+                        // Either its not the same suit or it is not one above the card we
+                        // are trying to put it on
+                        return true;
+                    }
+                } else {
+                    // If this is going to be the first into that suit spot it must be
+                    // an Ace
+                    cards::card must_be_ace('A', cards::SUIT_HEARTS);
+                    if (add != must_be_ace) {
+                        return true;
+                    }
+                }
+                // All is well so add the card
+                suits[suits_index][suits[suits_index].size()] = add;
+                // Since it has been added to that suit remove it from top
+                top.remove(top.size() - 1);
             }
-        }
-        // All is well so add the card
-        suits[suits_index][suits[suits_index].size()] = add;
-        // Since it has been added to that suit remove it from top
-        top.remove(top.size() - 1);
+            // Move from Top to Column
+            if (std::toupper(buffer[0]) == 'T' && strchr(buffer, 'C') != NULL &&
+                    strlen(strchr(buffer, 'C')) > 1) {
+                int column_index = atoi(&(strchr(buffer, 'C')[1]));
+                // We only have 7 column
+                if (column_index > 6) {
+                    return true;
+                }
+                cards::card add = top[top.size() - 1];
+                // If there are no cards in that slot yet we can put it there and be
+                // done otherwise we have to make sure its a vaild placment
+                if (column[column_index].size() > 0) {
+                    // Make sure that the card we are putting it on is exaxtly one more
+                    // than this card and not the same color
+                    cards::card column_top = column[column_index][column[column_index].size() - 1];
+                    if (column_top.same_color(add) || (column_top - add) != 1) {
+                        // Either its not the same suit or it is not one above the card we
+                        // are trying to put it on
+                        return true;
+                    }
+                } else {
+                    // If this is going to be the first into that suit spot it must be
+                    // a King
+                    cards::card must_be_king('K', cards::SUIT_HEARTS);
+                    if (add != must_be_king) {
+                        return true;
+                    }
+                }
+                // All is well so add the card
+                column[column_index][column[column_index].size()] = add;
+                // Since it has been added to that suit remove it from top
+                top.remove(top.size() - 1);
+            }
+            break;
     }
     // If there are no more cards in tho top then try to take soem from the
     // deck and put them there
