@@ -257,9 +257,9 @@ class cards::solitare : public cards::game {
         void populate_columns();
         // Solitare displays three cards at the top of the board which you can
         // choose to put in the columns of to the top
-        lll<cards::card> choose;
+        lll<cards::card> top;
         // The four top coloums for each suit
-        lll<cards::card> top[4];
+        lll<cards::card> suits[4];
         // The columns of the solitare board that we can access
         lll<cards::card> column[7];
         // The cards the get hidden under the other cards

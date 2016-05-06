@@ -25,7 +25,7 @@ bool cards::solitare::turn(cards::player & curr) {
     }
     // If there are no more cards in tho top then try to take soem from the
     // deck and put them there
-    if (choose.size() < 1) {
+    if (top.size() < 1) {
         choose3();
     }
     // Show everyone the cards
@@ -45,9 +45,42 @@ bool cards::solitare::turn(cards::player & curr) {
     // into the suit area, remoember you can only take the rightmost card from
     // the top. T S3, moves the top card into the last suit position in the top
     // row
+    // Move from Top to Suits
+    if (std::toupper(buffer[0]) == 'T' && strchr(buffer, 'S') != NULL &&
+            strlen(strchr(buffer, 'S')) > 1) {
+        int suits_index = atoi(&(strchr(buffer, 'S')[1]));
+        // We only have 4 suits
+        if (suits_index > 3) {
+            return true;
+        }
+        cards::card add = top[top.size() - 1];
+        // If there are no cards in that slot yet we can put it there and be
+        // done otherwise we have to make sure its a vaild placment
+        if (suits[suits_index].size() > 0) {
+            // Make sure that the card we are putting it on is exaxtly one less
+            // than this card and the same suit
+            cards::card suit_top = suits[suits_index][suits[suits_index].size() - 1];
+            if (!suit_top.same_suit(add) || (add - suit_top) != 1) {
+                // Either its not the same suit or it is not one above the card we
+                // are trying to put it on
+                return true;
+            }
+        } else {
+            // If this is going to be the first into that suit spot it must be
+            // an Ace
+            cards::card must_be_ace('A', cards::SUIT_HEARTS);
+            if (add != must_be_ace) {
+                return true;
+            }
+        }
+        // All is well so add the card
+        suits[suits_index][suits[suits_index].size()] = add;
+        // Since it has been added to that suit remove it from top
+        top.remove(top.size() - 1);
+    }
     // If there are no more cards in tho top then try to take soem from the
     // deck and put them there
-    if (choose.size() < 1) {
+    if (top.size() < 1) {
         choose3();
     }
     // Display the restuls
@@ -66,16 +99,16 @@ void cards::solitare::display(std::ostream & out) {
     int longest_column = 0;
     // Display the cards to choose from
     for (i = 0; i < 3; ++i) {
-        if (choose.size() > i) {
-            out << choose[i] << "  ";
+        if (top.size() > i) {
+            out << top[i] << "  ";
         } else {
             out << cards::CARD_BLANK << "  ";
         }
     }
-    // Ouput the top card on the top stacks
+    // Ouput the suits card on the suits stacks
     for (i = 0; i < 4; ++i) {
-        if (top[i].size() > 0) {
-            out << top[i][top[i].size() - 1] << "  ";
+        if (suits[i].size() > 0) {
+            out << suits[i][suits[i].size() - 1] << "  ";
         } else {
             out << cards::CARD_UNKNOWN << "  ";
         }
@@ -107,28 +140,28 @@ void cards::solitare::display(std::ostream & out) {
 }
 
 /*
- * Populates the choose cards
+ * Populates the top cards
  */
 void cards::solitare::choose3() {
-    // Put any cards in choose back into the deck
-    int choose_size = choose.size();
+    // Put any cards in top back into the deck
+    int top_size = top.size();
     int i;
-    for (i = 0; i < choose_size; ++i) {
-        this->operator[](this->size()) = choose[i];
+    for (i = 0; i < top_size; ++i) {
+        this->operator[](this->size()) = top[i];
     }
-    // Remove the cards from choose
-    choose.remove_all();
-    // Draw three new random cards from the deck and put them in choose
+    // Remove the cards from top
+    top.remove_all();
+    // Draw three new random cards from the deck and put them in top
     // Make sure we have enough cards to give from the deck before we call
     // random
     if (size() > 0) {
-        choose[0] = random();
+        top[0] = random();
     }
     if (size() > 0) {
-        choose[1] = random();
+        top[1] = random();
     }
     if (size() > 0) {
-        choose[2] = random();
+        top[2] = random();
     }
 }
 
