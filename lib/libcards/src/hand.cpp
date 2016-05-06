@@ -29,3 +29,27 @@ cards::card & cards::hand::draw_not_visable(cards::deck & source) {
     not_visable[not_visable.size()] = source.random();
     return not_visable[not_visable.size() - 1];
 }
+
+/*
+ * Displays the hand
+ */
+void cards::hand::display(std::ostream & out) {
+    int hand_size = size() - 1;
+    int i;
+    for (i = 0; i < hand_size; ++i) {
+        out << this->operator[](i);
+        if (i % 5) {
+            out << std::endl;
+        } else {
+            out << "  ";
+        }
+    }
+}
+
+/*
+ * This is for showing the user the current cards
+ */
+std::ostream & cards::operator<<(std::ostream & out, cards::hand & hand) {
+    hand.display(out);
+    return out;
+}

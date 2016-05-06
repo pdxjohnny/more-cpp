@@ -57,6 +57,8 @@ bool cards::speed::turn(cards::player & curr) {
     }
     // Show everyone the cards
     display_all();
+    // Show the player their cards
+    curr.out() << curr << std::endl;
     // Ask the user what they want to do
     curr.out() << "Action: ";
     memset(buffer, 0, buffer_size);

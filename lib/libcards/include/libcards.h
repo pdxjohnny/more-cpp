@@ -59,6 +59,7 @@ namespace cards {
     // Displays a game, up to that game to implement game::display
     // this is for showing the user the current cards
     std::ostream & operator << (std::ostream &, cards::game &);
+    std::ostream & operator << (std::ostream &, cards::hand &);
 
     // Various card games that this library has already implemented
     class solitare;
@@ -139,6 +140,10 @@ class cards::hand : public lll<cards::card> {
         cards::card & draw_visable(cards::deck &);
         // Draws a card and places it in the not_visable cards we own
         cards::card & draw_not_visable(cards::deck &);
+        // Displays the hand
+        virtual void display(std::ostream &);
+        // Outputs the hand
+        friend std::ostream & operator << (std::ostream &, cards::hand &);
     private:
         // Keep track of the card that we cant see
         lll<cards::card> not_visable;
