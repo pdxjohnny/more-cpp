@@ -68,3 +68,18 @@ std::ostream & cards::operator<<(std::ostream & out, cards::game & game) {
     game.display(out);
     return out;
 }
+
+/*
+ * Lets the game know if all the players are stuck
+ */
+bool cards::game::all_players_stuck() {
+    int player_count = players.size() - 1;
+    int i;
+    // If any of them report that they are not stuck then all cannot be stuck
+    for (i = player_count; i >= 0; --i) {
+        if (!players[i]->is_stuck()) {
+            return false;
+        }
+    }
+    return true;
+}

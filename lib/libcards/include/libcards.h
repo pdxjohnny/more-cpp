@@ -205,10 +205,16 @@ class cards::player : public cards::hand {
         // Provides people with access to our streams
         virtual std::ostream & out() throw(cards::player_no_ostream);
         virtual std::istream & in() throw(cards::player_no_istream);
+        // If the player is unable to take their turn then this flag should be
+        // set so that the game can figure out how to resolve the deadlock
+        bool is_stuck();
+        bool stuck(bool set);
     private:
         // So we can keep track of the streams we are using
         std::ostream * out_stream;
         std::istream * in_stream;
+        // Player stuck
+        bool stuck_status;
 };
 
 // cards::game is the base class with card games should be derived from. It
@@ -241,6 +247,8 @@ class cards::game : public cards::deck {
         // Displays a game, up to that game to implement game::display
         // this is for showing the user the current cards
         friend std::ostream & operator << (std::ostream &, cards::game &);
+        // Lets the game know if everyone is stuck
+        bool all_players_stuck();
     protected:
         // turn is called by next_turn which manages which players turn it is
         // turn needs to be implemented by the game deriving from game because
@@ -308,6 +316,9 @@ class cards::speed : public cards::game {
     protected:
         void player_setup(cards::player * player);
     private:
+        // Fixes when all players are stuck. Takes cards off both stacks and
+        // puts them in to the discard piles
+        void stack_to_discard();
         // Speed has too stacks that are essentially booth the deck. There is
         // really no reason to do it the way I am going to other than that I
         // have to use a lll of arrays. I am just going to fill each of them

@@ -69,6 +69,10 @@ bool cards::speed::turn(cards::player & curr) {
     if (curr.in().eof()) {
         return false;
     }
+    // If everyone is stuck then we need to make them unstuck
+    if (all_players_stuck()) {
+        stack_to_discard();
+    }
     // Show everyone the cards
     display_all();
     // Show the player their cards
@@ -82,8 +86,10 @@ bool cards::speed::turn(cards::player & curr) {
     // for both players to be stuck before fliping one of the stack cards onto
     // the discard piles
     if (strnlen(buffer, buffer_size) < 3) {
+        curr.stuck(true);
         return true;
     }
+    curr.stuck(false);
     // The user should input the index of the card in their hand that they
     // would like to use to place on the discard stack that they specify.
     // So Action: 3 0 would place the 4th card in your hand in the first
@@ -116,6 +122,13 @@ bool cards::speed::turn(cards::player & curr) {
     curr.remove(hand_index);
     // Display the restuls
     display_all();
+    // Show the player their cards
+    curr.out() << curr << std::endl;
+    // If they have no more cards then they won
+    if (curr.size() < 1) {
+        curr.out() << "You won!" << std::endl;
+        return false;
+    }
     return true;
 }
 
@@ -142,4 +155,32 @@ void cards::speed::display(std::ostream & out) {
     }
     out << std::endl << std::endl;
     return;
+}
+
+/*
+ * Takes cards off the stacks and puts them on the discard piles
+ */
+void cards::speed::stack_to_discard() {
+    const int stacks_needed = 2;
+    int i;
+    int j;
+    // Refresh discard with stack
+    for (i = stacks_needed - 1; i >= 0; --i) {
+        // If stack has no more then refresh stack with discard
+        if (stack_sizes[i] < 1 && discard_sizes[i] > 1) {
+            // Grab from the bottom of discard
+            stacks[i][stack_sizes[i]] = discard[i][0];
+            // Move discard down because we grabed from the bottom
+            for (j = 0; j < discard_sizes[i]; ++j) {
+                discard[i][j] = discard[i][j + 1];
+            }
+            ++stack_sizes[i];
+            --discard_sizes[i];
+        }
+        if (stack_sizes[i] > 0) {
+            discard[i][discard_sizes[i]] = stacks[i][stack_sizes[i] - 1];
+            --stack_sizes[i];
+            ++discard_sizes[i];
+        }
+    }
 }
