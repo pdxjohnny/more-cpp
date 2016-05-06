@@ -440,4 +440,16 @@ believe that it was jumping right back into the function but it is really just
 doing that so it can print that the test case failed.
 
 I guess the bright side is that I still know how to use gdb and that I now know
-x64 assembly, yay.
+some more about x64 assembly, yay.
+
+When I was debugging I used gdb in tui mode. I just discovered this last week
+and it was a huge help. It lets you switch bewteen the source and assembly and
+shows you what instuction you are on. I found it so much eaiser to work with
+than how I had previously used gdb. Last program I mentioned how I prefer
+valgrind to gdb. I still do because I think it helps me find more errors but
+gdb was great for figuring out what is going on when youre having unexpected
+behavior.
+I also started using clang rather than gcc. clang gives way better error
+messages and best of all comes with a static analysis tool, scan-build. Its
+similar to coverity but you can run it localy. Not quite as good but it gets
+the job done.
