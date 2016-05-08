@@ -2,9 +2,9 @@
  * John Andersen
  * File: libstrings/include/libstrings.h
 */
+#include <ostream>
 
 #ifndef LIBSTRINGS
-
 #define LIBSTRINGS
 
 namespace strings {
@@ -24,7 +24,80 @@ namespace strings {
     int join_length(char *** src, const char * delim, const char * if_null);
     // Read a file line by line and do_func with that line
     int readline(int fd, char * buffer, int buffer_size);
+    // A string class
+    class string;
+    // Our operators to minipulate the string
+    strings::string   operator +  (const strings::string &, const strings::string &);
+    strings::string   operator +  (const strings::string &, const char *);
+    strings::string   operator +  (const char *, const strings::string &);
+    bool operator <  (const strings::string &, const strings::string &);
+    bool operator <  (const strings::string &, const char *);
+    bool operator <  (const char *, const strings::string &);
+    bool operator <= (const strings::string &, const strings::string &);
+    bool operator <= (const strings::string &, const char *);
+    bool operator <= (const char *, const strings::string &);
+    bool operator >  (const strings::string &, const strings::string &);
+    bool operator >  (const strings::string &, const char *);
+    bool operator >  (const char *, const strings::string &);
+    bool operator >= (const strings::string &, const strings::string &);
+    bool operator >= (const strings::string &, const char *);
+    bool operator >= (const char *, const strings::string &);
+    bool operator != (const strings::string &, const strings::string &);
+    bool operator != (const strings::string &, const char *);
+    bool operator != (const char *, const strings::string &);
+    bool operator == (const strings::string &, const strings::string &);
+    bool operator == (const strings::string &, const char *);
+    bool operator == (const char *, const strings::string &);
+};
+
+class strings::string {
+    public:
+        // Constructors and destructors
+        string();
+        // Start with a string
+        explicit string(const char *);
+        string(const string &);
+        // Join all the strings passed in
+        explicit string(int num, ...);
+        ~string();
+        // Frees the string if it is non NULL
+        void clr();
+        // Returns the character array we hold
+        const char * c_str() const;
+        // Set our internal string
+        strings::string & operator = (const char *);
+        strings::string & operator = (const strings::string &);
+        // Our operators to minipulate the string
+        strings::string & operator += (const strings::string &);
+        strings::string & operator += (const char *);
+        // Friends
+        friend strings::string   operator +  (const strings::string &, const strings::string &);
+        friend strings::string   operator +  (const strings::string &, const char *);
+        friend strings::string   operator +  (const char *, const strings::string &);
+        friend bool operator <  (const strings::string &, const strings::string &);
+        friend bool operator <  (const strings::string &, const char *);
+        friend bool operator <  (const char *, const strings::string &);
+        friend bool operator <= (const strings::string &, const strings::string &);
+        friend bool operator <= (const strings::string &, const char *);
+        friend bool operator <= (const char *, const strings::string &);
+        friend bool operator >  (const strings::string &, const strings::string &);
+        friend bool operator >  (const strings::string &, const char *);
+        friend bool operator >  (const char *, const strings::string &);
+        friend bool operator >= (const strings::string &, const strings::string &);
+        friend bool operator >= (const strings::string &, const char *);
+        friend bool operator >= (const char *, const strings::string &);
+        friend bool operator != (const strings::string &, const strings::string &);
+        friend bool operator != (const strings::string &, const char *);
+        friend bool operator != (const char *, const strings::string &);
+        friend bool operator == (const strings::string &, const strings::string &);
+        friend bool operator == (const strings::string &, const char *);
+        friend bool operator == (const char *, const strings::string &);
+        // Displays a string, up to that string to implement string::display
+        // this is for showing the user the current strings
+        friend std::ostream & operator << (std::ostream &, const strings::string &);
+    private:
+        // The string we are operating on
+        char * data;
 };
 
 #endif
-
