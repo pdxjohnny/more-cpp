@@ -96,7 +96,6 @@ int strings::parse(char *** dest, const char * from, const char * delim) {
     uintptr_t data_length;
     uintptr_t delim_length = strlen(delim);
     for (; *dest != NULL; ++dest) {
-        data_length = 0;
         // Look for the delim
         data_end = strstr(from, delim);
         // If we cant find it then the current element of dest is the last one
@@ -117,7 +116,9 @@ int strings::parse(char *** dest, const char * from, const char * delim) {
         data_length = data_end - from;
         // Copy but add 1 to the length of the NULL terminator
         MACRO_STRNCPY_IF_NOT_NULL(**dest, from, data_length + 1);
-        (**dest)[data_length] = '\0';
+        if (**dest != NULL) {
+            (**dest)[data_length] = '\0';
+        }
         // We just parsed in a string so move on to where the next one whould
         // start
         from += (uintptr_t)(data_length + delim_length);
