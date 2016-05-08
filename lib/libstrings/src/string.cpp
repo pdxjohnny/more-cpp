@@ -122,11 +122,11 @@ strings::string   strings::operator +  (const char * one, const strings::string 
  */
 
 bool strings::operator <  (const strings::string & one, const strings::string & two) {
-    return (0 <  strcmp(one.c_str(), two.c_str()));
+    return (0 <  strcmp(two.c_str(), one.c_str()));
 }
 
 bool strings::operator <  (const strings::string & one, const char * two) {
-    return (0 <  strcmp(one.c_str(), two));
+    return (0 <  strcmp(two, one.c_str()));
 }
 
 bool strings::operator <  (const char * one, const strings::string & two) {
@@ -134,11 +134,11 @@ bool strings::operator <  (const char * one, const strings::string & two) {
 }
 
 bool strings::operator <= (const strings::string & one, const strings::string & two) {
-    return (0 <= strcmp(one.c_str(), two.c_str()));
+    return (0 <= strcmp(two.c_str(), one.c_str()));
 }
 
 bool strings::operator <= (const strings::string & one, const char * two) {
-    return (0 <= strcmp(one.c_str(), two));
+    return (0 <= strcmp(two, one.c_str()));
 }
 
 bool strings::operator <= (const char * one, const strings::string & two) {
@@ -146,11 +146,11 @@ bool strings::operator <= (const char * one, const strings::string & two) {
 }
 
 bool strings::operator >  (const strings::string & one, const strings::string & two) {
-    return (0 >  strcmp(one.c_str(), two.c_str()));
+    return (0 >  strcmp(two.c_str(), one.c_str()));
 }
 
 bool strings::operator >  (const strings::string & one, const char * two) {
-    return (0 >  strcmp(one.c_str(), two));
+    return (0 >  strcmp(two, one.c_str()));
 }
 
 bool strings::operator >  (const char * one, const strings::string & two) {
@@ -158,11 +158,11 @@ bool strings::operator >  (const char * one, const strings::string & two) {
 }
 
 bool strings::operator >= (const strings::string & one, const strings::string & two) {
-    return (0 >= strcmp(one.c_str(), two.c_str()));
+    return (0 >= strcmp(two.c_str(), one.c_str()));
 }
 
 bool strings::operator >= (const strings::string & one, const char * two) {
-    return (0 >= strcmp(one.c_str(), two));
+    return (0 >= strcmp(two, one.c_str()));
 }
 
 bool strings::operator >= (const char * one, const strings::string & two) {
@@ -170,11 +170,11 @@ bool strings::operator >= (const char * one, const strings::string & two) {
 }
 
 bool strings::operator != (const strings::string & one, const strings::string & two) {
-    return (0 != strcmp(one.c_str(), two.c_str()));
+    return (0 != strcmp(two.c_str(), one.c_str()));
 }
 
 bool strings::operator != (const strings::string & one, const char * two) {
-    return (0 != strcmp(one.c_str(), two));
+    return (0 != strcmp(two, one.c_str()));
 }
 
 bool strings::operator != (const char * one, const strings::string & two) {
@@ -182,11 +182,11 @@ bool strings::operator != (const char * one, const strings::string & two) {
 }
 
 bool strings::operator == (const strings::string & one, const strings::string & two) {
-    return (0 == strcmp(one.c_str(), two.c_str()));
+    return (0 == strcmp(two.c_str(), one.c_str()));
 }
 
 bool strings::operator == (const strings::string & one, const char * two) {
-    return (0 == strcmp(one.c_str(), two));
+    return (0 == strcmp(two, one.c_str()));
 }
 
 bool strings::operator == (const char * one, const strings::string & two) {
