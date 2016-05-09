@@ -48,6 +48,8 @@ namespace strings {
     bool operator == (const strings::string &, const strings::string &);
     bool operator == (const strings::string &, const char *);
     bool operator == (const char *, const strings::string &);
+    // Display the string
+    std::ostream & operator << (std::ostream &, const string &);
 };
 
 class strings::string {

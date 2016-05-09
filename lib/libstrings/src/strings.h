@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <cmath>
+#include <cstdarg>
 #include <stdint.h>
 
 #include <libmacro.h>
