@@ -1,0 +1,157 @@
+#include <libtree23.h>
+
+/*
+ * Constructor for the tree23
+ */
+tree23_basic::tree23_basic() : contains(0), root_value(NULL) {}
+
+/*
+ * Copies one tree23 to another, cant use const because of root()
+ */
+tree23_basic::tree23_basic(tree23_basic & copy) : contains(0), root_value(NULL) {
+    this->operator=(copy);
+}
+
+/*
+ * Destuctor for the tree23
+ */
+tree23_basic::~tree23_basic() {
+    remove_all();
+}
+
+/*
+ * Copy the whole list, cant use const beacuse of root()
+ */
+tree23_basic & tree23_basic::operator=(tree23_basic & copy) {
+    // Remove all nodes from this list
+    this->remove_all();
+    // Must call the method with a pointer to have the virtual fucniton invoked
+    tree23_basic * copy_virtual = &copy;
+    if (copy_virtual->root() == NULL) {
+        return *this;
+    }
+    if (this->root() == NULL) {
+        this->create(this->root());
+    }
+    this->root()->copy(*(copy_virtual->root()));
+    this->contains = copy.contains;
+    return *this;
+}
+
+/*
+ * Adds a node to the tree23
+ */
+tree23_node_basic *& tree23_basic::add() {
+    ++contains;
+    if (this->root() == NULL) {
+        this->create(this->root());
+        return this->root();
+    }
+    return this->root()->add();
+}
+
+/*
+ * Allocates a node, this needs to be overridden if you wish to use
+ * anything other than tree23_node_basic in your list
+ */
+bool tree23_basic::create(tree23_node_basic *& node) {
+    node = new tree23_node_basic;
+    // Will be NULL if we are out of memory
+    return (node != NULL);
+}
+
+/*
+ * Gets a particular index in the tree23
+ */
+tree23_node_basic * tree23_basic::get(const char * key) {
+    tree23_node_basic * root_ptr = this->root();
+    // Nothing to get from
+    if (root_ptr == NULL) {
+        return NULL;
+    }
+    // Otherwise let the nodes deal with it
+    return root_ptr->get(index);
+}
+
+/*
+ * Creates all the nodes up to index if they do not exist and returns the index
+ */
+tree23_node_basic * tree23_basic::get_extend(const char * key) {
+    // The node to return
+    tree23_node_basic * to_ret = NULL;
+    // If we have the index in the tree23 then just return it
+    if (index < this->size()) {
+        return this->get(index);
+    }
+    // Create nodes until we have created the requested index
+    int i = 0;
+    for (i = this->size(); i <= index; ++i) {
+        to_ret = this->add();
+    }
+    return to_ret;
+}
+
+/*
+ * Calls get_extend
+ */
+tree23_node_basic * tree23_basic::operator[](const char * key) {
+    return this->get_extend(index);
+}
+
+/*
+ * Removes a particular index in the tree23
+ */
+bool tree23_basic::remove(const char * key) {
+    tree23_node_basic * root_ptr = this->root();
+    // Nothing to get from
+    if (root_ptr == NULL) {
+        return false;
+    }
+    // If they want the frist one then remove the root
+    if (index == 0) {
+        root_ptr->remove_self(this->root());
+        --contains;
+        return true;
+    }
+    // Otherwise let the nodes deal with it
+    bool removed = root_ptr->remove(index);
+    if (removed == true) {
+        --contains;
+    }
+    return removed;
+}
+
+/*
+ * Removes all the nodes in the tree23
+ */
+int tree23_basic::remove_all() {
+    tree23_node_basic * root_ptr = this->root();
+    // Nothing to remove
+    if (root_ptr == NULL) {
+        return 0;
+    }
+    // Remove all from the list
+    int num_removed = root_ptr->remove_all();
+    // Remove root
+    root_ptr->remove_self(this->root());
+    // We just removed the root so increment num_removed
+    ++num_removed;
+    // Make sure we keep track of how many wer removed
+    contains -= num_removed;
+    // Return how many were removed
+    return num_removed;
+}
+
+/*
+ * The number of elements currently in the list
+ */
+int tree23_basic::size() {
+    return contains;
+}
+
+/*
+ * Returns the root nodes for functions to use
+ */
+tree23_node_basic *& tree23_basic::root() {
+    return root_value;
+}

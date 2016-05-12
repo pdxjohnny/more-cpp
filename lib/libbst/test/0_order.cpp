@@ -13,11 +13,11 @@ int test_bst_order() {
         match[i] = (char)(i + 70);
         b[i] = (char)(i + 70);
     }
-    match[20] = '\0';
-    b[20] = '\0';
+    match[19] = '\0';
+    b[19] = '\0';
 
-    char barr[20];
-    for (i = 0; i <= 20; ++i) {
+    char barr[19];
+    for (i = 0; i < 20; ++i) {
         barr[i] = b[i];
     }
     MACRO_TEST_MEM_STR_EQ(barr, match);

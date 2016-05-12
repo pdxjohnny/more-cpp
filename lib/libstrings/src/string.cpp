@@ -198,6 +198,8 @@ bool strings::operator == (const char * one, const strings::string & two) {
  * this is for showing the user the current strings
  */
 std::ostream & strings::operator << (std::ostream & out, const strings::string & display) {
-    out << display.c_str();
+    if (display.c_str() != NULL) {
+        out << display.c_str();
+    }
     return out;
 }
