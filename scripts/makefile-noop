@@ -1,0 +1,13 @@
+mkfile_path=$(abspath $(lastword $(MAKEFILE_LIST)))
+NAME=$(notdir $(patsubst %/,%,$(dir $(mkfile_path))))
+
+all:
+	@echo "Sorry cant build" $(NAME) "yet"
+
+.PHONY: test
+test:
+	@echo "Sorry cant test" $(NAME) "yet"
+
+.PHONY: clean
+clean:
+	@echo "Nothing to clean for" $(NAME)

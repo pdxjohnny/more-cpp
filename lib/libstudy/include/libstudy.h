@@ -18,6 +18,14 @@ namespace study {
     // A study_guide of task
     class study_guide;
 
+    // Compare
+    bool operator <  (const study::task &, const study::task &);
+    bool operator <= (const study::task &, const study::task &);
+    bool operator >  (const study::task &, const study::task &);
+    bool operator >= (const study::task &, const study::task &);
+    bool operator != (const study::task &, const study::task &);
+    bool operator == (const study::task &, const study::task &);
+
     // Display a task
     std::ostream & operator << (std::ostream &, study::task &);
     std::ostream & operator >> (std::ostream &, study::task &);
