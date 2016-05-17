@@ -14,7 +14,7 @@ tree23<data_type>::~tree23() {}
 
 // Allows access by key value
 template <typename data_type>
-data_type & tree23<data_type>::operator[](const char * key) throw(tree23_out_of_range) {
+data_type & tree23<data_type>::operator[](int index) throw(tree23_out_of_range) {
     tree23_node_basic * at_index = tree23_basic::operator[](index);
     if (at_index == NULL) {
         throw tree23_out_of_range();

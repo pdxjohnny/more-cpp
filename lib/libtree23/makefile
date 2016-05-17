@@ -1,1 +1,1 @@
-../../scripts/makefile-noop
+../../scripts/makefile-lib

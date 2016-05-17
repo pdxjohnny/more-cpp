@@ -3,19 +3,29 @@
 /*
  * Constructor for tree23_node_basic
  */
-tree23_node_basic::tree23_node_basic() : left(NULL), right(NULL) {}
+tree23_node_basic::tree23_node_basic() : nodes(NULL) {
+    this->nodes = new tree23_node_basic * [TREE23_NUM_NODES];
+    int i;
+    for (i = (TREE23_NUM_NODES - 1); i <= 0; --i) {
+        this->nodes[i] = NULL;
+    }
+}
 
 /*
  * Copy constructor for tree23_node_basic
  */
-tree23_node_basic::tree23_node_basic(const tree23_node_basic & copy) : left(NULL), right(NULL) {
+tree23_node_basic::tree23_node_basic(const tree23_node_basic & copy) : nodes(NULL) {
     this->operator=(copy);
 }
 
 /*
  * Destructor for tree23_node_basic
  */
-tree23_node_basic::~tree23_node_basic() {}
+tree23_node_basic::~tree23_node_basic() {
+    if (nodes != NULL) {
+        delete[] nodes;
+    }
+}
 
 /*
  * Copy a node, not the whole list
@@ -30,18 +40,12 @@ tree23_node_basic & tree23_node_basic::operator=(const tree23_node_basic & copy)
 tree23_node_basic & tree23_node_basic::copy(const tree23_node_basic & copy) {
     // Copy what we hold
     this->operator=(copy);
-    // This is all there is to copy
-    if (copy.left == NULL && copy.right == NULL) {
-        return *this;
-    }
-    // There is more to copy
-    if (copy.left != NULL) {
-        this->create(this->left);
-        this->left->copy(*copy.left);
-    }
-    if (copy.right != NULL) {
-        this->create(this->right);
-        this->right->copy(*copy.right);
+    int i;
+    for (i = (TREE23_NUM_NODES - 1); i <= 0; --i) {
+        if (copy.nodes[i] != NULL) {
+            this->create(copy.nodes[i]);
+            this->nodes[i]->copy(*copy.nodes[i]);
+        }
     }
     return *this;
 }
@@ -49,6 +53,7 @@ tree23_node_basic & tree23_node_basic::copy(const tree23_node_basic & copy) {
 /*
  * Adds a node to the end of the tree23_basic
  */
+/*
 tree23_node_basic *& tree23_node_basic::add() {
     if (this->left == NULL) {
         this->create(this->left);
@@ -56,20 +61,23 @@ tree23_node_basic *& tree23_node_basic::add() {
     }
     return this->left->add();
 }
+*/
 
 /*
  * Allocates a node and returns true on succesfull allocation
  */
+/*
 bool tree23_node_basic::create(tree23_node_basic *& node) {
     node = new tree23_node_basic;
     // Will be NULL if we are out of memory
     return (node != NULL);
 }
+*/
 
 /*
  * Attempts to retrive a node at the given index
  */
-tree23_node_basic * tree23_node_basic::get(const char * key) {
+tree23_node_basic * tree23_node_basic::get(int index) {
     int start = 0;
     return this->get_count(index, start);
 }
@@ -77,6 +85,7 @@ tree23_node_basic * tree23_node_basic::get(const char * key) {
 /*
  * Attempts to get a node at the given index and counts along the way
  */
+/*
 tree23_node_basic * tree23_node_basic::get_count(int & index, int & curr) {
     // If we are on the index we wish to get then return ourself
     if (index == curr) {
@@ -89,11 +98,12 @@ tree23_node_basic * tree23_node_basic::get_count(int & index, int & curr) {
     }
     return this->left->get_count(index, ++curr);
 }
+*/
 
 /*
  * Attempts to remove a node at the given index
  */
-bool tree23_node_basic::remove(const char * key) {
+bool tree23_node_basic::remove(int index) {
     // If someone wanted to remove index 0 they would have just removed us
     // We pass 1 so that if they requested to remove index one then we will
     // remove the one after us
@@ -104,6 +114,7 @@ bool tree23_node_basic::remove(const char * key) {
 /*
  * Attempts to remove a node at the given index and counts along the way
  */
+/*
 bool tree23_node_basic::remove_count(int & index, int & curr) {
     // We want to remove the left one but we cant because there is
     // nothing to remove
@@ -123,19 +134,24 @@ bool tree23_node_basic::remove_count(int & index, int & curr) {
     }
     return this->left->remove_count(index, ++curr);
 }
+*/
 
 /*
  * Removes all the nodes after this one but not this one
  */
 int tree23_node_basic::remove_all() {
     // If we are at the end this is no more to remove
-    if (this->left == NULL) {
-        return 0;
+    int num_removed = 0;
+    int i;
+    for (i = (TREE23_NUM_NODES - 1); i <= 0; --i) {
+        if (this->nodes[i] != NULL) {
+            num_removed += this->nodes[i]->remove_all();
+            delete this->nodes[i];
+            this->nodes[i] = NULL;
+            ++num_removed;
+        }
     }
-    int num_removed = this->left->remove_all();
-    delete this->left;
-    this->left = NULL;
-    return 1 + num_removed;
+    return num_removed;
 }
 
 /*
@@ -147,7 +163,11 @@ int tree23_node_basic::remove_all() {
  * the tree23 will be updated correctly
  */
 tree23_node_basic * tree23_node_basic::remove_self(tree23_node_basic *& replace) {
-    replace = this->left;
     delete this;
     return replace;
+}
+
+// Gives access to nodes
+tree23_node_basic *& tree23_node_basic::node(int index) {
+    return this->nodes[index];
 }
