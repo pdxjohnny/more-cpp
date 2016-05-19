@@ -16,8 +16,8 @@
 #define TREE23_NUM_NODES 3
 
 #define TREE23_LEFT 0
-#define TREE23_MIDDLE 1
-#define TREE23_RIGHT 2
+#define TREE23_RIGHT 1
+#define TREE23_MIDDLE 2
 
 #include <cstdio>
 #include <cstdlib>
@@ -50,8 +50,6 @@ class tree23_node_basic {
         virtual tree23_node_basic & operator=(const tree23_node_basic & copy);
         // Copy the whole list
         virtual tree23_node_basic & copy(const tree23_node_basic & copy);
-        // Add a node to the end
-        virtual tree23_node_basic *& add() = 0;
         // Creates a node of the type we wish to add
         virtual bool create(tree23_node_basic *& node) = 0;
         // Get a node at an index
@@ -133,15 +131,26 @@ class tree23_node : public tree23_node_basic {
         // Copies the data
         tree23_node_basic & operator=(const tree23_node_basic & copy);
         // Add a node to the tree
-        tree23_node_basic *& add();
+        data_type * add(data_type & to_add);
         // Creates a node of the type we wish to add
         bool create(tree23_node_basic *& node);
+        // This handles the pushing up of a node
+        bool push_up(data_type * to_add);
+        // What would should call on your root
+        bool add_root(tree23_node<data_type> * root, data_type * add_data);
         // Removes this node which will not update the node before its previous
         // and returns this nodes left node. It also sets replace to the return
         // value so you and check and set in one call
         tree23_node_basic * remove_self(tree23_node_basic *& replace);
         // Return the value we are managing
-        data_type & value();
+        data_type & value(int index);
+
+        bool add_root(tree23_node<data_type> * root, data_type & add_data);
+        tree23_node<data_type> & set(data_type & set_to);
+        tree23_node<data_type> * split();
+        tree23_node<data_type> * rsplit();
+        bool push_up(data_type * pushed_up, int loc);
+
     protected:
         // We need to be counting so we know what to get
         tree23_node_basic * get_count(int & index, int & curr);
@@ -149,7 +158,8 @@ class tree23_node : public tree23_node_basic {
         bool remove_count(int & index, int & curr);
     private:
         // The data we are holding
-        data_type data_value;
+        data_type * data;
+        bool * active;
 };
 
 

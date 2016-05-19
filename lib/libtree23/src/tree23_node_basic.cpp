@@ -51,54 +51,12 @@ tree23_node_basic & tree23_node_basic::copy(const tree23_node_basic & copy) {
 }
 
 /*
- * Adds a node to the end of the tree23_basic
- */
-/*
-tree23_node_basic *& tree23_node_basic::add() {
-    if (this->left == NULL) {
-        this->create(this->left);
-        return this->left;
-    }
-    return this->left->add();
-}
-*/
-
-/*
- * Allocates a node and returns true on succesfull allocation
- */
-/*
-bool tree23_node_basic::create(tree23_node_basic *& node) {
-    node = new tree23_node_basic;
-    // Will be NULL if we are out of memory
-    return (node != NULL);
-}
-*/
-
-/*
  * Attempts to retrive a node at the given index
  */
 tree23_node_basic * tree23_node_basic::get(int index) {
     int start = 0;
     return this->get_count(index, start);
 }
-
-/*
- * Attempts to get a node at the given index and counts along the way
- */
-/*
-tree23_node_basic * tree23_node_basic::get_count(int & index, int & curr) {
-    // If we are on the index we wish to get then return ourself
-    if (index == curr) {
-        return this;
-    }
-    // We want to get the left one but we cant because there is
-    // nothing to get
-    if (this->left == NULL) {
-        return NULL;
-    }
-    return this->left->get_count(index, ++curr);
-}
-*/
 
 /*
  * Attempts to remove a node at the given index
@@ -110,31 +68,6 @@ bool tree23_node_basic::remove(int index) {
     int start = 1;
     return this->remove_count(index, start);
 }
-
-/*
- * Attempts to remove a node at the given index and counts along the way
- */
-/*
-bool tree23_node_basic::remove_count(int & index, int & curr) {
-    // We want to remove the left one but we cant because there is
-    // nothing to remove
-    if (this->left == NULL) {
-        return false;
-    }
-    // If we are on the index we wish to remove then try to remove it
-    if (index == curr) {
-        // Store the node
-        tree23_node_basic * tmp = this->left;
-        // Set our left to be thenode we are removings left
-        this->left = this->left->left;
-        // Remove the target
-        delete tmp;
-        // Return true for yes we removed
-        return true;
-    }
-    return this->left->remove_count(index, ++curr);
-}
-*/
 
 /*
  * Removes all the nodes after this one but not this one
