@@ -127,15 +127,14 @@ class tree23_node : public tree23_node_basic {
     public:
         // Constructors and Destructors
         tree23_node<data_type>();
+        tree23_node<data_type>(const data_type &);
         ~tree23_node<data_type>();
         // Copies the data
         tree23_node_basic & operator=(const tree23_node_basic & copy);
         // Add a node to the tree
-        data_type * add(data_type & to_add);
+        tree23_node<data_type> * add(data_type & to_add);
         // Creates a node of the type we wish to add
         bool create(tree23_node_basic *& node);
-        // This handles the pushing up of a node
-        bool push_up(data_type * to_add);
         // What would should call on your root
         bool add_root(tree23_node<data_type> * root, data_type * add_data);
         // Removes this node which will not update the node before its previous
@@ -147,10 +146,10 @@ class tree23_node : public tree23_node_basic {
 
         bool add_root(tree23_node<data_type> * root, data_type & add_data);
         tree23_node<data_type> & set(data_type & set_to);
-        tree23_node<data_type> * split();
-        tree23_node<data_type> * rsplit();
-        bool push_up(data_type * pushed_up, int loc);
+        tree23_node<data_type> * push_up(tree23_node<data_type> * pushed_up);
 
+        // Returns a nodes and casts it to the correct type
+        tree23_node<data_type> * node_tpl(int index);
     protected:
         // We need to be counting so we know what to get
         tree23_node_basic * get_count(int & index, int & curr);

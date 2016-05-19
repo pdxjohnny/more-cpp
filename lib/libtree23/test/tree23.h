@@ -13,3 +13,4 @@
 #include <libmacro.h>
 #include <libtree23.h>
 
+int test_tree23_node_create();

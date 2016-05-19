@@ -6,7 +6,7 @@
 tree23_node_basic::tree23_node_basic() : nodes(NULL) {
     this->nodes = new tree23_node_basic * [TREE23_NUM_NODES];
     int i;
-    for (i = (TREE23_NUM_NODES - 1); i <= 0; --i) {
+    for (i = (TREE23_NUM_NODES - 1); i >= 0; --i) {
         this->nodes[i] = NULL;
     }
 }
@@ -76,7 +76,7 @@ int tree23_node_basic::remove_all() {
     // If we are at the end this is no more to remove
     int num_removed = 0;
     int i;
-    for (i = (TREE23_NUM_NODES - 1); i <= 0; --i) {
+    for (i = (TREE23_NUM_NODES - 1); i >= 0; --i) {
         if (this->nodes[i] != NULL) {
             num_removed += this->nodes[i]->remove_all();
             delete this->nodes[i];

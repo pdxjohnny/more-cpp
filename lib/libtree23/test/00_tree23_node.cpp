@@ -4,10 +4,13 @@
 */
 #include "tree23.h"
 
-class comparable {
-};
-
 int test_tree23_node_create() {
-    tree23_node<comparable> root;
+    tree23_node<int> root;
+    int data = 5;
+    int i;
+    for (i = 999; i >= 0; --i) {
+        root.add(data);
+    }
+    root.remove_all();
     return EXIT_SUCCESS;
 }
