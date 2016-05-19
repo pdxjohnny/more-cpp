@@ -242,30 +242,53 @@ data_type & tree23_node<data_type>::value(int index) {
  * Attempts to get a node at the given index and counts along the way
  */
 template <typename data_type>
-tree23_node_basic * tree23_node<data_type>::get_count(int & index, int & curr) {
+data_type & tree23_node<data_type>::get_count(int & index, int & curr) {
 	// To see if one of the sides found it
-    tree23_node_basic * found = NULL;
+    data_type * found = NULL;
 	// Look of the index on the left, that will be index 0 if its the leftmost node
     if (node(TREE23_LEFT) != NULL) {
-        found = node(TREE23_LEFT)->get_count(index, curr);
-        if (found) {
-            return found;
+        try {
+            found = &node_tpl(TREE23_LEFT)->get_count(index, curr);
+            return *found;
+        } catch (tree23_out_of_range err) {
+            // pass
         }
     }
 	// Check if this node is the index
-	if (index == curr) {
-		return this;
-	}
-	// increment the index
-	++curr;
-	// Look of the index on the right
-    if (node(TREE23_RIGHT) != NULL) {
-        found = node(TREE23_RIGHT)->get_count(index, curr);
-        if (found) {
-            return found;
+    if (active[TREE23_LEFT]) {
+        if (index == curr) {
+            return data[TREE23_LEFT];
+        }
+        // increment the index
+        ++curr;
+    }
+	// Look of the index down the middle
+    if (node(TREE23_MIDDLE) != NULL) {
+        try {
+            found = &node_tpl(TREE23_MIDDLE)->get_count(index, curr);
+            return *found;
+        } catch (tree23_out_of_range err) {
+            // pass
         }
     }
-	return NULL;
+	// Check if this node is the index
+    if (active[TREE23_RIGHT]) {
+        if (index == curr) {
+            return data[TREE23_RIGHT];
+        }
+        // increment the index
+        ++curr;
+    }
+	// Look of the index on the right
+    if (node(TREE23_RIGHT) != NULL) {
+        try {
+            found = &node_tpl(TREE23_RIGHT)->get_count(index, curr);
+            return *found;
+        } catch (tree23_out_of_range err) {
+            // pass
+        }
+    }
+    throw(tree23_out_of_range());
 }
 
 /*
@@ -298,5 +321,11 @@ bool tree23_node<data_type>::remove_count(int & index, int & curr) {
 template <typename data_type>
 tree23_node<data_type> * tree23_node<data_type>::node_tpl(int index) {
     return dynamic_cast<tree23_node<data_type> *>(tree23_node_basic::node(index));
+}
+
+template <typename data_type>
+data_type & tree23_node<data_type>::operator[](int index) throw(tree23_out_of_range) {
+    int curr = 0;
+    return get_count(index, curr);
 }
 #endif

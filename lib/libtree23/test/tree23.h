@@ -14,3 +14,4 @@
 #include <libtree23.h>
 
 int test_tree23_node_create();
+int test_tree23_node_order();

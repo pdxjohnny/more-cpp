@@ -52,8 +52,6 @@ class tree23_node_basic {
         virtual tree23_node_basic & copy(const tree23_node_basic & copy);
         // Creates a node of the type we wish to add
         virtual bool create(tree23_node_basic *& node) = 0;
-        // Get a node at an index
-        virtual tree23_node_basic * get(int index);
         // Remove a node at an index returns 1 if there was a node at that index to
         // remove. Returns 0 if there was not a node at that index to remove
         virtual bool remove(int index);
@@ -63,8 +61,6 @@ class tree23_node_basic {
         // and returns this nodes left node. It also sets replace to the return
         // value so you and check and set in one call
         virtual tree23_node_basic * remove_self(tree23_node_basic *& replace);
-        // We need to be counting so we know what to get
-        virtual tree23_node_basic * get_count(int & index, int & curr) = 0;
         // We need to be counting so we know when to remove
         virtual bool remove_count(int & index, int & curr) = 0;
     protected:
@@ -77,47 +73,6 @@ class tree23_node_basic {
         // The left node in the list
         tree23_node_basic ** nodes;
 };
-
-
-/*
- * tree23_basic is a basic linked list
- */
-/*
-class tree23_basic {
-    public:
-        // Constructor and deconstructor
-        tree23_basic();
-        tree23_basic(tree23_basic & copy);
-        virtual ~tree23_basic();
-        // Copy the list
-        virtual tree23_basic & operator=(tree23_basic & copy);
-        // Adds a node to the tree23
-        tree23_node_basic *& add();
-        // What node we should create
-        virtual bool create(tree23_node_basic *& node);
-        // Allows access by key value
-        tree23_node_basic * get(int index);
-        // Preforms a get and if no node is present we create nodes until it is
-        // present
-        tree23_node_basic * get_extend(int index);
-        // Calls get_extend
-        tree23_node_basic * operator[](int index);
-        // Removes a node from the list
-        virtual bool remove(int index);
-        // Deallocates the tree23
-        int remove_all();
-        // Returns the number of elements in the tree23
-        int size();
-    protected:
-        // Provides the root to do operations on
-        virtual tree23_node_basic *& root();
-    private:
-        // Number of nodes in the tree23
-        int contains;
-        // Provide us with the root to do operations on
-        tree23_node_basic * root_value;
-};
-*/
 
 /*
  * tree23_node is just an tree23_node_basic that holds some templated data
@@ -150,9 +105,12 @@ class tree23_node : public tree23_node_basic {
 
         // Returns a nodes and casts it to the correct type
         tree23_node<data_type> * node_tpl(int index);
+
+        // Access like a sorted array
+        data_type & operator[](int index) throw(tree23_out_of_range);
     protected:
         // We need to be counting so we know what to get
-        tree23_node_basic * get_count(int & index, int & curr);
+        data_type & get_count(int & index, int & curr);
         // We need to be counting so we know when to remove
         bool remove_count(int & index, int & curr);
     private:

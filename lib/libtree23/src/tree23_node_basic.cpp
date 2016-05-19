@@ -51,14 +51,6 @@ tree23_node_basic & tree23_node_basic::copy(const tree23_node_basic & copy) {
 }
 
 /*
- * Attempts to retrive a node at the given index
- */
-tree23_node_basic * tree23_node_basic::get(int index) {
-    int start = 0;
-    return this->get_count(index, start);
-}
-
-/*
  * Attempts to remove a node at the given index
  */
 bool tree23_node_basic::remove(int index) {
