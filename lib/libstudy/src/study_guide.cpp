@@ -1,5 +1,13 @@
 #include "study.h"
 
+// Remove all the nodes from all the trees
+study::study_guide::~study_guide() {
+    int i;
+    for (i = 0; i < size(); ++i) {
+        this->operator[](i).remove_all();
+    }
+}
+
 // Copy all the study_guide
 study::study_guide & study::study_guide::operator=(study_guide & copy) {
     if (this == &copy) {
@@ -46,7 +54,6 @@ void study::study_guide::display(std::ostream & out) {
     int i;
     for (i = size() - 1; i >= 0; --i) {
         operator[](i).display(out);
-        out << std::endl;
     }
     return;
 }

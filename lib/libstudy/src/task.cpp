@@ -115,6 +115,9 @@ std::istream & study::operator>>(std::istream & in, study::task & task) {
             task.priority = strings::toint(buffer);
             break;
         case 2:
+            task.category = buffer;
+            break;
+        case 3:
             task.title = buffer;
             break;
         default:
@@ -136,6 +139,7 @@ std::ostream & study::task::prompt_input(std::ostream & out) const {
     out << "Format of task is as follows:" << std::endl;
     out << "Complete (yes, no, true, false, complete, incomplete)" << std::endl;
     out << "Priority (integer value)" << std::endl;
+    out << "Category (linked lists, history of denmark)" << std::endl;
     out << "Title" << std::endl;
     out << "Description (as many lines as you need, eof to stop)" << std::endl;
     return out;
