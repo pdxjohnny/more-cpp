@@ -5,5 +5,5 @@ if [ -z "$NODEMON_POST" ]; then
 fi
 
 ln -s makefile makefile.make
-nodemon -e c,cpp,h,make --exec "clear; make -e clean && make -e -j && make -e test; $NODEMON_POST; exit 0"
+nodemon -e c,cpp,h,make --exec "clear; make -e clean && make -e && make -e test; $NODEMON_POST; exit 0"
 

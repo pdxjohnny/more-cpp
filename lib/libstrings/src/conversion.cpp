@@ -22,3 +22,7 @@ bool strings::tobool(const char * buffer) {
     }
     return false;
 }
+
+int strings::toint(const char * buffer) {
+    return std::strtol(buffer, NULL, 10);
+}

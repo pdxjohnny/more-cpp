@@ -48,11 +48,15 @@ class study::task {
         friend bool operator >= (const study::task &, const study::task &);
         friend bool operator != (const study::task &, const study::task &);
         friend bool operator == (const study::task &, const study::task &);
+        // Just output completion status and title
+        std::ostream & brief(std::ostream & out);
         // Outputs the task
         std::ostream & save(std::ostream & out);
         friend std::ostream & study::operator << (std::ostream &, study::task &);
         // Parses in the task
         friend std::istream & study::operator >> (std::istream &, study::task &);
+        // Lets the user know the format of the input
+        std::ostream & prompt_input(std::ostream & out) const;
     private:
         int priority;
         bool complete;
@@ -64,10 +68,11 @@ class study::task {
 // All of the tasks in prioritized order
 class study::tasks : public tree23<study::task> {
     public:
-        // Constructor
-        tasks();
-        // Destructor
-        ~tasks();
+        // Sets the category
+        tasks & operator=(const char * str);
+        tasks & operator=(const strings::string & str);
+        // Copy all the tasks
+        tasks & operator=(const tasks & copy);
         // Display this and all the titles of the tasks it holds
         void display(std::ostream &);
     private:
@@ -79,10 +84,10 @@ class study::tasks : public tree23<study::task> {
 // also can be shuffled so that it can be used for a task game
 class study::study_guide : public lll<study::tasks> {
     public:
-        // Initailizes the study_guide
-        study_guide();
-        // Gets rid of the study_guide
-        ~study_guide();
+        // Copy all the tasks
+        study_guide & operator=(study_guide & copy);
+        // Adds a task to the correct category
+        study_guide & operator+=(const task & add);
         // Lets you access a random tasks from the study_guide
         study::task random();
         // Displays all of the tasks titles

@@ -52,6 +52,19 @@ bool study::operator == (const study::task & one, const study::task & two) {
 }
 
 /*
+ * Displays only completion status and title
+ */
+std::ostream & study::task::brief(std::ostream & out) {
+    if (complete == true) {
+        out << MACRO_GREEN "✔ Complete " MACRO_RESET;
+    } else {
+        out << MACRO_RED "✘ In Progress " MACRO_RESET;
+    }
+    out << title;
+    return out;
+}
+
+/*
  * Displays without colors or unicode
  */
 std::ostream & study::task::save(std::ostream & out) {
@@ -60,7 +73,7 @@ std::ostream & study::task::save(std::ostream & out) {
     } else {
         out << "In Progress";
     }
-    out << std::endl;
+    out << std::endl << priority << std::endl;
     out << title << std::endl;
     out << "---- Description ----" << std::endl;
     out << description;
@@ -71,12 +84,8 @@ std::ostream & study::task::save(std::ostream & out) {
  * Displays a task
  */
 std::ostream & study::operator<<(std::ostream & out, study::task & task) {
-    if (task.complete == true) {
-        out << MACRO_GREEN "✔ Complete " MACRO_RESET;
-    } else {
-        out << MACRO_RED "✘ In Progress " MACRO_RESET;
-    }
-    out << task.title << std::endl;
+    task.brief(out);
+    out << std::endl;
     out << "---- Description ----" << std::endl;
     out << task.description;
     return out;
@@ -103,15 +112,31 @@ std::istream & study::operator>>(std::istream & in, study::task & task) {
             }
             break;
         case 1:
+            task.priority = strings::toint(buffer);
+            break;
+        case 2:
             task.title = buffer;
             break;
         default:
             if (0 != strcmp(buffer, "---- Description ----")) {
                 task.description += buffer;
+                task.description += '\n';
             }
             break;
         }
     }
     delete[] buffer;
     return in;
+}
+
+/*
+ * Prompt for input
+ */
+std::ostream & study::task::prompt_input(std::ostream & out) const {
+    out << "Format of task is as follows:" << std::endl;
+    out << "Complete (yes, no, true, false, complete, incomplete)" << std::endl;
+    out << "Priority (integer value)" << std::endl;
+    out << "Title" << std::endl;
+    out << "Description (as many lines as you need, eof to stop)" << std::endl;
+    return out;
 }

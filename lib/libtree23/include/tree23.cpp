@@ -6,7 +6,7 @@
 
 // Constructor
 template <typename data_type>
-tree23<data_type>::tree23() : data(NULL), active(NULL) {
+tree23<data_type>::tree23() : contains(0), data(NULL), active(NULL) {
     data = new data_type [2];
     active = new bool [2];
     active[TREE23_LEFT] = false;
@@ -15,7 +15,7 @@ tree23<data_type>::tree23() : data(NULL), active(NULL) {
 
 // Constructor
 template <typename data_type>
-tree23<data_type>::tree23(const data_type & set_to) : data(NULL), active(NULL) {
+tree23<data_type>::tree23(const data_type & set_to) : contains(0), data(NULL), active(NULL) {
     data = new data_type [2];
     active = new bool [2];
     active[TREE23_RIGHT] = false;
@@ -36,30 +36,45 @@ tree23<data_type>::~tree23() {
 
 // Copies the data of the node
 template <typename data_type>
-tree23_basic & tree23<data_type>::operator=(const tree23_basic & copy) {
+tree23<data_type> & tree23<data_type>::operator=(const tree23<data_type> & copy) {
     tree23_basic::operator=(copy);
+    return *this;
+}
+
+// Copies the data of the node
+template <typename data_type>
+void tree23<data_type>::copy(const tree23_basic & copy) {
     const tree23<data_type> * copy_ptr = dynamic_cast<const tree23<data_type> *>(&copy);
     // Nothing to copy or bad typecast
     if (copy_ptr == NULL) {
-        return *this;
+        return;
     }
     if (this == copy_ptr) {
-        return *this;
+        return;
     }
-    if (data != NULL && copy_ptr->data != NULL) {
+    contains = copy_ptr->contains;
+    if (copy_ptr->data != NULL) {
         data[TREE23_LEFT] = copy_ptr->data[TREE23_LEFT];
         data[TREE23_RIGHT] = copy_ptr->data[TREE23_RIGHT];
     }
-    if (active != NULL && copy_ptr->active != NULL) {
+    if (copy_ptr->active != NULL) {
         active[TREE23_LEFT] = copy_ptr->active[TREE23_LEFT];
         active[TREE23_RIGHT] = copy_ptr->active[TREE23_RIGHT];
     }
+    return;
+}
+
+// Calls add
+template <typename data_type>
+tree23<data_type> & tree23<data_type>::operator+=(const data_type & to_add) {
+    add(to_add);
     return *this;
 }
 
 // Adds a node to the end of the tree23_basic
 template <typename data_type>
-tree23<data_type> * tree23<data_type>::add(data_type & to_add) {
+tree23<data_type> * tree23<data_type>::add(const data_type & to_add) {
+    ++contains;
     tree23<data_type> * send_up = NULL;
     // Neither are active, set the left
     if (!active[TREE23_LEFT] && !active[TREE23_RIGHT]) {
@@ -135,7 +150,7 @@ bool tree23<data_type>::add_root(tree23<data_type> * root, data_type & add_data)
 
 // Sets the left to the data and marks the right as inactive
 template <typename data_type>
-tree23<data_type> & tree23<data_type>::set(data_type & set_to) {
+tree23<data_type> & tree23<data_type>::set(const data_type & set_to) {
     data[TREE23_LEFT] = set_to;
     active[TREE23_LEFT] = true;
     active[TREE23_RIGHT] = false;
@@ -213,7 +228,6 @@ tree23<data_type> * tree23<data_type>::push_up(tree23<data_type> * pushed_up) {
 template <typename data_type>
 bool tree23<data_type>::create(tree23_basic *& node) {
     tree23 * tmp = new tree23<data_type>;
-    tmp->active[TREE23_LEFT] = true;
     node = tmp;
     return (node != NULL);
 }
@@ -327,5 +341,28 @@ template <typename data_type>
 data_type & tree23<data_type>::operator[](int index) const throw(tree23_out_of_range) {
     int curr = 0;
     return get_count(index, curr);
+}
+
+// Displays everything in the tree
+template <typename data_type>
+void tree23<data_type>::display(std::ostream & out) {
+    int i = contains;
+    for (i = contains - 1; i >= 0; --i) {
+        out << operator[](i) << std::endl;
+    }
+    return;
+}
+
+// Calls display
+template <typename data_type>
+std::ostream & operator >> (std::ostream & out, const tree23<data_type> & tree) {
+    tree.display(out);
+    return out;
+}
+
+// Returns contains
+template <typename data_type>
+int tree23<data_type>::size() const{
+    return contains;
 }
 #endif

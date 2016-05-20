@@ -27,6 +27,7 @@ namespace strings {
     // Conversion functions
     void toupper(char * buffer);
     bool tobool(const char * buffer);
+    int toint(const char * buffer);
     // A string class
     class string;
     // Our operators to minipulate the string
@@ -70,10 +71,12 @@ class strings::string {
         // Returns the character array we hold
         const char * c_str() const;
         // Set our internal string
+        strings::string & operator = (const char);
         strings::string & operator = (const char *);
         strings::string & operator = (const strings::string &);
         // Our operators to minipulate the string
         strings::string & operator += (const strings::string &);
+        strings::string & operator += (const char);
         strings::string & operator += (const char *);
         // Friends
         friend strings::string   operator +  (const strings::string &, const strings::string &);

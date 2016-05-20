@@ -19,6 +19,7 @@
 #define TREE23_RIGHT 1
 #define TREE23_MIDDLE 2
 
+#include <iostream>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -46,10 +47,10 @@ class tree23_basic {
         tree23_basic();
         tree23_basic(const tree23_basic & copy);
         virtual ~tree23_basic();
-        // Copy a node, not the whole list
-        virtual tree23_basic & operator=(const tree23_basic & copy);
         // Copy the whole list
-        virtual tree23_basic & copy(const tree23_basic & copy);
+        virtual tree23_basic & operator=(const tree23_basic & copy);
+        // Copy a node, not the whole list
+        virtual void copy(const tree23_basic & copy) = 0;
         // Creates a node of the type we wish to add
         virtual bool create(tree23_basic *& node) = 0;
         // Remove a node at an index returns 1 if there was a node at that index to
@@ -84,10 +85,14 @@ class tree23 : public tree23_basic {
         tree23<data_type>();
         tree23<data_type>(const data_type &);
         ~tree23<data_type>();
-        // Copies the data
-        tree23_basic & operator=(const tree23_basic & copy);
+        // Cpoies the wholel list
+        tree23 & operator=(const tree23 & copy);
+        // Copies the data of the node
+        void copy(const tree23_basic & copy);
+        // Calls add
+        tree23<data_type> & operator+=(const data_type & to_add);
         // Add a node to the tree
-        tree23<data_type> * add(data_type & to_add);
+        tree23<data_type> * add(const data_type & to_add);
         // Creates a node of the type we wish to add
         bool create(tree23_basic *& node);
         // What would should call on your root
@@ -100,7 +105,7 @@ class tree23 : public tree23_basic {
         data_type & value(int index);
 
         bool add_root(tree23<data_type> * root, data_type & add_data);
-        tree23<data_type> & set(data_type & set_to);
+        tree23<data_type> & set(const data_type & set_to);
         tree23<data_type> * push_up(tree23<data_type> * pushed_up);
 
         // Returns a nodes and casts it to the correct type
@@ -108,37 +113,25 @@ class tree23 : public tree23_basic {
 
         // Access like a sorted array
         data_type & operator[](int index) const throw(tree23_out_of_range);
+
+        // Display everything in the tree
+        virtual void display(std::ostream & out);
+        template <typename data_type_2>
+        friend std::ostream & operator >> (std::ostream &, const tree23<data_type_2> &);
+        // Returns the size
+        int size() const;
     protected:
         // We need to be counting so we know what to get
         data_type & get_count(int & index, int & curr) const;
         // We need to be counting so we know when to remove
         bool remove_count(int & index, int & curr);
     private:
+        // Number of times add has been called
+        int contains;
         // The data we are holding
         data_type * data;
         bool * active;
 };
 
-
-/*
- * A liniar linked list
- */
-/*
-template <typename data_type>
-class tree23 : public tree23_basic {
-    public:
-        // Constructor and deconstructor
-        tree23<data_type>();
-        ~tree23<data_type>();
-        // Allocates a tree23 and stores it in the pointer to an
-        // tree23_basic
-        bool create(tree23_basic *& node);
-        // Allows access by key value and creates up to that index if it is not
-        // in the list
-        data_type & operator[](int index) throw(tree23_out_of_range);
-};
-
-*/
 #include "tree23.cpp"
-// #include "tree23.cpp"
 #endif

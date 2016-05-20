@@ -15,3 +15,4 @@
 
 int test_tree23_create();
 int test_tree23_order();
+int test_tree23_copy();

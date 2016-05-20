@@ -61,6 +61,17 @@ const char * strings::string::c_str() const {
 }
 
 /*
+ * Set our internal string to a char
+ */
+strings::string & strings::string::operator = (const char copy) {
+    clr();
+    data = new char[2];
+    data[0] = copy;
+    data[1] = '\0';
+    return *this;
+}
+
+/*
  * Set our internal string
  */
 strings::string & strings::string::operator = (const char * copy) {
@@ -80,6 +91,27 @@ strings::string & strings::string::operator = (const strings::string & copy) {
 }
 
 /*
+ * Concatinate char to the string
+ */
+strings::string & strings::string::operator += (const char append) {
+    int data_size = 0;
+    if (data == NULL) {
+        operator=(append);
+        return *this;
+    }
+    data_size = strlen(data);
+    if (data_size > 0) {
+        char * tmp = new char[data_size + 2];
+        strcpy(tmp, data);
+        tmp[data_size] = append;
+        tmp[data_size + 1] = '\0';
+        clr();
+        data = tmp;
+    }
+    return *this;
+}
+
+/*
  * Concatinate to the string
  */
 strings::string & strings::string::operator += (const char * append) {
@@ -92,6 +124,7 @@ strings::string & strings::string::operator += (const char * append) {
         operator=(append);
         return *this;
     }
+    data_size = strlen(data);
     append_size = strlen(append);
     if (data_size + append_size > 0) {
         char * tmp = new char[data_size + append_size + 1];

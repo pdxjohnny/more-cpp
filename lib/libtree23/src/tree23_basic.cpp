@@ -15,6 +15,11 @@ tree23_basic::tree23_basic() : nodes(NULL) {
  * Copy constructor for tree23_basic
  */
 tree23_basic::tree23_basic(const tree23_basic & copy) : nodes(NULL) {
+    this->nodes = new tree23_basic * [TREE23_NUM_NODES];
+    int i;
+    for (i = (TREE23_NUM_NODES - 1); i >= 0; --i) {
+        this->nodes[i] = NULL;
+    }
     this->operator=(copy);
 }
 
@@ -28,23 +33,16 @@ tree23_basic::~tree23_basic() {
 }
 
 /*
- * Copy a node, not the whole list
+ * Copy the whole thing
  */
 tree23_basic & tree23_basic::operator=(const tree23_basic & copy) {
-    return *this;
-}
-
-/*
- * Copy the whole list
- */
-tree23_basic & tree23_basic::copy(const tree23_basic & copy) {
-    // Copy what we hold
-    this->operator=(copy);
     int i;
-    for (i = (TREE23_NUM_NODES - 1); i <= 0; --i) {
+    this->copy(copy);
+    for (i = (TREE23_NUM_NODES - 1); i >= 0; --i) {
         if (copy.nodes[i] != NULL) {
-            this->create(copy.nodes[i]);
+            this->create(nodes[i]);
             this->nodes[i]->copy(*copy.nodes[i]);
+            this->nodes[i]->operator=(*copy.nodes[i]);
         }
     }
     return *this;
