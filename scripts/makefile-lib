@@ -25,6 +25,7 @@ TEST=bin/$(NAME)-test
 all: $(LIB_NAMES) $(LIB_SOURCES) $(LIB) $(TEST_SOURCES) $(TEST)
 
 $(LIB_NAMES):
+ifndef DONT_BUILD_LIBS
 	@# Make them all
 	@$(foreach dep,$(addprefix ./deps/,$@),$(MAKE) -C $(dep))
 	@# Extract them into their own obj directory so that they can be compiled
@@ -47,6 +48,7 @@ $(LIB_NAMES):
 		cd .. && \
 		rm -rf $(dep) \
 	)
+endif
 
 tar: $(LIB)
 	@tar --transform 's,include/,usr/include/,' \
@@ -85,5 +87,7 @@ clean: $(LIB_NAMES_CLEAN)
 	@rm -rf obj/* bin/*
 
 $(LIB_NAMES_CLEAN):
+ifndef DONT_BUILD_LIBS
 	@$(foreach dep,$(addprefix ./deps/,$(notdir ,$@)),$(MAKE) -C $(dep) clean)
+endif
 

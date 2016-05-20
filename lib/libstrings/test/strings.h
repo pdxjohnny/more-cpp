@@ -11,6 +11,7 @@
 #include <libmacro.h>
 #include <libstrings.h>
 
+int test_strings_tobool();
 int test_strings_readline();
 int test_string_parse();
 int test_string_parse_fail();
@@ -26,6 +27,7 @@ int test_strings_string_add_eq_const_char();
 int test_strings_string_add_eq_string();
 int test_strings_string_add_eq_const_char_string();
 int test_strings_string_add_const_char();
+int test_strings_string_add_const_char_from_nothing();
 int test_strings_string_add_string();
 int test_strings_string_add_const_char_string();
 int test_strings_string_compare_lessthan();

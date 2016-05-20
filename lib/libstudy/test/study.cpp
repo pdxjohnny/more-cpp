@@ -5,6 +5,6 @@
 #include "study.h"
 
 int main() {
-MACRO_TEST(test_study_task_display);
+MACRO_TEST(test_study_task_save_parse);
 return EXIT_SUCCESS;
 }

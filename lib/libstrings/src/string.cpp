@@ -73,6 +73,9 @@ strings::string & strings::string::operator = (const char * copy) {
 }
 
 strings::string & strings::string::operator = (const strings::string & copy) {
+    if (this == &copy) {
+        return *this;
+    }
     return operator=(copy.c_str());
 }
 
@@ -82,13 +85,15 @@ strings::string & strings::string::operator = (const strings::string & copy) {
 strings::string & strings::string::operator += (const char * append) {
     int data_size = 0;
     int append_size = 0;
-    if (data != NULL) {
-        data_size = strlen(data);
+    if (append == NULL) {
+        return *this;
     }
-    if (append != NULL) {
-        append_size = strlen(append);
+    if (data == NULL) {
+        operator=(append);
+        return *this;
     }
-    if (data_size + append_size > 0 && data != NULL && append != NULL) {
+    append_size = strlen(append);
+    if (data_size + append_size > 0) {
         char * tmp = new char[data_size + append_size + 1];
         strcpy(tmp, data);
         strcat(tmp, append);

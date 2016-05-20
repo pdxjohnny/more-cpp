@@ -71,6 +71,16 @@ int test_strings_string_add_const_char() {
     return EXIT_SUCCESS;
 }
 
+int test_strings_string_add_const_char_from_nothing() {
+    strings::string str;
+    str += "test";
+    str += " some";
+    str += " strings";
+    MACRO_TEST_CANT_EQ(str.c_str(), NULL);
+    MACRO_TEST_STR_EQ(str.c_str(), "test some strings");
+    return EXIT_SUCCESS;
+}
+
 int test_strings_string_add_string() {
     strings::string str("test");
     str += " some" + strings::string(" strings");

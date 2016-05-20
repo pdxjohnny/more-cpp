@@ -7,7 +7,7 @@
 
 #include <libstrings.h>
 #include <liblll.h>
-#include <libbst.h>
+#include <libtree23.h>
 
 // Tasks
 namespace study {
@@ -28,7 +28,7 @@ namespace study {
 
     // Display a task
     std::ostream & operator << (std::ostream &, study::task &);
-    std::ostream & operator >> (std::ostream &, study::task &);
+    std::istream & operator >> (std::istream &, study::task &);
 };
 
 // A task is what we are going to do and it can be marked as complete
@@ -49,9 +49,10 @@ class study::task {
         friend bool operator != (const study::task &, const study::task &);
         friend bool operator == (const study::task &, const study::task &);
         // Outputs the task
+        std::ostream & save(std::ostream & out);
         friend std::ostream & study::operator << (std::ostream &, study::task &);
         // Parses in the task
-        friend std::ostream & study::operator >> (std::ostream &, study::task &);
+        friend std::istream & study::operator >> (std::istream &, study::task &);
     private:
         int priority;
         bool complete;
@@ -61,7 +62,7 @@ class study::task {
 };
 
 // All of the tasks in prioritized order
-class study::tasks : public bst<study::task> {
+class study::tasks : public tree23<study::task> {
     public:
         // Constructor
         tasks();

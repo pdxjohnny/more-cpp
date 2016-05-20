@@ -6,6 +6,7 @@
 #include "strings.h"
 
 int main() {
+MACRO_TEST(test_strings_tobool);
 MACRO_TEST(test_strings_readline);
 MACRO_TEST(test_string_parse);
 MACRO_TEST(test_string_parse_fail);
@@ -21,6 +22,7 @@ MACRO_TEST(test_strings_string_add_eq_const_char);
 MACRO_TEST(test_strings_string_add_eq_string);
 MACRO_TEST(test_strings_string_add_eq_const_char_string);
 MACRO_TEST(test_strings_string_add_const_char);
+MACRO_TEST(test_strings_string_add_const_char_from_nothing);
 MACRO_TEST(test_strings_string_add_string);
 MACRO_TEST(test_strings_string_add_const_char_string);
 MACRO_TEST(test_strings_string_compare_lessthan);

@@ -52,13 +52,29 @@ bool study::operator == (const study::task & one, const study::task & two) {
 }
 
 /*
+ * Displays without colors or unicode
+ */
+std::ostream & study::task::save(std::ostream & out) {
+    if (complete == true) {
+        out << "Complete";
+    } else {
+        out << "In Progress";
+    }
+    out << std::endl;
+    out << title << std::endl;
+    out << "---- Description ----" << std::endl;
+    out << description;
+    return out;
+}
+
+/*
  * Displays a task
  */
 std::ostream & study::operator<<(std::ostream & out, study::task & task) {
     if (task.complete == true) {
-        out << MACRO_GREEN "✔" MACRO_RESET;
+        out << MACRO_GREEN "✔ Complete " MACRO_RESET;
     } else {
-        out << MACRO_RED "✘" MACRO_RESET;
+        out << MACRO_RED "✘ In Progress " MACRO_RESET;
     }
     out << task.title << std::endl;
     out << "---- Description ----" << std::endl;
@@ -69,14 +85,33 @@ std::ostream & study::operator<<(std::ostream & out, study::task & task) {
 /*
  * Parses a task
  */
-std::ostream & study::operator>>(std::ostream & out, study::task & task) {
-    if (task.complete == true) {
-        out << MACRO_GREEN "✔" MACRO_RESET;
-    } else {
-        out << MACRO_RED "✘" MACRO_RESET;
+std::istream & study::operator>>(std::istream & in, study::task & task) {
+    const int buffer_size = 500;
+    char * buffer = new char[buffer_size];
+    int i;
+    for (i = 0; in.eof() == false; ++i) {
+        memset(buffer, 0, buffer_size);
+        if (in.eof()) {
+            return in;
+        }
+        in.getline(buffer, buffer_size);
+        switch (i) {
+        case 0:
+            task.complete = false;
+            if (strings::tobool(buffer) == true) {
+                task.complete = true;
+            }
+            break;
+        case 1:
+            task.title = buffer;
+            break;
+        default:
+            if (0 != strcmp(buffer, "---- Description ----")) {
+                task.description += buffer;
+            }
+            break;
+        }
     }
-    out << task.title << std::endl;
-    out << "---- Description ----" << std::endl;
-    out << task.description;
-    return out;
+    delete[] buffer;
+    return in;
 }

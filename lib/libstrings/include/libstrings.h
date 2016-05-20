@@ -24,6 +24,9 @@ namespace strings {
     int join_length(char *** src, const char * delim, const char * if_null);
     // Read a file line by line and do_func with that line
     int readline(int fd, char * buffer, int buffer_size);
+    // Conversion functions
+    void toupper(char * buffer);
+    bool tobool(const char * buffer);
     // A string class
     class string;
     // Our operators to minipulate the string
