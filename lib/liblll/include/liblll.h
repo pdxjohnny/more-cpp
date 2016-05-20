@@ -13,6 +13,7 @@
 #ifndef LLL
 #define LLL 1
 
+#include <iostream>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -147,6 +148,12 @@ class lll : public lll_basic {
         // Allows access by key value and creates up to that index if it is not
         // in the list
         data_type & operator[](int index) throw(lll_out_of_range);
+        // Adds data
+        lll & operator+=(const data_type & add);
+        // Display all this
+        virtual void display(std::ostream &);
+        template <typename data_type_2>
+        friend std::ostream & operator << (std::ostream &, lll<data_type_2> &);
 };
 
 #include "lll_node.cpp"

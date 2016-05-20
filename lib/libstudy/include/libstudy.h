@@ -26,6 +26,9 @@ namespace study {
     bool operator != (const study::task &, const study::task &);
     bool operator == (const study::task &, const study::task &);
 
+    bool operator == (const tasks &, const char * str);
+    bool operator == (const tasks &, const strings::string & str);
+
     // Display a task
     std::ostream & operator << (std::ostream &, study::task &);
     std::istream & operator >> (std::istream &, study::task &);
@@ -57,6 +60,8 @@ class study::task {
         friend std::istream & study::operator >> (std::istream &, study::task &);
         // Lets the user know the format of the input
         std::ostream & prompt_input(std::ostream & out) const;
+        // Returns category
+        const char * get_category() const;
     private:
         int priority;
         bool complete;
@@ -68,11 +73,16 @@ class study::task {
 // All of the tasks in prioritized order
 class study::tasks : public tree23<study::task> {
     public:
+        tasks();
+        tasks(const char * str);
         // Sets the category
         tasks & operator=(const char * str);
         tasks & operator=(const strings::string & str);
         // Copy all the tasks
         tasks & operator=(const tasks & copy);
+        // Checks if we are the category
+        friend bool operator == (const tasks &, const char * str);
+        friend bool operator == (const tasks &, const strings::string & str);
         // Display this and all the titles of the tasks it holds
         void display(std::ostream &);
     private:
@@ -88,8 +98,12 @@ class study::study_guide : public lll<study::tasks> {
         study_guide & operator=(study_guide & copy);
         // Adds a task to the correct category
         study_guide & operator+=(const task & add);
+        // Access a collection of tasks
+        tasks & operator[](const int index);
+        tasks & operator[](const char * str);
+        tasks & operator[](const strings::string & str);
         // Lets you access a random tasks from the study_guide
-        study::task random();
+        study::tasks & random();
         // Displays all of the tasks titles
         void display(std::ostream &);
 };

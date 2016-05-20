@@ -32,4 +32,23 @@ bool lll<data_type>::create(lll_node_basic *& node) {
     node = new lll_node<data_type>;
     return (node != NULL);
 }
+
+// Adds data to the lll
+template <typename data_type>
+lll<data_type> & lll<data_type>::operator+=(const data_type & add) {
+    operator[](size()) = add;
+    return *this;
+}
+
+// Displays the lll
+template <typename data_type>
+void lll<data_type>::display(std::ostream & out) {}
+
+// Calls display
+template <typename data_type>
+std::ostream & operator << (std::ostream & out, lll<data_type> & list) {
+    list.display(out);
+    return out;
+}
+
 #endif

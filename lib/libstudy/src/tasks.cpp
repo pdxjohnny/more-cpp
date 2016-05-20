@@ -1,5 +1,11 @@
 #include "study.h"
 
+// Constructor
+study::tasks::tasks() {}
+
+// Set the category
+study::tasks::tasks(const char * str) : category(str) {}
+
 // Set the category
 study::tasks & study::tasks::operator=(const char * str) {
     category = str;
@@ -19,6 +25,16 @@ study::tasks & study::tasks::operator=(const tasks & copy) {
     category = copy.category;
     tree23<study::task>::operator=(copy);
     return *this;
+}
+
+// Checks if we are for this category
+bool study::operator==(const tasks & collection, const char * str) {
+    return (collection.category == str);
+}
+
+// Checks if we are for this category
+bool study::operator==(const tasks & collection, const strings::string & str) {
+    return study::operator==(collection, str.c_str());
 }
 
 // Displays everything in the tree

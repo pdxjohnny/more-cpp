@@ -14,7 +14,31 @@ study::study_guide & study::study_guide::operator=(study_guide & copy) {
 
 // Add to the appropriate tasks tree
 study::study_guide & study::study_guide::operator+=(const study::task & copy) {
+    this->operator[](copy.get_category()) += copy;
     return *this;
+}
+
+// Access a collection of tasks
+study::tasks & study::study_guide::operator[](const int index) {
+    return lll<study::tasks>::operator[](index);
+}
+
+study::tasks & study::study_guide::operator[](const char * str) {
+    int i;
+    for (i = size() - 1; i >= 0; --i) {
+        study::tasks * collection = &operator[](i);
+        if (*collection == str) {
+            return *collection;
+        }
+    }
+    // Not found so add
+    study::tasks add(str);
+    lll<study::tasks>::operator+=(add);
+    return operator[](size() - 1);
+}
+
+study::tasks & study::study_guide::operator[](const strings::string & str) {
+    return operator[](str.c_str());
 }
 
 // Displays everything in the tree

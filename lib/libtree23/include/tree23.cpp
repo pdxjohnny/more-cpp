@@ -355,7 +355,7 @@ void tree23<data_type>::display(std::ostream & out) {
 
 // Calls display
 template <typename data_type>
-std::ostream & operator >> (std::ostream & out, const tree23<data_type> & tree) {
+std::ostream & operator << (std::ostream & out, const tree23<data_type> & tree) {
     tree.display(out);
     return out;
 }

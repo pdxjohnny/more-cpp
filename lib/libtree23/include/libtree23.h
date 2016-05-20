@@ -117,7 +117,7 @@ class tree23 : public tree23_basic {
         // Display everything in the tree
         virtual void display(std::ostream & out);
         template <typename data_type_2>
-        friend std::ostream & operator >> (std::ostream &, const tree23<data_type_2> &);
+        friend std::ostream & operator << (std::ostream &, const tree23<data_type_2> &);
         // Returns the size
         int size() const;
     protected:

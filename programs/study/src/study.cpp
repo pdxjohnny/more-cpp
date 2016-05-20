@@ -24,6 +24,7 @@ int main(int argc, char ** argv, char ** env) {
         std::cin >> add;
         std::cout << "Task to add:" << std::endl << add << std::endl;
         guide += add;
+        std::cout << guide << std::endl;
     } else if (action == "study") {
     } else {
         MACRO_LOG_FATAL("You must choose to either add a task or study, you said \'%s\'", action.c_str());

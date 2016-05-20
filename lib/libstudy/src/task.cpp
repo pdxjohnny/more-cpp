@@ -140,3 +140,10 @@ std::ostream & study::task::prompt_input(std::ostream & out) const {
     out << "Description (as many lines as you need, eof to stop)" << std::endl;
     return out;
 }
+
+/*
+ * Returns the category
+ */
+const char * study::task::get_category() const {
+    return category.c_str();
+}
