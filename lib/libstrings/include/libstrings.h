@@ -70,6 +70,10 @@ class strings::string {
         void clr();
         // Returns the character array we hold
         const char * c_str() const;
+        // Length of the string
+        int length() const;
+        // Access the internal string
+        char & operator[](const int);
         // Set our internal string
         strings::string & operator = (const char);
         strings::string & operator = (const char *);

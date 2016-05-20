@@ -61,6 +61,23 @@ const char * strings::string::c_str() const {
 }
 
 /*
+ * The length of the string from strlen
+ */
+int strings::string::length() const {
+    if (data == NULL) {
+        return 0;
+    }
+    return std::strlen(data);
+}
+
+/*
+ * Acces to the internal array
+ */
+char & strings::string::operator[](const int index) {
+    return data[index];
+}
+
+/*
  * Set our internal string to a char
  */
 strings::string & strings::string::operator = (const char copy) {

@@ -4,7 +4,15 @@
 */
 #include "study.h"
 
+int study_interactive(study::study_guide & guide, strings::string category) {
+    study::tasks * collection = &guide[category];
+    std::cout << *collection;
+    return EXIT_SUCCESS;
+}
+
 int main(int argc, char ** argv, char ** env) {
+    // In case thers an error it is stored in this so we can check
+    int err;
     // Holds everything we are studying
     study::study_guide guide;
     // The first agrument should be the name of the category we want to study
@@ -27,6 +35,10 @@ int main(int argc, char ** argv, char ** env) {
             MACRO_LOG_FATAL("Usage: %s [add|study] [category]", argv[0]);
         }
         category = argv[2];
+        err = study_interactive(guide, category);
+        if (err != EXIT_SUCCESS) {
+            return err;
+        }
     } else {
         MACRO_LOG_FATAL("You must choose to either \'add\' a task or \'study\', you said \'%s\'", action.c_str());
     }

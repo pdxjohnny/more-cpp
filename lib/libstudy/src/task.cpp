@@ -143,6 +143,8 @@ std::istream & study::operator>>(std::istream & in, study::task & task) {
             break;
         }
     }
+    // Prevent us from adding a million newlines over time
+    task.description[task.description.length() - 1] = '\0';
     delete[] buffer;
     return in;
 }

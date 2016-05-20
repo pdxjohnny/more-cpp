@@ -345,7 +345,7 @@ data_type & tree23<data_type>::operator[](int index) const throw(tree23_out_of_r
 
 // Displays everything in the tree
 template <typename data_type>
-void tree23<data_type>::display(std::ostream & out) {
+void tree23<data_type>::display(std::ostream & out) const {
     int i = contains;
     for (i = contains - 1; i >= 0; --i) {
         out << operator[](i) << std::endl;
