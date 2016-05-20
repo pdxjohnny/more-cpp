@@ -93,6 +93,6 @@ tree23_node_basic * tree23_node_basic::remove_self(tree23_node_basic *& replace)
 }
 
 // Gives access to nodes
-tree23_node_basic *& tree23_node_basic::node(int index) {
+tree23_node_basic *& tree23_node_basic::node(int index) const {
     return this->nodes[index];
 }

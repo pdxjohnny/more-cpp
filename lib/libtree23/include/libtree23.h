@@ -68,7 +68,7 @@ class tree23_node_basic {
         // refernece and still have the value
         tree23_node_basic *& as_basic();
         // Gives access to nodes
-        virtual tree23_node_basic *& node(int index);
+        virtual tree23_node_basic *& node(int index) const;
     private:
         // The left node in the list
         tree23_node_basic ** nodes;
@@ -104,13 +104,13 @@ class tree23_node : public tree23_node_basic {
         tree23_node<data_type> * push_up(tree23_node<data_type> * pushed_up);
 
         // Returns a nodes and casts it to the correct type
-        tree23_node<data_type> * node_tpl(int index);
+        tree23_node<data_type> * node_tpl(int index) const;
 
         // Access like a sorted array
-        data_type & operator[](int index) throw(tree23_out_of_range);
+        data_type & operator[](int index) const throw(tree23_out_of_range);
     protected:
         // We need to be counting so we know what to get
-        data_type & get_count(int & index, int & curr);
+        data_type & get_count(int & index, int & curr) const;
         // We need to be counting so we know when to remove
         bool remove_count(int & index, int & curr);
     private:

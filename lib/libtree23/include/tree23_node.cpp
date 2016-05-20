@@ -242,7 +242,7 @@ data_type & tree23_node<data_type>::value(int index) {
  * Attempts to get a node at the given index and counts along the way
  */
 template <typename data_type>
-data_type & tree23_node<data_type>::get_count(int & index, int & curr) {
+data_type & tree23_node<data_type>::get_count(int & index, int & curr) const {
 	// To see if one of the sides found it
     data_type * found = NULL;
 	// Look of the index on the left, that will be index 0 if its the leftmost node
@@ -319,12 +319,12 @@ bool tree23_node<data_type>::remove_count(int & index, int & curr) {
 }
 
 template <typename data_type>
-tree23_node<data_type> * tree23_node<data_type>::node_tpl(int index) {
+tree23_node<data_type> * tree23_node<data_type>::node_tpl(int index) const {
     return dynamic_cast<tree23_node<data_type> *>(tree23_node_basic::node(index));
 }
 
 template <typename data_type>
-data_type & tree23_node<data_type>::operator[](int index) throw(tree23_out_of_range) {
+data_type & tree23_node<data_type>::operator[](int index) const throw(tree23_out_of_range) {
     int curr = 0;
     return get_count(index, curr);
 }
