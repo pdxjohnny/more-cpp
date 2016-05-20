@@ -30,6 +30,14 @@ study::task & study::task::operator=(const task & copy) {
 }
 
 /*
+ * Set us as complete or incomplete
+ */
+study::task & study::task::operator=(const int status) {
+    complete = status;
+    return *this;
+}
+
+/*
  * Lets us compare our priority to that of another task
  */
 bool study::operator <  (const study::task & one, const study::task & two) {
@@ -60,7 +68,7 @@ std::ostream & study::task::brief(std::ostream & out) {
     } else {
         out << MACRO_RED "✘ In Progress " MACRO_RESET;
     }
-    out << title;
+    out << title << "    Priroity: " << priority;
     return out;
 }
 
@@ -167,4 +175,11 @@ std::ostream & study::task::prompt_input(std::ostream & out) const {
  */
 const char * study::task::get_category() const {
     return category.c_str();
+}
+
+/*
+ * Returns wether we are complete or not
+ */
+bool study::task::completed() const {
+    return complete;
 }

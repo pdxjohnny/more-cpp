@@ -28,6 +28,7 @@ namespace strings {
     void toupper(char * buffer);
     bool tobool(const char * buffer);
     int toint(const char * buffer);
+    int strcmp(const char * one, const char * two);
     // A string class
     class string;
     // Our operators to minipulate the string

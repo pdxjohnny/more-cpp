@@ -5,6 +5,5 @@
 
 #include <cstdlib>
 
-#include <libmacro.h>
-
+#include <liberrors.h>
 #include <libstudy.h>

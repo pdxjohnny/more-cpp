@@ -10,4 +10,5 @@
 #include <cstdarg>
 #include <ctime>
 
+#include <liberrors.h>
 #include <libstudy.h>

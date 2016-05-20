@@ -1,0 +1,1 @@
+../../scripts/makefile-lib-no-tests

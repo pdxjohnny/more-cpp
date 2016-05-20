@@ -2,6 +2,9 @@
 
 // Load all the files
 study::study_guide::study_guide() {
+    // For random categories
+    std::srand(time(NULL));
+    // Load all the tasks
     DIR * dir_handle;
     DIR * subdir_handle;
     struct dirent * info;
@@ -25,7 +28,6 @@ study::study_guide::study_guide() {
         if (subdir_handle == NULL) {
             continue;
         }
-        filepath = path;
         // Go through each file and add it to memory
         while ((info = readdir(subdir_handle)) != NULL) {
             if (0 == strcmp(info->d_name, ".") ||
@@ -35,9 +37,11 @@ study::study_guide::study_guide() {
             // The task we will be adding
             study::task add;
             // Make the path to the file
+            filepath = path;
             filepath += '/';
             filepath += info->d_name;
             // Open the file
+            MACRO_LOG_STR(filepath.c_str());
             std::ifstream in(filepath.c_str());
             if (in.is_open()) {
                 // Parse in the data
@@ -91,6 +95,7 @@ study::tasks & study::study_guide::operator[](const int index) {
     return lll<study::tasks>::operator[](index);
 }
 
+// Allows access to a category by its string value
 study::tasks & study::study_guide::operator[](const char * str) {
     int i;
     for (i = size() - 1; i >= 0; --i) {
@@ -105,6 +110,7 @@ study::tasks & study::study_guide::operator[](const char * str) {
     return operator[](size() - 1);
 }
 
+// Just calls the version that accepts a char array
 study::tasks & study::study_guide::operator[](const strings::string & str) {
     return operator[](str.c_str());
 }
@@ -116,4 +122,12 @@ void study::study_guide::display(std::ostream & out) {
         operator[](i).display(out);
     }
     return;
+}
+
+// Returns one of the categories at random
+study::tasks & study::study_guide::random() {
+    if (size() < 1) {
+        throw index_out_of_range();
+    }
+    return operator[](rand() % size());
 }

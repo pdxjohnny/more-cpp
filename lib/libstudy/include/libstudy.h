@@ -47,6 +47,8 @@ class study::task {
         ~task();
         // Copy the task data
         task & operator=(const task & copy);
+        // Sets our completion status
+        task & operator=(const int complete);
         // Lets us compare our value to that of another task
         friend bool operator <  (const study::task &, const study::task &);
         friend bool operator <= (const study::task &, const study::task &);
@@ -65,6 +67,8 @@ class study::task {
         std::ostream & prompt_input(std::ostream & out) const;
         // Returns category
         const char * get_category() const;
+        // Returns wehter we are complete or not
+        bool completed() const;
     private:
         int priority;
         bool complete;
