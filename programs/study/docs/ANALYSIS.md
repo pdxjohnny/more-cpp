@@ -36,3 +36,7 @@ I think I did a pretty good job of OOP. The task has a few strings classes as
 data and some ints. The tasks class was derived from a 2-3 tree of task
 (templated, `tree23<task>`). The `study_guide` was an lll of tasks
 (`lll<tasks>`). That was all the classes I needed for this.
+
+The comparison operators are used on the templated data type in the 2-3 tree.
+So any classs (like study::task) which implements the comparison operators can
+be used with the tree.
