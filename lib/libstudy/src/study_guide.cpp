@@ -1,5 +1,59 @@
 #include "study.h"
 
+// Load all the files
+study::study_guide::study_guide() {
+    DIR * dir_handle;
+    DIR * subdir_handle;
+    struct dirent * info;
+    dir_handle = opendir(study::SAVE_DIR);
+    // Return if it couldnt be opened
+    if (dir_handle == NULL) {
+		return;
+    }
+    strings::string path;
+    strings::string filepath;
+    // Go through each and its sub dirs which are categories
+    while ((info = readdir(dir_handle)) != NULL) {
+        if (0 == strcmp(info->d_name, ".") ||
+                0 == strcmp(info->d_name, "..")) {
+            continue;
+        }
+        path = study::SAVE_DIR;
+        path += info->d_name;
+        subdir_handle = opendir(path.c_str());
+        // Continue if it couldnt be opened
+        if (subdir_handle == NULL) {
+            continue;
+        }
+        filepath = path;
+        // Go through each file and add it to memory
+        while ((info = readdir(subdir_handle)) != NULL) {
+            if (0 == strcmp(info->d_name, ".") ||
+                    0 == strcmp(info->d_name, "..")) {
+                continue;
+            }
+            // The task we will be adding
+            study::task add;
+            // Make the path to the file
+            filepath += '/';
+            filepath += info->d_name;
+            // Open the file
+            std::ifstream in(filepath.c_str());
+            if (in.is_open()) {
+                // Parse in the data
+                in >> add;
+            }
+            // Close the file
+            in.close();
+            // Add the task to our list of trees
+            operator+=(add);
+        }
+        closedir(subdir_handle);
+    }
+    closedir(dir_handle);
+    return;
+}
+
 // Remove all the nodes from all the trees
 study::study_guide::~study_guide() {
     int i;

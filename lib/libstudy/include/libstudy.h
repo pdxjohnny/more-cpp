@@ -99,6 +99,8 @@ class study::tasks : public tree23<study::task> {
 // also can be shuffled so that it can be used for a task game
 class study::study_guide : public lll<study::tasks> {
     public:
+        // Loads all the tasks into memory
+        study_guide();
         // Calls the remove all method on all the collections of tasks
         ~study_guide();
         // Copy all the tasks
