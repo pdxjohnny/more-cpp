@@ -41,7 +41,7 @@ tree23_basic & tree23_basic::operator=(tree23_basic & copy) {
 /*
  * Adds a node to the tree23
  */
-tree23_node_basic *& tree23_basic::add() {
+tree23_basic *& tree23_basic::add() {
     ++contains;
     if (this->root() == NULL) {
         this->create(this->root());
@@ -52,10 +52,10 @@ tree23_node_basic *& tree23_basic::add() {
 
 /*
  * Allocates a node, this needs to be overridden if you wish to use
- * anything other than tree23_node_basic in your list
+ * anything other than tree23_basic in your list
  */
-bool tree23_basic::create(tree23_node_basic *& node) {
-    node = new tree23_node_basic;
+bool tree23_basic::create(tree23_basic *& node) {
+    node = new tree23_basic;
     // Will be NULL if we are out of memory
     return (node != NULL);
 }
@@ -63,8 +63,8 @@ bool tree23_basic::create(tree23_node_basic *& node) {
 /*
  * Gets a particular index in the tree23
  */
-tree23_node_basic * tree23_basic::get(int index) {
-    tree23_node_basic * root_ptr = this->root();
+tree23_basic * tree23_basic::get(int index) {
+    tree23_basic * root_ptr = this->root();
     // Nothing to get from
     if (root_ptr == NULL) {
         return NULL;
@@ -76,9 +76,9 @@ tree23_node_basic * tree23_basic::get(int index) {
 /*
  * Creates all the nodes up to index if they do not exist and returns the index
  */
-tree23_node_basic * tree23_basic::get_extend(int index) {
+tree23_basic * tree23_basic::get_extend(int index) {
     // The node to return
-    tree23_node_basic * to_ret = NULL;
+    tree23_basic * to_ret = NULL;
     // If we have the index in the tree23 then just return it
     if (index < this->size()) {
         return this->get(index);
@@ -94,7 +94,7 @@ tree23_node_basic * tree23_basic::get_extend(int index) {
 /*
  * Calls get_extend
  */
-tree23_node_basic * tree23_basic::operator[](int index) {
+tree23_basic * tree23_basic::operator[](int index) {
     return this->get_extend(index);
 }
 
@@ -102,7 +102,7 @@ tree23_node_basic * tree23_basic::operator[](int index) {
  * Removes a particular index in the tree23
  */
 bool tree23_basic::remove(int index) {
-    tree23_node_basic * root_ptr = this->root();
+    tree23_basic * root_ptr = this->root();
     // Nothing to get from
     if (root_ptr == NULL) {
         return false;
@@ -125,7 +125,7 @@ bool tree23_basic::remove(int index) {
  * Removes all the nodes in the tree23
  */
 int tree23_basic::remove_all() {
-    tree23_node_basic * root_ptr = this->root();
+    tree23_basic * root_ptr = this->root();
     // Nothing to remove
     if (root_ptr == NULL) {
         return 0;
@@ -152,6 +152,6 @@ int tree23_basic::size() {
 /*
  * Returns the root nodes for functions to use
  */
-tree23_node_basic *& tree23_basic::root() {
+tree23_basic *& tree23_basic::root() {
     return root_value;
 }

@@ -1,6 +1,6 @@
 /*
  * John Andersen
- * File: libtree23/test/tree23_node_basic.cpp
+ * File: libtree23/test/tree23_basic.cpp
 */
 #include "tree23.h"
 

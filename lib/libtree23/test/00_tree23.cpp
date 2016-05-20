@@ -1,12 +1,12 @@
 /*
  * John Andersen
- * File: libtree23/test/tree23_node_basic.cpp
+ * File: libtree23/test/tree23_basic.cpp
 */
 #include "tree23.h"
 const int count = 50;
 
-int test_tree23_node_create() {
-    tree23_node<int> root;
+int test_tree23_create() {
+    tree23<int> root;
     int i;
     for (i = count; i >= 0; --i) {
         root.add(i);
@@ -15,8 +15,8 @@ int test_tree23_node_create() {
     return EXIT_SUCCESS;
 }
 
-int test_tree23_node_order() {
-    tree23_node<int> root;
+int test_tree23_order() {
+    tree23<int> root;
     int i;
     for (i = count; i >= 0; --i) {
         root.add(i);
