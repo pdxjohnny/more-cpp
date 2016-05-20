@@ -38,7 +38,7 @@ bool study::operator==(const tasks & collection, const strings::string & str) {
 }
 
 // Displays everything in the tree
-void study::tasks::display(std::ostream & out) {
+void study::tasks::display(std::ostream & out) const {
     out << "Tasks under " << category << std::endl;
     int i;
     for (i = size() - 1; i >= 0; --i) {

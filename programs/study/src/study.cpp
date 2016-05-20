@@ -54,7 +54,7 @@ int main(int argc, char ** argv, char ** env) {
     strings::string action;
     if (argc < 2) {
         errno = EINVAL;
-        MACRO_LOG_FATAL("Usage: %s [add|study]", argv[0]);
+        MACRO_LOG_FATAL("Usage: %s [add|list|study]", argv[0]);
     }
     action = argv[1];
     if (action == "add") {
@@ -68,6 +68,9 @@ int main(int argc, char ** argv, char ** env) {
         if (err != EXIT_SUCCESS) {
             return err;
         }
+    } else if (action == "list") {
+        std::cout << guide;
+        return EXIT_SUCCESS;
     } else {
         MACRO_LOG_FATAL("You must choose to either \'add\' a task or \'study\', you said \'%s\'", action.c_str());
     }

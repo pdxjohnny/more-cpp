@@ -91,7 +91,7 @@ class study::tasks : public tree23<study::task> {
         friend bool operator == (const tasks &, const char * str);
         friend bool operator == (const tasks &, const strings::string & str);
         // Display this and all the titles of the tasks it holds
-        void display(std::ostream &);
+        void display(std::ostream &) const;
         // Save all the tasks
         void save(const char * dir);
     private:

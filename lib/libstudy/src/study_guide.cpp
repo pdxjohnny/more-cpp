@@ -41,7 +41,6 @@ study::study_guide::study_guide() {
             filepath += '/';
             filepath += info->d_name;
             // Open the file
-            MACRO_LOG_STR(filepath.c_str());
             std::ifstream in(filepath.c_str());
             if (in.is_open()) {
                 // Parse in the data
