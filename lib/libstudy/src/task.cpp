@@ -67,17 +67,32 @@ std::ostream & study::task::brief(std::ostream & out) {
 /*
  * Displays without colors or unicode
  */
-std::ostream & study::task::save(std::ostream & out) {
-    if (complete == true) {
-        out << "Complete";
-    } else {
-        out << "In Progress";
+void study::task::save(const char * dir) {
+    strings::string path(dir);
+    path += '/';
+    path += category;
+    // Make the directory for the category
+    mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+    path += '/';
+    path += title;
+    // Open the file
+    std::ofstream out;
+    out.open(path.c_str());
+    if (out.is_open()) {
+        if (complete == true) {
+            out << "Complete";
+        } else {
+            out << "In Progress";
+        }
+        out << std::endl << priority << std::endl;
+        out << category << std::endl;
+        out << title << std::endl;
+        out << "---- Description ----" << std::endl;
+        out << description;
     }
-    out << std::endl << priority << std::endl;
-    out << title << std::endl;
-    out << "---- Description ----" << std::endl;
-    out << description;
-    return out;
+    // Close the file
+    out.close();
+    return;
 }
 
 /*

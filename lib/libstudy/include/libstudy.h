@@ -4,6 +4,7 @@
 */
 #include <exception>
 #include <iostream>
+#include <sys/stat.h>
 
 #include <libstrings.h>
 #include <liblll.h>
@@ -29,6 +30,8 @@ namespace study {
     bool operator == (const tasks &, const char * str);
     bool operator == (const tasks &, const strings::string & str);
 
+    const char SAVE_DIR[] = "./tmp/";
+
     // Display a task
     std::ostream & operator << (std::ostream &, study::task &);
     std::istream & operator >> (std::istream &, study::task &);
@@ -53,8 +56,8 @@ class study::task {
         friend bool operator == (const study::task &, const study::task &);
         // Just output completion status and title
         std::ostream & brief(std::ostream & out);
-        // Outputs the task
-        std::ostream & save(std::ostream & out);
+        // Saves the taks to a file
+        void save(const char * dir);
         friend std::ostream & study::operator << (std::ostream &, study::task &);
         // Parses in the task
         friend std::istream & study::operator >> (std::istream &, study::task &);
@@ -85,6 +88,8 @@ class study::tasks : public tree23<study::task> {
         friend bool operator == (const tasks &, const strings::string & str);
         // Display this and all the titles of the tasks it holds
         void display(std::ostream &);
+        // Save all the tasks
+        void save(const char * dir);
     private:
         // The category of tasks that we hold
         strings::string category;

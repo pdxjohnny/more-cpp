@@ -3,8 +3,14 @@
 // Remove all the nodes from all the trees
 study::study_guide::~study_guide() {
     int i;
+    // Save everything
+    mkdir(study::SAVE_DIR, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+    // Delete everythign from memory
     for (i = 0; i < size(); ++i) {
-        this->operator[](i).remove_all();
+        // Only save if we were able to make the directory
+        study::tasks * collection = &this->operator[](i);
+        collection->save(study::SAVE_DIR);
+        collection->remove_all();
     }
 }
 

@@ -47,3 +47,14 @@ void study::tasks::display(std::ostream & out) {
     }
     return;
 }
+
+// Remove all the nodes from all the trees
+void study::tasks::save(const char * dir) {
+    int i;
+    // Delete everythign from memory
+    for (i = 0; i < size(); ++i) {
+        // Only save if we were able to make the directory
+        study::task * save_task = &this->operator[](i);
+        save_task->save(dir);
+    }
+}
